@@ -1,2 +1,2 @@
 # SoulWarrior
-A group of novice student 
+A group of novice students 
