@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-// Created by Alexander 11-19
-// Modified by Alexander
-namespace TeamHaddock
+namespace SoulWarriors
 {
     /// <summary>
     ///     An object that can be used to depict a sprite in world space which can detect pixel level collisions with other
