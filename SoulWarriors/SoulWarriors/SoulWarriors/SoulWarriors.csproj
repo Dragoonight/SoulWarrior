@@ -59,7 +59,11 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Archer.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="Chain.cs" />
     <Compile Include="CollidableObject.cs" />
+    <Compile Include="HelperClass.cs" />
+    <Compile Include="InGame.cs" />
     <Compile Include="Knight.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -16,15 +16,21 @@ namespace SoulWarriors
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public enum GameState
+        {
+            InGame
+        }
+
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+
+        public GameState CurrentGameState = GameState.InGame;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
-        int life;
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -33,7 +39,7 @@ namespace SoulWarriors
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+
 
             base.Initialize();
         }
@@ -70,8 +76,14 @@ namespace SoulWarriors
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
-
+            switch (CurrentGameState)
+            {
+                case GameState.InGame:
+                    InGame.Update(gameTime);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             base.Update(gameTime);
         }
 
@@ -83,7 +95,14 @@ namespace SoulWarriors
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            switch (CurrentGameState)
+            {
+                case GameState.InGame:
+                    InGame.Draw(spriteBatch);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             base.Draw(gameTime);
         }
