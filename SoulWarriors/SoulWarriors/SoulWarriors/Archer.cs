@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoulWarriors
 {
-    class Archer : Player
+    public class Archer : Player
     {
     }
 }
