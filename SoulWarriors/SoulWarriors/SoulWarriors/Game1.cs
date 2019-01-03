@@ -40,7 +40,12 @@ namespace SoulWarriors
         /// </summary>
         protected override void Initialize()
         {
+            // Set window size to 1280 * 720
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
 
+            InGame.Initialize(GraphicsDevice);
 
             base.Initialize();
         }
@@ -54,7 +59,7 @@ namespace SoulWarriors
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            InGame.LoadContent(Content);
         }
 
         /// <summary>
@@ -74,7 +79,7 @@ namespace SoulWarriors
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Player.CurrentKeyboardState.IsKeyDown(Keys.End))
                 this.Exit();
 
             switch (CurrentGameState)

@@ -4,19 +4,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SoulWarriors
 {
     public class Player
     {
+        public static KeyboardState CurrentKeyboardState;
+
         public CollidableObject CollidableObject;
+        protected readonly Vector2 SpawnPosition;
+
+        public Player(Vector2 spawnPosition)
+        {
+            this.SpawnPosition = spawnPosition;
+
+        }
+
+        public static void UpdateKeyboard()
+        {
+            CurrentKeyboardState = Keyboard.GetState();
+        }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, InGame.Camera.TransformMatrix);
-            spriteBatch.Draw(CollidableObject.Texture, CollidableObject.Position, Color.White);
-            spriteBatch.End();
+
+            spriteBatch.Draw(CollidableObject.Texture,
+                CollidableObject.Position,
+                CollidableObject.SourceRectangle,
+                Color.White,
+                CollidableObject.Rotation,
+                CollidableObject.origin,
+                1,
+                SpriteEffects.None,
+                0);
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
@@ -13,28 +14,44 @@ namespace SoulWarriors
 {
     public class Knight : Player
     {
+        public Knight() : base(new Vector2(100f, 500f))
+        {
+            
+        }
+
+        public void LoadContent(ContentManager content)
+        {
+            CollidableObject = new CollidableObject(content.Load<Texture2D>(@"Textures/KnightSpriteSheet"), SpawnPosition, new Rectangle(0, 0, 100, 100), 0f);
+        }
+
+        public void Update()
+        {
+            GetInput();
+            InGame.Chain.EndPosition = CollidableObject.Position;
+        }
+
         private void GetInput()
         { 
-          if (currentKBState.IsKeyDown(Keys.Up))
+          if (CurrentKeyboardState.IsKeyDown(Keys.Up))
             {
-
+                CollidableObject.Position.Y--;
             }
 
-            if (currentKBState.IsKeyDown(Keys.Left))
+            if (CurrentKeyboardState.IsKeyDown(Keys.Left))
             {
-
+                CollidableObject.Position.X--;
             }
 
-            if (currentKBState.IsKeyDown(Keys.Right))
+            if (CurrentKeyboardState.IsKeyDown(Keys.Right))
             {
-
+                CollidableObject.Position.X++;
             }
 
-            if (currentKBState.IsKeyDown(Keys.Down))
+            if (CurrentKeyboardState.IsKeyDown(Keys.Down))
             {
-
+                CollidableObject.Position.Y++;
             }
-   
+
         }
     }
 }
