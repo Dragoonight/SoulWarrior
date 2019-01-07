@@ -16,15 +16,18 @@ namespace SoulWarriors
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        public enum GameState
+        public enum GameStates
         {
-            InGame
+            MainMenu,
+            InGame,
+            Settings,
+            Exit
         }
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        public GameState CurrentGameState = GameState.InGame;
+        public static GameStates GameState = GameStates.MainMenu;
 
         public Game1()
         {
@@ -45,6 +48,8 @@ namespace SoulWarriors
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
 
+            Save.Initialize();
+
             InGame.Initialize(GraphicsDevice);
 
             base.Initialize();
@@ -59,6 +64,7 @@ namespace SoulWarriors
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            MainMenu.LoadContent(Content, graphics.GraphicsDevice.Viewport);
             InGame.LoadContent(Content);
         }
 
@@ -79,13 +85,22 @@ namespace SoulWarriors
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Player.CurrentKeyboardState.IsKeyDown(Keys.End))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.End))
                 this.Exit();
 
-            switch (CurrentGameState)
+            switch (GameState)
             {
-                case GameState.InGame:
+                case GameStates.MainMenu:
+                    MainMenu.Update();
+                    break;
+                case GameStates.InGame:
                     InGame.Update(gameTime);
+                    break;
+                case GameStates.Settings:
+
+                    break;
+                case GameStates.Exit:
+                    this.Exit();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -101,10 +116,18 @@ namespace SoulWarriors
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            switch (CurrentGameState)
+            switch (GameState)
             {
-                case GameState.InGame:
+                case GameStates.MainMenu:
+                    MainMenu.Draw(spriteBatch);
+                    break;
+                case GameStates.InGame:
                     InGame.Draw(spriteBatch);
+                    break;
+                case GameStates.Settings:
+
+                    break;
+                case GameStates.Exit:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
