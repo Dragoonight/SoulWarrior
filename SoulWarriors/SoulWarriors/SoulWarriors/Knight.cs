@@ -32,24 +32,24 @@ namespace SoulWarriors
 
         private void GetInput()
         { 
-          if (CurrentKeyboardState.IsKeyDown(Keys.Up))
+          if (currentKeyboardState.IsKeyDown(Keys.Up) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.Y--;
+                CollidableObject.Position.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
-            if (CurrentKeyboardState.IsKeyDown(Keys.Left))
+            if (currentKeyboardState.IsKeyDown(Keys.Left) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.X--;
+                CollidableObject.Position.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
-            if (CurrentKeyboardState.IsKeyDown(Keys.Right))
+            if (currentKeyboardState.IsKeyDown(Keys.Right) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.X++;
+                CollidableObject.Position.X += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
-            if (CurrentKeyboardState.IsKeyDown(Keys.Down))
+            if (currentKeyboardState.IsKeyDown(Keys.Down) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.Y++;
+                CollidableObject.Position.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
         }

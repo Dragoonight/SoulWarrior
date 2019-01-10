@@ -13,7 +13,8 @@ using Microsoft.Xna.Framework.Media;
 namespace SoulWarriors
 {
     public class Archer : Player
-    {
+    {       
+       
         public Archer() : base(new Vector2(500f))
         {
         }
@@ -31,26 +32,27 @@ namespace SoulWarriors
         }
 
         private void GetInput()
-        {
-            if (CurrentKeyboardState.IsKeyDown(Keys.W))
-            {
-                CollidableObject.Position.Y--;
-            }
+        {          
 
-            if (CurrentKeyboardState.IsKeyDown(Keys.A))
+            if (currentKeyboardState.IsKeyDown(Keys.A) == true && previousKeyboardState != currentKeyboardState)
             {
                 CollidableObject.Position.X--;
 
             }
 
-            if (CurrentKeyboardState.IsKeyDown(Keys.D))
+            if (currentKeyboardState.IsKeyDown(Keys.D) == true && previousKeyboardState != currentKeyboardState)
             {
                 CollidableObject.Position.X++;
             }
 
-            if (CurrentKeyboardState.IsKeyDown(Keys.S))
+            if (currentKeyboardState.IsKeyDown(Keys.S) == true && previousKeyboardState != currentKeyboardState)
             {
                 CollidableObject.Position.Y++;
+            }
+
+            if (currentKeyboardState.IsKeyDown(Keys.W) == true && previousKeyboardState != currentKeyboardState)
+            {
+                CollidableObject.Position.Y--;
             }
 
         }

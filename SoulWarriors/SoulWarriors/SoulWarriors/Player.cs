@@ -12,7 +12,12 @@ namespace SoulWarriors
 {
     public class Player
     {
-        public static KeyboardState CurrentKeyboardState;
+        public static KeyboardState currentKeyboardState;
+        public static KeyboardState previousKeyboardState;
+        public float speed = 10.0f;
+        public Vector2 velocity;
+        public GameTime gameTime;
+
 
         public CollidableObject CollidableObject;
         protected readonly Vector2 SpawnPosition;
@@ -25,7 +30,7 @@ namespace SoulWarriors
 
         public static void UpdateKeyboard()
         {
-            CurrentKeyboardState = Keyboard.GetState();
+            currentKeyboardState = Keyboard.GetState();
         }
 
 
