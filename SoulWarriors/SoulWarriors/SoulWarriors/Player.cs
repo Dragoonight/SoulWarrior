@@ -14,8 +14,10 @@ namespace SoulWarriors
     {
         public static KeyboardState currentKeyboardState;
         public static KeyboardState previousKeyboardState;
-        public float speed = 100.0f;
-        public Vector2 velocity;
+        //The speed measures how many pixel per second
+        //Change speed 
+        public float speed = 200.0f;
+        
         public GameTime gameTime;
 
 
