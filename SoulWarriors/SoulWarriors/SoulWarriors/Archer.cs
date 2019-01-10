@@ -36,23 +36,23 @@ namespace SoulWarriors
 
             if (currentKeyboardState.IsKeyDown(Keys.A) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.X--;
+                CollidableObject.Position.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
 
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.D) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.X++;
+                CollidableObject.Position.X += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.S) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.Y++;
+                CollidableObject.Position.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.W) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.Y--;
+                CollidableObject.Position.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
         }
