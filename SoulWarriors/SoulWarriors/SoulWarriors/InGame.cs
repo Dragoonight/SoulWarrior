@@ -45,8 +45,8 @@ namespace SoulWarriors
             // Update keyboard state
             Player.UpdateKeyboard();
             // Update players
-            Archer.Update();
-            Knight.Update();
+            Archer.Update(gameTime);
+            Knight.Update(gameTime);
 
             // Update camera location while clamping to bounds of _backgroundTexture.Height and LERPing between old and new position
             Camera.Location = Vector2.Clamp(

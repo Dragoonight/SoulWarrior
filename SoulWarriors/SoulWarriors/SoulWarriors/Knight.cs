@@ -24,32 +24,32 @@ namespace SoulWarriors
             CollidableObject = new CollidableObject(content.Load<Texture2D>(@"Textures/KnightSpriteSheet"), SpawnPosition, new Rectangle(0, 0, 100, 100), 0f);
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
-            GetInput();
+            GetInput(gameTime);
             InGame.Chain.EndPosition = CollidableObject.Position;
         }
 
-        private void GetInput()
+        private void GetInput(GameTime gameTime)
         { 
           if (currentKeyboardState.IsKeyDown(Keys.Up) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
+                CollidableObject.Position.Y -= speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Left) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
+                CollidableObject.Position.X -= speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Right) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.X += speed * gameTime.ElapsedGameTime.Milliseconds;
+                CollidableObject.Position.X += speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Down) == true && previousKeyboardState != currentKeyboardState)
             {
-                CollidableObject.Position.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
+                CollidableObject.Position.Y += speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
             }
 
         }
