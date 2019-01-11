@@ -23,36 +23,37 @@ namespace SoulWarriors
         {
             CollidableObject = new CollidableObject(content.Load<Texture2D>(@"Textures/ArcherSpriteSheet"), SpawnPosition, new Rectangle(0,0,100,100), 0f);
         }
-        //Player Update
+
         public void Update(GameTime gameTime)
         {
             GetInput(gameTime);
 
             InGame.Chain.StartPosition = CollidableObject.Position;
         }
-        //Player keys and movement
+
+        // Player keys and movement
         private void GetInput(GameTime gameTime)
         {          
 
-            if (currentKeyboardState.IsKeyDown(Keys.A) == true && previousKeyboardState != currentKeyboardState)
+            if (currentKeyboardState.IsKeyDown(Keys.A))
             {
-                CollidableObject.Position.X -= speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                CollidableObject.Position.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
 
             }
 
-            if (currentKeyboardState.IsKeyDown(Keys.D) == true && previousKeyboardState != currentKeyboardState)
+            if (currentKeyboardState.IsKeyDown(Keys.D))
             {
-                CollidableObject.Position.X += speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                CollidableObject.Position.X += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
-            if (currentKeyboardState.IsKeyDown(Keys.S) == true && previousKeyboardState != currentKeyboardState)
+            if (currentKeyboardState.IsKeyDown(Keys.S))
             {
-                CollidableObject.Position.Y += speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                CollidableObject.Position.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
-            if (currentKeyboardState.IsKeyDown(Keys.W) == true && previousKeyboardState != currentKeyboardState)
+            if (currentKeyboardState.IsKeyDown(Keys.W))
             {
-                CollidableObject.Position.Y -= speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                CollidableObject.Position.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
         }
