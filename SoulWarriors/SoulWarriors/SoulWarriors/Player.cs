@@ -14,7 +14,7 @@ namespace SoulWarriors
     {
         public static KeyboardState currentKeyboardState;
         public static KeyboardState previousKeyboardState;
-        //The speed measures how many pixel per second
+        //The speed measures how many kilo-pixels per second
         public float speed = .2f;
         
         public GameTime gameTime;
