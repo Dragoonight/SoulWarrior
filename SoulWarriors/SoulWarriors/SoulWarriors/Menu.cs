@@ -74,24 +74,31 @@ namespace SoulWarriors
                     selectedButton++;
 
             // Menu manager
-            if (Keyboard.GetState().SingleActivationKey(previousKeyboardState, Keys.Enter) && selectedButton > 0)
+            if (Keyboard.GetState().SingleActivationKey(previousKeyboardState, Keys.Enter))
             {
                 if (selectedMenu == 0)
                 {
                     if (selectedButton == 0)
                     {
-
+                        Game1.CurrentGameState = Game1.GameState.InGame;
                     }
                     if (selectedButton == 1)
                     {
-
+                        Game1.CurrentGameState = Game1.GameState.SubMenu;
                     }
                     if (selectedButton == 2)
                     {
-
+                        Game1.CurrentGameState = Game1.GameState.Exit;
                     }
                 }
 
+                if (selectedMenu == 1)
+                {
+                    if (selectedButton == 0)
+                    {
+                        Game1.CurrentGameState = Game1.GameState.MainMenu;
+                    }
+                }
 
 
 

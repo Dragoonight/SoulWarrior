@@ -20,7 +20,8 @@ namespace SoulWarriors
         {
             InGame,
             MainMenu,
-            SubMenu
+            SubMenu,
+            Exit
         }
 
         private GraphicsDeviceManager graphics;
@@ -108,7 +109,9 @@ namespace SoulWarriors
                     break;
                 case GameState.SubMenu:
                     Menu.Update(1);
-
+                    break;
+                case GameState.Exit:
+                    this.Exit();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -134,7 +137,8 @@ namespace SoulWarriors
                     break;
                 case GameState.SubMenu:
                     Menu.Draw(spriteBatch, new Vector2(50, 70), 15);
-
+                    break;
+                case GameState.Exit:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
