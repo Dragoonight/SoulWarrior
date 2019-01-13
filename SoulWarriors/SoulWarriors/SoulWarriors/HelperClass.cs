@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SoulWarriors
 {
@@ -23,6 +24,19 @@ namespace SoulWarriors
                 new Vector2(0f, (float)texture.Height / 2),
                 new Vector2(Vector2.Distance(start, end), texture.Height),
                 SpriteEffects.None, 0f);
+        }
+
+        /// <summary> 
+        /// Check if key is pressed now but not one update ago 
+        /// </summary> 
+        /// <param name="currentKeyboardState"></param> 
+        /// <param name="previousKeyboardState"></param> 
+        /// <param name="key">key to check</param> 
+        /// <returns></returns> 
+        public static bool SingleActivationKey(this KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, Keys key)
+        {
+            // If key is down but was up before 
+            return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key);
         }
     }
 }
