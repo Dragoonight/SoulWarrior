@@ -19,7 +19,8 @@ namespace SoulWarriors
         public enum GameState
         {
             InGame,
-            MainMenu
+            MainMenu,
+            SubMenu
         }
 
         private GraphicsDeviceManager graphics;
@@ -61,7 +62,7 @@ namespace SoulWarriors
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             InGame.LoadContent(Content);
-            Menu.LoadContent(Content, 1, new []{3});
+            Menu.LoadContent(Content, 2, new []{3, 1});
         }
 
         /// <summary>
@@ -96,13 +97,17 @@ namespace SoulWarriors
 
                     break;
                 case GameState.MainMenu:
-                    Menu.Update(gameTime);
+                    Menu.Update(0);
 
 
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (Keyboard.GetState().IsKeyDown(Keys.D2))
                         CurrentGameState = GameState.InGame;
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    break;
+                case GameState.SubMenu:
+                    Menu.Update(1);
 
                     break;
                 default:
@@ -125,7 +130,11 @@ namespace SoulWarriors
                     InGame.Draw(spriteBatch);
                     break;
                 case GameState.MainMenu:
-                    Menu.Draw(spriteBatch, 0, new Vector2(30,50), 10);
+                    Menu.Draw(spriteBatch, new Vector2(30,50), 10);
+                    break;
+                case GameState.SubMenu:
+                    Menu.Draw(spriteBatch, new Vector2(50, 70), 15);
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
