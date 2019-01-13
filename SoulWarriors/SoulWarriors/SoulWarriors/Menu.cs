@@ -10,18 +10,22 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SoulWarriors
 {
-    class Menu : Game1
+    public static class Menu
     {
         private static List<Texture2D> menuList = new List<Texture2D>();
         private static List<Texture2D> buttonList = new List<Texture2D>();
-        private static int mTotal;
+        private static int menuTotal;
         private static int[] bTotal;
+        private static int selectedButton;
+        private static bool isKeyUp;
 
+        private static KeyboardState currentKeyboard;
+        private static KeyboardState previousKeyboard;
 
 
         public static void LoadContent(ContentManager content, int menuTotal, int[] buttonsTotal)
         {
-            mTotal = menuTotal;
+            Menu.menuTotal = menuTotal;
             bTotal = buttonsTotal;
 
             
@@ -39,10 +43,30 @@ namespace SoulWarriors
         }
 
 
-        public static void Update(GameTime gameTime)
+        public static void Update()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.D1))
-               Game1.CurrentGameState = GameState.MainMenu;
+            {
+               Game1.CurrentGameState = Game1.GameState.MainMenu;
+            }
+        
+
+            if (Keyboard.GetState().GetPressedKeys().Length == 0)
+            {
+                isKeyUp = true;
+            }
+            else
+            {
+                isKeyUp = false;
+            }
+
+            if (isKeyUp == true)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.W))
+                    selectedButton--;
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    selectedButton++;
+            }
 
 
         }
@@ -53,10 +77,16 @@ namespace SoulWarriors
             spriteBatch.Begin();
 
             spriteBatch.Draw(menuList[menu], new Rectangle(0, 0, 1920, 1080), Color.White);
-            for(int b = 0; b < bTotal[menu]; b++)
-            spriteBatch.Draw(buttonList[b], new Rectangle((int)startPosition.X,
-                (int)startPosition.Y + b * (buttonList[b].Height + spaceGap)
-                , buttonList[b].Width, buttonList[b].Height), Color.White);
+
+            for (int b = 0; b < bTotal[menu]; b++)
+            {
+            spriteBatch.Draw(buttonList[b], new Rectangle((int)startPosition.X, 
+                (int)startPosition.Y + b * (buttonList[b].Height + spaceGap), 
+                buttonList[b].Width, buttonList[b].Height), Color.White);
+            }
+
+
+
 
             spriteBatch.End();
         }
