@@ -83,8 +83,15 @@ namespace SoulWarriors
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Player.currentKeyboardState.IsKeyDown(Keys.End))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Player.currentKeyboardState.IsKeyDown(Keys.End) || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+
+            //Fullscreen
+            if (Keyboard.GetState().IsKeyDown(Keys.F))
+            {
+                graphics.IsFullScreen = !graphics.IsFullScreen;
+                graphics.ApplyChanges();
+            }
 
             switch (CurrentGameState)
             {
