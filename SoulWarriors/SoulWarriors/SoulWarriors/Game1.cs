@@ -18,13 +18,16 @@ namespace SoulWarriors
     {
         public enum GameState
         {
-            InGame
+            InGame,
+            MainMenu,
+            SubMenu,
+            Exit
         }
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        public GameState CurrentGameState = GameState.InGame;
+        public static GameState CurrentGameState = GameState.InGame;
 
         public Game1()
         {
@@ -40,9 +43,9 @@ namespace SoulWarriors
         /// </summary>
         protected override void Initialize()
         {
-            // Set window size to 1280 * 720
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            // Set window size to 1920 * 1080
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
 
             InGame.Initialize(GraphicsDevice);
@@ -60,6 +63,7 @@ namespace SoulWarriors
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             InGame.LoadContent(Content);
+            Menu.LoadContent(Content, 2, new []{3, 1});
         }
 
         /// <summary>
@@ -79,13 +83,42 @@ namespace SoulWarriors
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Player.currentKeyboardState.IsKeyDown(Keys.End))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Player.currentKeyboardState.IsKeyDown(Keys.End) || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+
+            //Fullscreen
+            if (Keyboard.GetState().IsKeyDown(Keys.F))
+            {
+                graphics.IsFullScreen = !graphics.IsFullScreen;
+                graphics.ApplyChanges();
+            }
 
             switch (CurrentGameState)
             {
                 case GameState.InGame:
                     InGame.Update(gameTime);
+
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    if (Keyboard.GetState().IsKeyDown(Keys.D1))
+                        CurrentGameState = GameState.MainMenu;
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    break;
+                case GameState.MainMenu:
+                    Menu.Update(0);
+
+
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                        CurrentGameState = GameState.InGame;
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    break;
+                case GameState.SubMenu:
+                    Menu.Update(1);
+                    break;
+                case GameState.Exit:
+                    this.Exit();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -105,6 +138,14 @@ namespace SoulWarriors
             {
                 case GameState.InGame:
                     InGame.Draw(spriteBatch);
+                    break;
+                case GameState.MainMenu:
+                    Menu.Draw(spriteBatch, new Vector2(30,50), 10);
+                    break;
+                case GameState.SubMenu:
+                    Menu.Draw(spriteBatch, new Vector2(50, 70), 15);
+                    break;
+                case GameState.Exit:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
