@@ -31,27 +31,30 @@ namespace SoulWarriors
         }
         // Player keys and movement
         private void GetInput(GameTime gameTime)
-        { 
-          if (currentKeyboardState.IsKeyDown(Keys.Up))
+        {
+            Vector2 displacement = Vector2.Zero;
+
+            if (currentKeyboardState.IsKeyDown(Keys.Up))
             {
-                CollidableObject.Position.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                CollidableObject.Position.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Right))
             {
-                CollidableObject.Position.X += speed * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.X += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Down))
             {
-                CollidableObject.Position.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
+            AddToPosition(displacement);
         }
     }
 }

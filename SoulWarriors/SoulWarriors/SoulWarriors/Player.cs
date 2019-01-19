@@ -14,14 +14,13 @@ namespace SoulWarriors
     {
         public static KeyboardState currentKeyboardState;
         public static KeyboardState previousKeyboardState;
-        //The speed measures how many pixel per second
-        public float speed = .2f;
-        
-        public GameTime gameTime;
-
 
         public CollidableObject CollidableObject;
         protected readonly Vector2 SpawnPosition;
+        /// <summary>
+        /// movement speed in pixels per millisecond
+        /// </summary>
+        public float speed = .2f;
 
         public Player(Vector2 spawnPosition)
         {
@@ -31,7 +30,19 @@ namespace SoulWarriors
 
         public static void UpdateKeyboard()
         {
+            previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
+        }
+        
+        /// <summary>
+        /// adds velocity to position while clamping to PlayArea
+        /// </summary>
+        protected void AddToPosition(Vector2 valueToAdd)
+        {
+            CollidableObject.Position = Vector2.Clamp(
+                CollidableObject.Position + valueToAdd,
+                new Vector2(InGame.PlayArea.Left, InGame.PlayArea.Top),
+                new Vector2(InGame.PlayArea.Right, InGame.PlayArea.Bottom));
         }
 
 

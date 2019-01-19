@@ -19,6 +19,11 @@ namespace SoulWarriors
         public static Chain Chain;
         private static Texture2D _backgroundTexture;
 
+        /// <summary>
+        /// The area in _backgroundTexture that is ground
+        /// </summary>
+        public static Rectangle PlayArea => new Rectangle(32, 272, _backgroundTexture.Width - 64, _backgroundTexture.Height - 272);
+
 #if DEBUG
         private static SpriteFont DebugFont;
 #endif
