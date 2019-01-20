@@ -54,17 +54,33 @@ namespace SoulWarriors
             Knight.Update(gameTime);
 
             // Update camera location while clamping to bounds of _backgroundTexture.Height and LERPing between old and new position
-            Camera.Location = Vector2.Clamp(
-                    Vector2.Lerp(Camera.Location,
-                    new Vector2((float) Math.Cos(Chain.Rotation), (float) Math.Sin(Chain.Rotation)) * (Chain.Length / 2f) + Archer.CollidableObject.Position,
+            Camera.Location = 
+                // Clamp to background bounds
+                Vector2.Clamp(
+                    // Interpolate to smoothen movement
+                    Vector2.Lerp(
+                    // Vector to interpolate
+                    Camera.Location,
+                    // Location to interpolate camera to.  
+                    new Vector2(
+                        // Unit vector from the chains rotation
+                        (float) Math.Cos(Chain.Rotation), (float) Math.Sin(Chain.Rotation))
+                        // multiplied by half of chains length
+                         * (Chain.Length / 2f)
+                        // plus the chain´s stating position
+                         + Chain.StartPosition,
+                    // Interpolation speed
                     0.2f),
-                Camera.Origin,
-                new Vector2(_backgroundTexture.Width - Camera.Origin.X, _backgroundTexture.Height - Camera.Origin.Y)); 
+                // Min
+                Camera.ZoomedOrigin,
+                // Max
+                new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
         }
 
         public static void Draw(SpriteBatch spriteBatch)
         {
             // Begin spriteBatch with the camera transform
+            // Here the drawings effected by the camera shall be put (Enemies, player, etc.)
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
 
             // Draw World
@@ -78,6 +94,7 @@ namespace SoulWarriors
             spriteBatch.End();
 
             // Begin new spriteBatch without a transform
+            // Heree things not effected by the camera shall be put (UI etc.)
             spriteBatch.Begin();
             // Draw UI
 #if DEBUG
