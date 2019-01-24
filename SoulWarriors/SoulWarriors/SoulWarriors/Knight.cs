@@ -23,12 +23,13 @@ namespace SoulWarriors
         {
             CollidableObject = new CollidableObject(content.Load<Texture2D>(@"Textures/KnightSpriteSheet"), SpawnPosition, new Rectangle(0, 0, 100, 100), 0f);
         }
+
         // Player Update
         public void Update(GameTime gameTime)
         {
             GetInput(gameTime);
-            InGame.Chain.EndPosition = CollidableObject.Position;
         }
+
         // Player keys and movement
         private void GetInput(GameTime gameTime)
         {
@@ -54,7 +55,10 @@ namespace SoulWarriors
                 displacement.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
             }
 
+
             AddToPosition(displacement);
         }
+
+
     }
 }

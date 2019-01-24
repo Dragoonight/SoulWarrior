@@ -53,28 +53,37 @@ namespace SoulWarriors
             Archer.Update(gameTime);
             Knight.Update(gameTime);
 
+            UpdateChainAndCamera();
+        }
+
+        private static void UpdateChainAndCamera()
+        {
+            Chain.StartPosition = Archer.CollidableObject.Position;
+            Chain.EndPosition = Knight.CollidableObject.Position;
+
             // Update camera location while clamping to bounds of _backgroundTexture.Height and LERPing between old and new position
-            Camera.Location = 
+            Camera.Location =
                 // Clamp to background bounds
                 Vector2.Clamp(
                     // Interpolate to smoothen movement
-                    Vector2.Lerp(
-                    // Vector to interpolate
-                    Camera.Location,
-                    // Location to interpolate camera to.  
-                    new Vector2(
-                        // Unit vector from the chains rotation
-                        (float) Math.Cos(Chain.Rotation), (float) Math.Sin(Chain.Rotation))
+                    Vector2.SmoothStep(
+                        // Vector to interpolate
+                        Camera.Location,
+                        // Location to interpolate camera to.  
+                        new Vector2(
+                            // Unit vector from the chains rotation
+                            (float)Math.Cos(Chain.Rotation), (float)Math.Sin(Chain.Rotation))
                         // multiplied by half of chains length
-                         * (Chain.Length / 2f)
+                        * (Chain.Length / 2f)
                         // plus the chain´s stating position
-                         + Chain.StartPosition,
-                    // Interpolation speed
-                    0.2f),
-                // Min
-                Camera.ZoomedOrigin,
-                // Max
-                new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
+                        + Chain.StartPosition,
+                        // Interpolation speed
+                        0.2f),
+                    // Min
+                    Camera.ZoomedOrigin,
+                    // Max
+                    new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
+
         }
 
         public static void Draw(SpriteBatch spriteBatch)
@@ -94,12 +103,12 @@ namespace SoulWarriors
             spriteBatch.End();
 
             // Begin new spriteBatch without a transform
-            // Heree things not effected by the camera shall be put (UI etc.)
+            // Here things not effected by the camera shall be put (UI etc.)
             spriteBatch.Begin();
             // Draw UI
 #if DEBUG
             spriteBatch.DrawString(DebugFont,
-                $" {Camera.Location}\n {Archer.CollidableObject.Position}\n {Camera.TransformMatrix.Translation}\n {Camera.Origin}",
+                $" {Camera.Location}\n {Archer.CollidableObject.Position}\n {Camera.TransformMatrix.Translation}",
                 Vector2.Zero,
                 Color.White);
 #endif
