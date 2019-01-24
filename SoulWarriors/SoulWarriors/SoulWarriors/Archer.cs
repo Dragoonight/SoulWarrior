@@ -28,7 +28,6 @@ namespace SoulWarriors
         {
             GetInput(gameTime);
 
-            InGame.Chain.StartPosition = CollidableObject.Position;
         }
 
         // Player keys and movement
@@ -39,7 +38,6 @@ namespace SoulWarriors
             if (currentKeyboardState.IsKeyDown(Keys.A))
             {
                 displacement.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
-
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.D))
