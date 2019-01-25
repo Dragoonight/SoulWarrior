@@ -14,20 +14,23 @@ namespace SoulWarriors
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Game1 : Game
     {
         public enum GameState
         {
             InGame,
             MainMenu,
-            SubMenu,
             Exit
         }
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        public static GameState CurrentGameState = GameState.InGame;
+#if DEBUG
+        public static SpriteFont DebugFont;
+#endif
+
+        public static GameState CurrentGameState = GameState.MainMenu;
 
         public Game1()
         {
@@ -48,6 +51,9 @@ namespace SoulWarriors
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
 
+            this.IsMouseVisible = true;
+            
+
             InGame.Initialize(GraphicsDevice);
 
             base.Initialize();
@@ -63,7 +69,11 @@ namespace SoulWarriors
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             InGame.LoadContent(Content);
-            Menu.LoadContent(Content, 2, new []{3, 1});
+            Main.LoadContent(Content, GraphicsDevice.Viewport);
+#if DEBUG
+            DebugFont = Content.Load<SpriteFont>(@"Fonts/DebugFont");
+#endif
+
         }
 
         /// <summary>
@@ -72,7 +82,6 @@ namespace SoulWarriors
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -83,7 +92,7 @@ namespace SoulWarriors
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Player.currentKeyboardState.IsKeyDown(Keys.End) || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.End) || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             //Fullscreen
@@ -98,25 +107,13 @@ namespace SoulWarriors
                 case GameState.InGame:
                     InGame.Update(gameTime);
 
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    if (Keyboard.GetState().IsKeyDown(Keys.D1))
-                        CurrentGameState = GameState.MainMenu;
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
                     break;
+
                 case GameState.MainMenu:
-                    Menu.Update(0);
-
-
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    if (Keyboard.GetState().IsKeyDown(Keys.D2))
-                        CurrentGameState = GameState.InGame;
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    Main.Update();
 
                     break;
-                case GameState.SubMenu:
-                    Menu.Update(1);
-                    break;
+
                 case GameState.Exit:
                     this.Exit();
                     break;
@@ -140,10 +137,7 @@ namespace SoulWarriors
                     InGame.Draw(spriteBatch);
                     break;
                 case GameState.MainMenu:
-                    Menu.Draw(spriteBatch, new Vector2(30,50), 10);
-                    break;
-                case GameState.SubMenu:
-                    Menu.Draw(spriteBatch, new Vector2(50, 70), 15);
+                    Main.Draw(spriteBatch);
                     break;
                 case GameState.Exit:
                     break;

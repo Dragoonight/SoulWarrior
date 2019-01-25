@@ -24,9 +24,6 @@ namespace SoulWarriors
         /// </summary>
         public static Rectangle PlayArea => new Rectangle(32, 272, _backgroundTexture.Width - 64, _backgroundTexture.Height - 272);
 
-#if DEBUG
-        private static SpriteFont DebugFont;
-#endif
 
         public static void Initialize(GraphicsDevice graphicsDevice)
         {
@@ -40,9 +37,6 @@ namespace SoulWarriors
 
             Archer.LoadContent(content);
             Knight.LoadContent(content);
-#if DEBUG
-            DebugFont = content.Load<SpriteFont>(@"Fonts/DebugFont");
-#endif
         }
 
         public static void Update(GameTime gameTime)
@@ -69,7 +63,7 @@ namespace SoulWarriors
                     Vector2.SmoothStep(
                         // Vector to interpolate
                         Camera.Location,
-                        // Location to interpolate camera to.  
+                        // Location to interpolate camera to.
                         new Vector2(
                             // Unit vector from the chains rotation
                             (float)Math.Cos(Chain.Rotation), (float)Math.Sin(Chain.Rotation))
@@ -95,8 +89,11 @@ namespace SoulWarriors
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
             // Draw Enemies
+            spriteBatch.End();
             // Draw chain between players
             Chain.Draw(spriteBatch);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
             // Draw Player
             Archer.Draw(spriteBatch);
             Knight.Draw(spriteBatch);
@@ -107,7 +104,7 @@ namespace SoulWarriors
             spriteBatch.Begin();
             // Draw UI
 #if DEBUG
-            spriteBatch.DrawString(DebugFont,
+            spriteBatch.DrawString(Game1.DebugFont,
                 $" {Camera.Location}\n {Archer.CollidableObject.Position}\n {Camera.TransformMatrix.Translation}",
                 Vector2.Zero,
                 Color.White);

@@ -70,8 +70,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Menu\Menu0_background.png">
-      <Name>Menu0_background</Name>
+    <Compile Include="Textures\Menu\MainMenuBackground.png">
+      <Name>MainMenuBackground</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -80,8 +80,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\Menu\Menu0_button0.png">
-      <Name>Menu0_button0</Name>
+    <Compile Include="Textures\Menu\Button1.png">
+      <Name>Button1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

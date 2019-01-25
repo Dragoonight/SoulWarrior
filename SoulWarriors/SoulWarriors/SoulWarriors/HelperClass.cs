@@ -26,17 +26,17 @@ namespace SoulWarriors
                 SpriteEffects.None, 0f);
         }
 
-        /// <summary> 
-        /// Check if key is pressed now but not one update ago 
-        /// </summary> 
-        /// <param name="currentKeyboardState"></param> 
-        /// <param name="previousKeyboardState"></param> 
-        /// <param name="key">key to check</param> 
-        /// <returns></returns> 
-        public static bool SingleActivationKey(this KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, Keys key)
-        {
-            // If key is down but was up before 
-            return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key);
-        }
+        ///// <summary> 
+        ///// Check if key is pressed now but not one update ago 
+        ///// </summary> 
+        ///// <param name="currentKeyboardState"></param> 
+        ///// <param name="previousKeyboardState"></param> 
+        ///// <param name="key">key to check</param> 
+        ///// <returns></returns> 
+        //public static bool SingleActivationKey(this KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, Keys key)
+        //{
+        //    // If key is down but was up before 
+        //    return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key);
+        //}
     }
 }
