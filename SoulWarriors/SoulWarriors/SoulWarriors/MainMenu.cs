@@ -46,7 +46,7 @@ namespace SoulWarriors
                     ),
 
                 },
-                new MenuControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, new Keys[] {Keys.Enter}),
+                new MenuControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Enter),
                 viewport);
         }
          
