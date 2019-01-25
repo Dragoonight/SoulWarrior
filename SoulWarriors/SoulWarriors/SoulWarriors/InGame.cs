@@ -13,7 +13,7 @@ namespace SoulWarriors
     {
         public static Archer Archer = new Archer();
         public static Knight Knight = new Knight();
-        public static Enemy enemy = new Enemy();
+        public static Enemy enemy;
 
         public static Camera2D Camera;
 
@@ -43,9 +43,10 @@ namespace SoulWarriors
         {
             _backgroundTexture = content.Load<Texture2D>(@"Textures/WorldBackground");
             Chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
-
+            
             Archer.LoadContent(content);
             Knight.LoadContent(content);
+            LoadEnemies(content);
 #if DEBUG
             DebugFont = content.Load<SpriteFont>(@"Fonts/DebugFont");
 #endif
@@ -58,13 +59,17 @@ namespace SoulWarriors
             // Update players
             Archer.Update(gameTime);
             Knight.Update(gameTime);
-            enemy.Update(gameTime);
+            foreach (var enemy in enemies)
+            {
+                enemy.Update(gameTime);
+            }
+
             
 
-            UpdateChainAndCamera();
+            UpdateChainAndCamera(gameTime);
         }
 
-        private static void UpdateChainAndCamera()
+        private static void UpdateChainAndCamera(GameTime gameTime)
         {
             Chain.StartPosition = Archer.CollidableObject.Position;
             Chain.EndPosition = Knight.CollidableObject.Position;
@@ -102,7 +107,7 @@ namespace SoulWarriors
             if (spawn >= 1)
             {
                 spawn = 0;
-                if (enemies.Count() > 1)
+                if (enemies.Count() < 1)
                     enemies.Add(new Enemy(content.Load<Texture2D>(@"Textures/ArcherSpriteSheet"), new Vector2(100, randY)));
             }
         }

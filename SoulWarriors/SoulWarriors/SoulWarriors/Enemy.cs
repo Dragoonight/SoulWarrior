@@ -32,9 +32,10 @@ namespace SoulWarriors
         Knight knight;
 
         //Constructor
-        public Enemy(Texture2D enemyTexture)
+        public Enemy(Texture2D enemyTexture, Vector2 posTest)
         {
             texture = enemyTexture;
+            position = posTest;
         }
 
         public void Update(GameTime gameTime)
