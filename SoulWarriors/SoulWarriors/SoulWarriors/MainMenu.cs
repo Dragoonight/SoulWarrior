@@ -22,7 +22,7 @@ namespace SoulWarriors
                         new Rectangle(100, 200, 100, 100),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        Console.Beep),
+                        () => Game1.CurrentGameState = Game1.GameState.InGame),
 
                     new Button(new Point(1, 0),
                         new Rectangle(300, 200, 100, 100),
@@ -42,9 +42,7 @@ namespace SoulWarriors
                         new Rectangle(700, 200, 100, 100),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        new ButtonActionDelegate(() => Console.WriteLine("BIG PENIS"))
-                    ),
-
+                        () => Game1.CurrentGameState = Game1.GameState.Exit),
                 },
                 new MenuControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Enter),
                 viewport);

@@ -24,6 +24,21 @@ namespace SoulWarriors
         /// </summary>
         public static Rectangle PlayArea => new Rectangle(32, 272, _backgroundTexture.Width - 64, _backgroundTexture.Height - 272);
 
+        public static Vector2 GetOtherPlayerPosition(Vector2 yourPosition)
+        {
+            if (yourPosition == Archer.CollidableObject.Position)
+            {
+                return Knight.CollidableObject.Position;
+            }
+            else if (yourPosition == Knight.CollidableObject.Position)
+            {
+                return Archer.CollidableObject.Position;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        }
 
         public static void Initialize(GraphicsDevice graphicsDevice)
         {
