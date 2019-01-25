@@ -13,11 +13,17 @@ namespace SoulWarriors
     {
         public static Archer Archer = new Archer();
         public static Knight Knight = new Knight();
+        public static Enemy enemy = new Enemy();
 
         public static Camera2D Camera;
 
         public static Chain Chain;
         private static Texture2D _backgroundTexture;
+
+        public static List<Enemy> enemies = new List<Enemy>();
+        private static Random random = new Random();
+
+        private static float spawn = 0;
 
         /// <summary>
         /// The area in _backgroundTexture that is ground
@@ -52,6 +58,8 @@ namespace SoulWarriors
             // Update players
             Archer.Update(gameTime);
             Knight.Update(gameTime);
+            enemy.Update(gameTime);
+            
 
             // Update camera location while clamping to bounds of _backgroundTexture.Height and LERPing between old and new position
             Camera.Location = 
@@ -75,6 +83,20 @@ namespace SoulWarriors
                 Camera.ZoomedOrigin,
                 // Max
                 new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
+            //
+            spawn += (float) gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        //Load enemy depending on the number of spawned enemies
+        public static void LoadEnemies(ContentManager content)
+        {
+            int randY = random.Next(100, 400);
+
+            if (spawn >= 1)
+            {
+                spawn = 0;
+                if (enemies.Count() > 1)
+                    enemies.Add(new Enemy(content.Load<Texture2D>(@"Textures/ArcherSpriteSheet"), new Vector2(100, randY)));
+            }
         }
 
         public static void Draw(SpriteBatch spriteBatch)
@@ -103,6 +125,10 @@ namespace SoulWarriors
                 Vector2.Zero,
                 Color.White);
 #endif
+            //
+            foreach (Enemy enemy in enemies)
+                enemy.draw(spriteBatch);
+
             spriteBatch.End();
         }
     }

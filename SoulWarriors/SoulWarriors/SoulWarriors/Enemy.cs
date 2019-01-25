@@ -12,18 +12,46 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SoulWarriors
 {
-    class Enemy
+    public class Enemy
     {
         //Variables
-        private Texture2D enemyTestTexture;
-        private int speed;
-        private Vector2 enemyPosition;
-        private Rectangle rectTarget;
-        private Rectangle rectSpawn;
+        private Texture2D texture;
+        private Vector2 position;
+        private Vector2 velocity;
+        private Random random = new Random();
+       
 
+        //Archers and Knights dinstance from the enemy
+        //Something better exist - ask Julius/Alexander
+        private float archerDistanceY;
+        private float archerDistanceX;
+        private float knightDistanceY;
+        private float knightDistanceX;
+
+        Archer archer;
+        Knight knight;
+
+        //Constructor
+        public Enemy(Texture2D enemyTexture)
+        {
+            texture = enemyTexture;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            position += velocity;
+
+            //ArcherDistance will get the players position but it will get closer to its position
+            archerDistanceX = archer.CollidableObject.Position.X - position.X;
+            archerDistanceY = archer.CollidableObject.Position.Y - position.Y;
+
+            knightDistanceX = knight.CollidableObject.Position.X - position.X;
+            knightDistanceY = knight.CollidableObject.Position.Y - position.Y;
+
+        }
 
         // Key Rectangles/Areas (Spawn and target)
-
+       
 
 
         // Go directly for the door
@@ -31,31 +59,14 @@ namespace SoulWarriors
 
 
         // Mainly attack player (check who is closed to the enemy)
-
-
+        
 
         // Go for door, attack player if near by (Check which circle is colliding first)
 
 
-        // LoadContent (temporary)
-        public void LoadContent(ContentManager content)
+        public void draw(SpriteBatch spritebatch)
         {
-            enemyTestTexture = content.Load<Texture2D>("Insert name here");
-        }
-
-        // Update
-        public void Update(GameTime gameTime)
-        {
-
-        }
-
-
-        // Draw
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-            spriteBatch.Draw();
-            spriteBatch.End();
+            spritebatch.Draw(texture, position, Color.White);
         }
 
 
