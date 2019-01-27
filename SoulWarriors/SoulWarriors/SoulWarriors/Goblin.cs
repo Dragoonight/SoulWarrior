@@ -10,20 +10,21 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SoulWarriors
 {
-    public class Goblin :Enemy
+    public class Goblin : Enemy
     {
-        // Goblin has default target of door
-        private Targets target = Targets.Door;
+        private const float targetingRange = 150f;
+        private const float attackingRange = 40f;
 
-        Vector2 targetPosition = new Vector2(960, 250);
+        bool attacking = false; // TODO: create a way to decide which direction to attack in.
 
-        public Goblin() : base(new Vector2(400f))
+        public Goblin() : base(new Vector2(400f), Targets.Door)
         {
         }
 
         public void LoadContent(ContentManager content)
         {
-            CollidableObject = new CollidableObject(content.Load<Texture2D>(@"Textures/ArcherSpriteSheet"), SpawnPosition, new Rectangle(0, 0, 100, 100), 0f);
+            // TODO: Move CollidableObject creation to Enemy constructor
+            CollidableObject = new CollidableObject(content.Load<Texture2D>(@"Textures/ArcherSpriteSheet"), SpawnPosition, new Rectangle(0, 0, 100, 100), 0f); 
         }
 
         public void Update(GameTime gameTime)
@@ -35,38 +36,61 @@ namespace SoulWarriors
 
         private void UpdateTargetingAi()
         {
-            // Get distances to players
+            // Get distances to Targets
             float distanceToKnight = Vector2.Distance(CollidableObject.Position, InGame.Knight.CollidableObject.Position);
             float distanceToArcher = Vector2.Distance(CollidableObject.Position, InGame.Archer.CollidableObject.Position);
+            float distanceToDoor = Vector2.Distance(CollidableObject.Position, new Vector2(960, 250));
+
+            attacking = false;
+
+            // If Door is within attacking range
+            if (distanceToDoor < attackingRange)
+            {
+                SetTarget(Targets.Door);
+                attacking = true;
+            }
 
             // If the knight is within 150 units and is not already targeting Archer
-            if (distanceToKnight < 150f && target != Targets.Archer)
+            if (distanceToKnight < targetingRange && target != Targets.Archer)
             {
-                target = Targets.Knight;
-                targetPosition = InGame.Knight.CollidableObject.Position;
+                // Set target to knight
+                SetTarget(Targets.Knight);
+                // If Knight is within attacking range
+                if (distanceToKnight < attackingRange)
+                {
+                    attacking = true;
+                }
                 return;
             }
 
             // If the Archer is within 150 units and is not already targeting Knight
-            if (distanceToArcher < 150f && target != Targets.Knight)
+            if (distanceToArcher < targetingRange && target != Targets.Knight)
             {
-                target = Targets.Archer;
-                targetPosition = InGame.Archer.CollidableObject.Position;
+                // Set target to Archer
+                SetTarget(Targets.Archer);
+                // If Archer is within attacking range
+                if (distanceToArcher < attackingRange)
+                {
+                    attacking = true;
+                }
                 return;
             }
 
             // Else no players are within 150 units
             // Set target to Door
-            target = Targets.Door;
-            targetPosition = new Vector2(960, 250);
+            SetTarget(Targets.Door);
         }
 
         // Player keys and movement
         private void MovementAi(GameTime gameTime)
         {
+            // If attacking then don´t move
+            if (attacking) { return;}
+
             // Reset displacement
             Vector2 displacement = Vector2.Zero;
 
+            // Reset bools
             bool up = false,
                 right = false,
                 down = false,
@@ -76,18 +100,25 @@ namespace SoulWarriors
                 leftDown = false,
                 leftUp = false;
 
-            // If target is within 50 units
-            if (targetPosition.X - 50 <= CollidableObject.Position.X &&
-                CollidableObject.Position.X <= targetPosition.X + 50)
+            const int margin = 12;
+
+            // If target is within the margin in X-axis
+            if (targetPosition.X - margin <= CollidableObject.Position.X &&
+                CollidableObject.Position.X <= targetPosition.X + margin)
             {
+                // if target is above
                 up = targetPosition.Y < CollidableObject.Position.Y;
+                // If target is below
                 down = CollidableObject.Position.Y < targetPosition.Y;
             }
 
-            if (targetPosition.Y - 50 <= CollidableObject.Position.Y &&
-                CollidableObject.Position.Y <= targetPosition.Y + 50)
+            // If target is within the margin in Y-axis
+            if (targetPosition.Y - margin <= CollidableObject.Position.Y &&
+                CollidableObject.Position.Y <= targetPosition.Y + margin)
             {
+                // if target is to the left
                 left = targetPosition.X < CollidableObject.Position.X;
+                // if target is to the right
                 right = CollidableObject.Position.X < targetPosition.X;
             }
 
@@ -96,6 +127,8 @@ namespace SoulWarriors
             leftDown = CollidableObject.Position.Y < targetPosition.Y && targetPosition.X < CollidableObject.Position.X && !down && !left;
             leftUp = targetPosition.X < CollidableObject.Position.X && targetPosition.Y < CollidableObject.Position.Y && !left && !up;
 
+            float sqrt2 = (float)Math.Sqrt(2);
+
             if (up)
             {
                 displacement.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
@@ -103,8 +136,8 @@ namespace SoulWarriors
 
             if (rightUp)
             {
-                displacement.Y -= (speed / (float)Math.Sqrt(2)) * gameTime.ElapsedGameTime.Milliseconds;
-                displacement.X += (speed / (float)Math.Sqrt(2)) * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.Y -= (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.X += (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
             }
             
             if (right)
@@ -114,8 +147,8 @@ namespace SoulWarriors
 
             if (rightDown)
             {
-                displacement.X += (speed / (float)Math.Sqrt(2)) * gameTime.ElapsedGameTime.Milliseconds;
-                displacement.Y += (speed / (float)Math.Sqrt(2)) * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.X += (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.Y += (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
             }
 
             if (down)
@@ -125,8 +158,8 @@ namespace SoulWarriors
 
             if (leftDown)
             {
-                displacement.Y += (speed / (float)Math.Sqrt(2)) * gameTime.ElapsedGameTime.Milliseconds;
-                displacement.X -= (speed / (float)Math.Sqrt(2)) * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.Y += (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.X -= (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
             }
 
             if (left)
@@ -136,8 +169,8 @@ namespace SoulWarriors
 
             if (leftUp)
             {
-                displacement.X -= (speed / (float)Math.Sqrt(2)) * gameTime.ElapsedGameTime.Milliseconds;
-                displacement.Y -= (speed / (float)Math.Sqrt(2)) * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.X -= (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
+                displacement.Y -= (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
             }
 
             AddToPosition(displacement);
