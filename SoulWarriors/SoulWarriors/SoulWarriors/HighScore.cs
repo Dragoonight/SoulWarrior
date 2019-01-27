@@ -23,16 +23,30 @@ namespace SoulWarriors
             this.name = name;
             this.score = score;
         }
+
+        public static HighScoreEntry GenerateDefaultHighScoreEntry()
+        {
+            return new HighScoreEntry("Default", 0);
+        }
     }
 
     [Serializable]
     public struct SaveData
     {
-        public List<HighScoreEntry> Scores;
+        public List<HighScoreEntry> CampaingScores;
+        public List<HighScoreEntry> EndlessScores;
 
-        public SaveData(List<HighScoreEntry> newHighScoreEntries)
+        public SaveData(List<HighScoreEntry> newCampaingScoreEntries, List<HighScoreEntry> newEndlessScores)
         {
-            Scores = newHighScoreEntries;
+            CampaingScores = newCampaingScoreEntries;
+            EndlessScores = newEndlessScores;
+        }
+
+        public static SaveData GenerateDefaultSaveData()
+        {
+            return new SaveData(
+                new List<HighScoreEntry>(5) {HighScoreEntry.GenerateDefaultHighScoreEntry()},
+                new List<HighScoreEntry>(5) {HighScoreEntry.GenerateDefaultHighScoreEntry()});
         }
     }
 
@@ -50,7 +64,7 @@ namespace SoulWarriors
         {
             if (!File.Exists(FileName))
             {
-                SaveData data = new SaveData(new List<HighScoreEntry>(5) { new HighScoreEntry("default", 0)});
+                SaveData data = SaveData.GenerateDefaultSaveData();
                 currentData = data;
                 DoSave(data, FileName);
             }
@@ -139,32 +153,32 @@ namespace SoulWarriors
         public static void SaveHighScore(HighScoreEntry newScore)
         {
             // If there are already 10 scores
-            if (currentData.Scores.Count >= 5)
+            if (currentData.CampaingScores.Count >= 5)
             {
                 // And newScore is smaller than the smallest score
-                if (newScore.score < currentData.Scores[4].score)
+                if (newScore.score < currentData.CampaingScores[4].score)
                 {
                     // Do not add score
                     return;
                 }
             }
-            // add newScore
-            currentData.Scores.Add(newScore);
+            // Add newScore
+            currentData.CampaingScores.Add(newScore);
             // sort scores
-            for (int write = 0; write < currentData.Scores.Count; write++)
+            for (int write = 0; write < currentData.CampaingScores.Count; write++)
             {
-                for (int sort = 0; sort < currentData.Scores.Count - 1; sort++)
+                for (int sort = 0; sort < currentData.CampaingScores.Count - 1; sort++)
                 {
-                    if (currentData.Scores[sort].score > currentData.Scores[sort + 1].score)
+                    if (currentData.CampaingScores[sort].score > currentData.CampaingScores[sort + 1].score)
                     {
-                        HighScoreEntry temp = currentData.Scores[sort + 1];
-                        currentData.Scores[sort + 1] = currentData.Scores[sort];
-                        currentData.Scores[sort] = temp;
+                        HighScoreEntry temp = currentData.CampaingScores[sort + 1];
+                        currentData.CampaingScores[sort + 1] = currentData.CampaingScores[sort];
+                        currentData.CampaingScores[sort] = temp;
                     }
                 }
             }
 
-            currentData.Scores.Reverse();
+            currentData.CampaingScores.Reverse();
             DoSave(currentData, FileName);
         }
 
@@ -175,12 +189,12 @@ namespace SoulWarriors
             spriteBatch.Begin();
 
             // Draw score
-            for (int i = 0; i < currentData.Scores.Count; i++ )
+            for (int i = 0; i < currentData.CampaingScores.Count; i++ )
             {
                 // Draw Name
-                spriteBatch.DrawString(scoreFont, currentData.Scores[i].name, new Vector2(200, i * 60 + 120), Color.White);
+                spriteBatch.DrawString(scoreFont, currentData.CampaingScores[i].name, new Vector2(200, i * 60 + 120), Color.White);
                 // Draw score
-                spriteBatch.DrawString(scoreFont, currentData.Scores[i].score.ToString(), new Vector2(800, i * 60 + 120), Color.White);
+                spriteBatch.DrawString(scoreFont, currentData.CampaingScores[i].score.ToString(), new Vector2(800, i * 60 + 120), Color.White);
             }
             spriteBatch.End();
         }
