@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -14,45 +15,51 @@ namespace SoulWarriors
 {
     public class Enemy
     {
-        //Variables
-        private Texture2D texture;
-        private Vector2 position;
-        private Vector2 velocity;
-        private Random random = new Random();
-       
 
-        //Archers and Knights dinstance from the enemy
-        //Something better exist - ask Julius/Alexander
-        private float archerDistanceY;
-        private float archerDistanceX;
-        private float knightDistanceY;
-        private float knightDistanceX;
+        public CollidableObject CollidableObject;
+        protected readonly Vector2 SpawnPosition;
 
-        Archer archer;
-        Knight knight;
+        /// <summary>
+        /// movement speed in pixels per millisecond
+        /// </summary>
+        public float speed = .1f;
 
-        //Constructor
-        public Enemy(Texture2D enemyTexture, Vector2 posTest)
+        public Enemy(Vector2 spawnPosition)
         {
-            texture = enemyTexture;
-            position = posTest;
+            this.SpawnPosition = spawnPosition;
+
         }
 
-        public void Update(GameTime gameTime)
+
+        /// <summary>
+        /// adds velocity to position while clamping to PlayArea
+        /// </summary>
+        protected void AddToPosition(Vector2 valueToAdd)
         {
-            position += velocity;
+            CollidableObject.Position = Vector2.Clamp(
+                CollidableObject.Position + valueToAdd,
+                new Vector2(InGame.PlayArea.Left, InGame.PlayArea.Top),
+                new Vector2(InGame.PlayArea.Right, InGame.PlayArea.Bottom));
+        }
 
-            //ArcherDistance will get the players position but it will get closer to its position
-            archerDistanceX = archer.CollidableObject.Position.X - position.X;
-            archerDistanceY = archer.CollidableObject.Position.Y - position.Y;
 
-            knightDistanceX = knight.CollidableObject.Position.X - position.X;
-            knightDistanceY = knight.CollidableObject.Position.Y - position.Y;
+        public void Draw(SpriteBatch spriteBatch)
+        {
+
+            spriteBatch.Draw(CollidableObject.Texture,
+                CollidableObject.Position,
+                CollidableObject.SourceRectangle,
+                Color.White,
+                CollidableObject.Rotation,
+                CollidableObject.origin,
+                1,
+                SpriteEffects.None,
+                0);
 
         }
 
         // Key Rectangles/Areas (Spawn and target)
-       
+
 
 
         // Go directly for the door
@@ -60,15 +67,11 @@ namespace SoulWarriors
 
 
         // Mainly attack player (check who is closed to the enemy)
-        
+
 
         // Go for door, attack player if near by (Check which circle is colliding first)
 
 
-        public void draw(SpriteBatch spritebatch)
-        {
-            spritebatch.Draw(texture, position, Color.White);
-        }
 
 
     }

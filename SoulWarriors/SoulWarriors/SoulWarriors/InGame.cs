@@ -11,19 +11,20 @@ namespace SoulWarriors
 {
     public static class InGame
     {
+        // Players
         public static Archer Archer = new Archer();
         public static Knight Knight = new Knight();
-        public static Enemy enemy;
+
+        // Enemies
+        public static Goblin Goblin = new Goblin();
 
         public static Camera2D Camera;
 
         public static Chain Chain;
         private static Texture2D _backgroundTexture;
-
-        public static List<Enemy> enemies = new List<Enemy>();
+        
         private static Random random = new Random();
-
-        private static float spawn = 0;
+        
 
         /// <summary>
         /// The area in _backgroundTexture that is ground
@@ -46,7 +47,7 @@ namespace SoulWarriors
             
             Archer.LoadContent(content);
             Knight.LoadContent(content);
-            LoadEnemies(content);
+            Goblin.LoadContent(content);
 #if DEBUG
             DebugFont = content.Load<SpriteFont>(@"Fonts/DebugFont");
 #endif
@@ -59,12 +60,8 @@ namespace SoulWarriors
             // Update players
             Archer.Update(gameTime);
             Knight.Update(gameTime);
-            foreach (var enemy in enemies)
-            {
-                enemy.Update(gameTime);
-            }
 
-            
+            Goblin.Update(gameTime);
 
             UpdateChainAndCamera(gameTime);
         }
@@ -96,20 +93,6 @@ namespace SoulWarriors
                 Camera.ZoomedOrigin,
                 // Max
                 new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
-            //
-            spawn += (float) gameTime.ElapsedGameTime.TotalSeconds;
-        }
-        //Load enemy depending on the number of spawned enemies
-        public static void LoadEnemies(ContentManager content)
-        {
-            int randY = random.Next(100, 400);
-
-            if (spawn >= 1)
-            {
-                spawn = 0;
-                if (enemies.Count() < 1)
-                    enemies.Add(new Enemy(content.Load<Texture2D>(@"Textures/ArcherSpriteSheet"), new Vector2(100, randY)));
-            }
         }
 
         public static void Draw(SpriteBatch spriteBatch)
@@ -121,6 +104,7 @@ namespace SoulWarriors
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
             // Draw Enemies
+            Goblin.Draw(spriteBatch);
             // Draw chain between players
             Chain.Draw(spriteBatch);
             // Draw Player
@@ -138,9 +122,6 @@ namespace SoulWarriors
                 Vector2.Zero,
                 Color.White);
 #endif
-            //
-            foreach (Enemy enemy in enemies)
-                enemy.draw(spriteBatch);
 
             spriteBatch.End();
         }
