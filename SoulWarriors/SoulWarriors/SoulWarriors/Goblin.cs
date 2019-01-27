@@ -38,20 +38,20 @@ namespace SoulWarriors
             Vector2 targetPosition = new Vector2(960, 250);
             Vector2 currentPosition = InGame.Goblin.CollidableObject.Position;
             
-            float distanceArcher = Vector2.Distance(currentPosition, InGame.Archer.CollidableObject.Position);
-            float distanceKnight = Vector2.Distance(currentPosition, InGame.Knight.CollidableObject.Position);
+            float distanceToKnight = Vector2.Distance(currentPosition, InGame.Knight.CollidableObject.Position);
+            float distanceToArcher = Vector2.Distance(currentPosition, InGame.Archer.CollidableObject.Position);
             int target = 0;
 
-                if (distanceKnight < 150f && target != 2)
-                {
-                    targetPosition = InGame.Knight.CollidableObject.Position;
-                    target = 1;
-                }
+            if (distanceToKnight < 150f && target != 2)
+            {
+                targetPosition = InGame.Knight.CollidableObject.Position;
+                target = 1;
+            }
             
-                if (distanceArcher < 150f && target != 1)
-                {
-                    targetPosition = InGame.Archer.CollidableObject.Position;
-                    target = 2;
+            if (distanceToArcher < 150f && target != 1)
+            {
+                targetPosition = InGame.Archer.CollidableObject.Position;
+                target = 2;
             }
                 
             if(target == 0)
