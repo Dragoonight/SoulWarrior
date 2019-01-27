@@ -13,6 +13,13 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SoulWarriors
 {
+    public enum Targets
+    {
+        Door,
+        Archer,
+        Knight
+    }
+
     public class Enemy
     {
 
