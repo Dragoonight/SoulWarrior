@@ -62,6 +62,8 @@ namespace SoulWarriors
             }
             // Update position
             _collidableObject.Position += _direction * _velocity * gameTime.ElapsedGameTime.Milliseconds;
+            // Check collision TODO: Add collision
+
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -36,26 +37,49 @@ namespace SoulWarriors
 
     public class Player
     {
-        public static KeyboardState currentKeyboardState;
-        public static readonly float MaxChainLength = 640f; // TODO: Change MaxChainLength name to a more descriptive one
+        private static KeyboardState currentKeyboardState;
+        private static readonly float MaxChainLength = 640f; // TODO: Change MaxChainLength name to a more descriptive one
 
-        protected PlayerControlScheme ControlScheme;
-        public CollidableObject CollidableObject;
         protected readonly Vector2 SpawnPosition;
+        private readonly PlayerControlScheme _controlScheme;
+        public CollidableObject CollidableObject;
+        protected List<Animation> Animations;
+
         /// <summary>
         /// movement speed in pixels per millisecond
         /// </summary>
-        public float speed = .2f;
+        private float speed = .2f;
 
-        public Player(Vector2 spawnPosition, PlayerControlScheme controlScheme)
+        private AnimationDirections _animationDirection = AnimationDirections.Down;
+        private AnimationsStates _animationState = AnimationsStates.Idle;
+
+        private Animation CurrentAnimation
         {
-            this.SpawnPosition = spawnPosition;
-            ControlScheme = controlScheme;
+            get
+            {
+                string identifier = (_animationState.ToString() + _animationDirection.ToString());
+                foreach (Animation animation in Animations)
+                {
+                    if (animation.AnimationType.ToString().Equals(identifier))
+                    {
+                        return animation;
+                    }
+                }
+                throw new ArgumentException();
+            }
+        }
+
+        protected Player(Vector2 spawnPosition, PlayerControlScheme controlScheme, List<Animation> animations)
+        {
+            SpawnPosition = spawnPosition;
+            _controlScheme = controlScheme;
+            Animations = animations;
         }
 
         public virtual void Update(GameTime gameTime)
         {
             GetInput(gameTime);
+            //UpdateAnimation(gameTime);
         }
         
         private void GetInput(GameTime gameTime)
@@ -66,29 +90,46 @@ namespace SoulWarriors
 
         private void GetMovement(GameTime gameTime)
         {
+            // Update keyboard state
             currentKeyboardState = Keyboard.GetState();
+            // Reset displacement
             Vector2 displacement = Vector2.Zero;
 
-            if (currentKeyboardState.IsKeyDown(ControlScheme.MoveUp))
+            // Get input
+            if (currentKeyboardState.IsKeyDown(_controlScheme.MoveUp))
             {
                 displacement.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
+                _animationDirection = AnimationDirections.Up;
             }
 
-            if (currentKeyboardState.IsKeyDown(ControlScheme.MoveLeft))
+            if (currentKeyboardState.IsKeyDown(_controlScheme.MoveLeft))
             {
                 displacement.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
+                _animationDirection = AnimationDirections.Left;
             }
 
-            if (currentKeyboardState.IsKeyDown(ControlScheme.MoveRight))
+            if (currentKeyboardState.IsKeyDown(_controlScheme.MoveRight))
             {
                 displacement.X += speed * gameTime.ElapsedGameTime.Milliseconds;
+                _animationDirection = AnimationDirections.Right;
             }
 
-            if (currentKeyboardState.IsKeyDown(ControlScheme.MoveDown))
+            if (currentKeyboardState.IsKeyDown(_controlScheme.MoveDown))
             {
                 displacement.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
+                _animationDirection = AnimationDirections.Down;
             }
 
+            // if nothing happened set _animationState to Idle and return.
+            if (displacement == Vector2.Zero)
+            {
+                _animationState = AnimationsStates.Idle;
+                return;
+            }
+            // if something happened set _animationState to Walk
+            _animationState = AnimationsStates.Walk;
+
+            // Limit distance from other player
             // If the new distance is greater than MaxChainLength
             if (Vector2.Distance(CollidableObject.Position + displacement, InGame.GetOtherPlayerPosition(CollidableObject.Position)) > MaxChainLength)
             {
@@ -96,6 +137,7 @@ namespace SoulWarriors
                 return; // TODO: make the remaining length used too
             }
 
+            // Add displacement to position
             AddToPosition(displacement);
         }
 
@@ -112,23 +154,33 @@ namespace SoulWarriors
 
         private void GetActions()
         {
-            if (currentKeyboardState.IsKeyDown(ControlScheme.Action1))
+            if (currentKeyboardState.IsKeyDown(_controlScheme.Action1))
             {
                 Action1();
+                // Overwrite the previous animation state (Walk) with Action1
+                _animationState = AnimationsStates.Action1;
+                return;
             }
-            if (currentKeyboardState.IsKeyDown(ControlScheme.Action2))
+            if (currentKeyboardState.IsKeyDown(_controlScheme.Action2))
             {
                 Action2();
+                _animationState = AnimationsStates.Action2;
+                return;
             }
-            if (currentKeyboardState.IsKeyDown(ControlScheme.Action3))
+            if (currentKeyboardState.IsKeyDown(_controlScheme.Action3))
             {
                 Action3();
+                _animationState = AnimationsStates.Action3;
+                return;
             }
-            if (currentKeyboardState.IsKeyDown(ControlScheme.Action4))
+            if (currentKeyboardState.IsKeyDown(_controlScheme.Action4))
             {
                 Action4();
+                _animationState = AnimationsStates.Action4;
+                return;
             }
-
+            
+            _animationState = AnimationsStates.Idle;
         }
 
         protected virtual void Action1()
@@ -145,6 +197,18 @@ namespace SoulWarriors
 
         protected virtual void Action4()
         {
+        }
+
+        private void UpdateAnimation(GameTime gameTime)
+        {
+            CurrentAnimation.Animate(ref CollidableObject.SourceRectangle, ref CollidableObject.origin, gameTime);
+
+            // Reset all other animations except from the CurrentAnimation
+            foreach (Animation animation in Animations)
+            {
+                if (ReferenceEquals(animation, CurrentAnimation)) { return; }
+                animation.Reset();
+            }
         }
 
         /// <summary>

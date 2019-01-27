@@ -222,25 +222,13 @@ namespace SoulWarriors
             KeyboardState keyboard = Keyboard.GetState();
 
             // Get input
-            if (keyboard.SingleActivationKey(_previousKeyboardState, _controlScheme.MoveUp))
-            {
-                selected.Y--;
-            }
+            if (keyboard.SingleActivationKey(_previousKeyboardState, _controlScheme.MoveUp)) { selected.Y--;}
 
-            if (keyboard.SingleActivationKey(_previousKeyboardState, _controlScheme.MoveDown))
-            {
-                selected.Y++;
-            }
+            if (keyboard.SingleActivationKey(_previousKeyboardState, _controlScheme.MoveDown)) { selected.Y++;}
 
-            if (keyboard.SingleActivationKey(_previousKeyboardState, _controlScheme.MoveLeft))
-            {
-                selected.X--;
-            }
+            if (keyboard.SingleActivationKey(_previousKeyboardState, _controlScheme.MoveLeft)) { selected.X--;}
 
-            if (keyboard.SingleActivationKey(_previousKeyboardState ,_controlScheme.MoveRight))
-            {
-                selected.X++;
-            }
+            if (keyboard.SingleActivationKey(_previousKeyboardState, _controlScheme.MoveRight)) { selected.X++;}
 
             //Clamp selected
             selected.X = (int)MathHelper.Clamp(selected.X, _minSelected.X, _maxSelected.X);

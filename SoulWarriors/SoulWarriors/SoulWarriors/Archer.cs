@@ -17,7 +17,8 @@ namespace SoulWarriors
         public List<Arrow> arrows = new List<Arrow>(8);
         private Texture2D arrowTexture;
 
-        public Archer() : base(new Vector2(500f), new PlayerControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space, Keys.LeftAlt, Keys.X, Keys.C))
+        public Archer() 
+            : base(new Vector2(500f), new PlayerControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space, Keys.LeftAlt, Keys.X, Keys.C), new List<Animation>())
         {
         }
 
@@ -30,7 +31,11 @@ namespace SoulWarriors
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            UpdateArrows(gameTime);
+        }
 
+        private void UpdateArrows(GameTime gameTime)
+        {
             List<int> arrowsToBeRemoved = new List<int>();
             for (int i = 0; i < arrows.Count; i++)
             {
@@ -42,25 +47,29 @@ namespace SoulWarriors
                     arrowsToBeRemoved.Add(i);
                 }
             }
+            // Sort arrows arrowsToBeRemoved in ascending order
+            arrowsToBeRemoved.Sort();
+            // Reverse arrowsToBeRemoved to descending order
+            arrowsToBeRemoved.Reverse();
             // Try to remove arrows
             try
             {
                 // Remove arrows
-                foreach (int i in arrowsToBeRemoved)
+                for (int index = 0; index < arrowsToBeRemoved.Count; index++)
                 {
-                    arrows.RemoveAt(i);
+                    arrows.RemoveAt(arrowsToBeRemoved[index]);
                 }
-
             }
             catch (Exception)
             {
-                // ignored
+                // ignore exception
             }
             finally
             {
                 // Always clear arrowsToBeRemoved
                 arrowsToBeRemoved.Clear();
             }
+
         }
 
         /// <summary>
