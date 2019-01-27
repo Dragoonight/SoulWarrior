@@ -31,8 +31,6 @@ namespace SoulWarriors
         }
     }
 
-
-
     // TODO: Comment Button
     public struct Button
     {
@@ -117,8 +115,8 @@ namespace SoulWarriors
 
         private readonly Button[] _buttons;
 
-        private Point? _selectedMenuPosition;
-        private Point _nonNullableSelectedPoint; // TODO: Change name for _nonNullableSelectedPoint
+        private Point? _selectedMenuPosition = Point.Zero;
+        private Point _nonNullableSelectedPoint = Point.Zero; // TODO: Change name for _nonNullableSelectedPoint
         private readonly Point _minSelected;
         private readonly Point _maxSelected;
         private Point? _previousMousePoint;
@@ -217,7 +215,7 @@ namespace SoulWarriors
             return null;
         }
 
-        private Point UpdateKeyboard()
+        private Point UpdateKeyboard() // TODO: Add jump to nearest button code for when the menu points are not correct
         {
             Point selected = _nonNullableSelectedPoint;
             // Update keyboard

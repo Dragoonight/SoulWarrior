@@ -37,7 +37,6 @@ namespace SoulWarriors
     public class Player
     {
         public static KeyboardState currentKeyboardState;
-        public static KeyboardState previousKeyboardState;
         public static readonly float MaxChainLength = 640f; // TODO: Change MaxChainLength name to a more descriptive one
 
         protected PlayerControlScheme ControlScheme;
@@ -54,30 +53,20 @@ namespace SoulWarriors
             ControlScheme = controlScheme;
         }
 
-        public static void UpdateKeyboard()
-        {
-            previousKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
-        }
-
         public virtual void Update(GameTime gameTime)
         {
             GetInput(gameTime);
         }
         
-        /// <summary>
-        /// adds velocity to position while clamping to PlayArea
-        /// </summary>
-        protected void AddToPosition(Vector2 valueToAdd)
-        {
-            CollidableObject.Position = Vector2.Clamp(
-                CollidableObject.Position + valueToAdd,
-                new Vector2(InGame.PlayArea.Left, InGame.PlayArea.Top),
-                new Vector2(InGame.PlayArea.Right, InGame.PlayArea.Bottom));
-        }
-
         private void GetInput(GameTime gameTime)
         {
+            GetMovement(gameTime);
+            GetActions();
+        }
+
+        private void GetMovement(GameTime gameTime)
+        {
+            currentKeyboardState = Keyboard.GetState();
             Vector2 displacement = Vector2.Zero;
 
             if (currentKeyboardState.IsKeyDown(ControlScheme.MoveUp))
@@ -110,10 +99,60 @@ namespace SoulWarriors
             AddToPosition(displacement);
         }
 
-
-        public void Draw(SpriteBatch spriteBatch)
+        /// <summary>
+        /// adds velocity to position while clamping to PlayArea
+        /// </summary>
+        private void AddToPosition(Vector2 valueToAdd)
         {
+            CollidableObject.Position = Vector2.Clamp(
+                CollidableObject.Position + valueToAdd,
+                new Vector2(InGame.PlayArea.Left, InGame.PlayArea.Top),
+                new Vector2(InGame.PlayArea.Right, InGame.PlayArea.Bottom));
+        }
 
+        private void GetActions()
+        {
+            if (currentKeyboardState.IsKeyDown(ControlScheme.Action1))
+            {
+                Action1();
+            }
+            if (currentKeyboardState.IsKeyDown(ControlScheme.Action2))
+            {
+                Action2();
+            }
+            if (currentKeyboardState.IsKeyDown(ControlScheme.Action3))
+            {
+                Action3();
+            }
+            if (currentKeyboardState.IsKeyDown(ControlScheme.Action4))
+            {
+                Action4();
+            }
+
+        }
+
+        protected virtual void Action1()
+        {
+        }
+
+        protected virtual void Action2()
+        {
+        }
+
+        protected virtual void Action3()
+        {
+        }
+
+        protected virtual void Action4()
+        {
+        }
+
+        /// <summary>
+        /// Draw Player
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
             spriteBatch.Draw(CollidableObject.Texture,
                 CollidableObject.Position,
                 CollidableObject.SourceRectangle,
@@ -123,7 +162,6 @@ namespace SoulWarriors
                 1,
                 SpriteEffects.None,
                 0);
-
         }
     }
 }

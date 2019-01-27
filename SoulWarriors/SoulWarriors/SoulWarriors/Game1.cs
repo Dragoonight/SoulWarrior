@@ -20,6 +20,7 @@ namespace SoulWarriors
         {
             InGame,
             MainMenu,
+            HighScore,
             Exit
         }
 
@@ -53,8 +54,8 @@ namespace SoulWarriors
 
             this.IsMouseVisible = true;
             
-
             InGame.Initialize(GraphicsDevice);
+            HighScore.Initilize();
 
             base.Initialize();
         }
@@ -70,6 +71,7 @@ namespace SoulWarriors
 
             InGame.LoadContent(Content);
             Main.LoadContent(Content, GraphicsDevice.Viewport);
+            HighScore.LoadContent(Content, GraphicsDevice.Viewport);
 #if DEBUG
             DebugFont = Content.Load<SpriteFont>(@"Fonts/DebugFont");
 #endif
@@ -105,6 +107,10 @@ namespace SoulWarriors
             switch (CurrentGameState)
             {
                 case GameState.InGame:
+                    if (IsMouseVisible == true)
+                    {
+                        IsMouseVisible = false;
+                    }
                     InGame.Update(gameTime);
 
                     break;
@@ -112,6 +118,10 @@ namespace SoulWarriors
                 case GameState.MainMenu:
                     Main.Update();
 
+                    break;
+
+                case GameState.HighScore:
+                    HighScore.Update();
                     break;
 
                 case GameState.Exit:
@@ -140,6 +150,9 @@ namespace SoulWarriors
                     Main.Draw(spriteBatch);
                     break;
                 case GameState.Exit:
+                    break;
+                case GameState.HighScore:
+                    HighScore.Draw(spriteBatch);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -28,15 +28,13 @@ namespace SoulWarriors
                         new Rectangle(300, 200, 100, 100),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        new ButtonActionDelegate(() => Console.WriteLine("penis"))
-                        ),
+                        () => Game1.CurrentGameState = Game1.GameState.HighScore),
 
                     new Button(new Point(2, 0),
                         new Rectangle(500, 200, 100, 100),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        new ButtonActionDelegate(() => Console.WriteLine("PENIS"))
-                    ),
+                        () => Console.Beep()),
 
                     new Button(new Point(3, 0),
                         new Rectangle(700, 200, 100, 100),

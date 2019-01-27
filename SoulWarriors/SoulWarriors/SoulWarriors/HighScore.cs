@@ -39,7 +39,7 @@ namespace SoulWarriors
     
     public static class HighScore
     {
-        private static Texture2D background;
+        private static Menu menu;
         private static SpriteFont scoreFont;
 
         private static readonly string FileName = "save.dat";
@@ -60,10 +60,40 @@ namespace SoulWarriors
             }
         }
 
-        public static void LoadContent(ContentManager content)
+        public static void LoadContent(ContentManager content, Viewport viewport)
         {
-            background = content.Load<Texture2D>(@"Textures/Backgrounds/HighScoreBackGround");
-            scoreFont = content.Load<SpriteFont>(@"Fonts/CreditsTitleFont");
+            // Create a new menu
+            menu = new Menu(content.Load<Texture2D>(@"Textures/Menu/MainMenuBackground"),
+                new Button[]
+                {
+                    // Back button
+                    new Button(new Point(0,0),
+                        new Rectangle(100,100,50,50),
+                        content.Load<Texture2D>(@"Textures/Menu/Button1"),
+                        content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
+                        () => Game1.CurrentGameState = Game1.GameState.MainMenu),
+
+                    new Button(new Point(0,1),
+                        new Rectangle(100, 400, 100, 50),
+                        content.Load<Texture2D>(@"Textures/Menu/Button1"),
+                        content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
+                        Console.Beep),
+
+                    new Button(new Point(0,2),
+                        new Rectangle(100, 500, 100, 50),
+                        content.Load<Texture2D>(@"Textures/Menu/Button1"),
+                        content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
+                        Console.Beep),
+                },
+                new MenuControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Enter),
+                viewport);
+
+            scoreFont = content.Load<SpriteFont>(@"Fonts/DebugFont"); // TODO: Add high score font
+        }
+
+        public static void Update()
+        {
+            menu.Update();
         }
 
         /// <summary>
@@ -88,11 +118,11 @@ namespace SoulWarriors
             }
         }
 
-        private static SaveData LoadData(string FileName)
+        private static SaveData LoadData(string fileName)
         {
             SaveData data;
 
-            FileStream stream = File.Open(FileName, FileMode.Open, FileAccess.ReadWrite);
+            FileStream stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite);
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
@@ -140,16 +170,17 @@ namespace SoulWarriors
 
         public static void Draw(SpriteBatch spriteBatch)
         {
+            menu.Draw(spriteBatch);
+
             spriteBatch.Begin();
-            // Draw background
-            //spriteBatch.Draw(background, new Rectangle(0, 0, Game1.ScreenBounds.X, Game1.ScreenBounds.Y), Color.White);
+
             // Draw score
             for (int i = 0; i < currentData.Scores.Count; i++ )
             {
                 // Draw Name
-                spriteBatch.DrawString(scoreFont, currentData.Scores[i].name, new Vector2(Game1.ScreenBounds.X * 0.25f, i * 60 + 120), Color.White);
+                spriteBatch.DrawString(scoreFont, currentData.Scores[i].name, new Vector2(200, i * 60 + 120), Color.White);
                 // Draw score
-                spriteBatch.DrawString(scoreFont, currentData.Scores[i].score.ToString(), new Vector2(Game1.ScreenBounds.X * 0.75f, i * 60 + 120), Color.White);
+                spriteBatch.DrawString(scoreFont, currentData.Scores[i].score.ToString(), new Vector2(800, i * 60 + 120), Color.White);
             }
             spriteBatch.End();
         }

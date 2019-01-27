@@ -26,9 +26,23 @@ namespace SoulWarriors
 
         public override void Update(GameTime gameTime)
         {
-
-
             base.Update(gameTime);
+
+
         }
+
+        protected override void Action1()
+        {
+        }
+        protected override void Action2()
+        {
+        }
+        protected override void Action3()
+        {
+        }
+        protected override void Action4()
+        {
+        }
+
     }
 }

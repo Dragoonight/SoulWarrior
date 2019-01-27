@@ -13,20 +13,81 @@ using Microsoft.Xna.Framework.Media;
 namespace SoulWarriors
 {
     public class Archer : Player
-    {       
-       
-        public Archer() : base(new Vector2(500f), new PlayerControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space, Keys.LeftAlt, Keys.LeftControl, Keys.LeftShift))
+    {
+        public List<Arrow> arrows = new List<Arrow>(8);
+        private Texture2D arrowTexture;
+
+        public Archer() : base(new Vector2(500f), new PlayerControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space, Keys.LeftAlt, Keys.X, Keys.C))
         {
         }
 
         public void LoadContent(ContentManager content)
         {
             CollidableObject = new CollidableObject(content.Load<Texture2D>(@"Textures/ArcherSpriteSheet"), SpawnPosition, new Rectangle(0,0,100,100), 0f);
+            arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            List<int> arrowsToBeRemoved = new List<int>();
+            for (int i = 0; i < arrows.Count; i++)
+            {
+                // Update arrow
+                arrows[i].Update(gameTime);
+                // If arrow is no longer active add its index number to the arrowsToBeRemoved list
+                if (arrows[i].Active == false)
+                {
+                    arrowsToBeRemoved.Add(i);
+                }
+            }
+            // Try to remove arrows
+            try
+            {
+                // Remove arrows
+                foreach (int i in arrowsToBeRemoved)
+                {
+                    arrows.RemoveAt(i);
+                }
+
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+            finally
+            {
+                // Always clear arrowsToBeRemoved
+                arrowsToBeRemoved.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Fire Arrow
+        /// </summary>
+        protected override void Action1()
+        {
+            arrows.Add(new Arrow(arrowTexture, CollidableObject.Position, InGame.MousePos, 0.3f, InGame.PlayArea));
+        }
+        protected override void Action2()
+        {
+        }
+        protected override void Action3()
+        {
+        }
+        protected override void Action4()
+        {
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            foreach (Arrow arrow in arrows)
+            {
+                arrow.Draw(spriteBatch);
+            }
         }
     }
 }

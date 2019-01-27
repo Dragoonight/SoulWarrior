@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SoulWarriors
 {
@@ -18,6 +21,14 @@ namespace SoulWarriors
 
         public static Chain Chain;
         private static Texture2D _backgroundTexture;
+
+        public static Vector2 MousePos => new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+
+        public static Vector2 WorldMousePos => Vector2.Transform(MousePos, Camera.TransformMatrix)
+            ; 
+#if DEBUG
+        public static Texture2D mousepostest;
+#endif
 
         /// <summary>
         /// The area in _backgroundTexture that is ground
@@ -50,19 +61,20 @@ namespace SoulWarriors
             _backgroundTexture = content.Load<Texture2D>(@"Textures/WorldBackground");
             Chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
 
+            mousepostest = content.Load<Texture2D>(@"Textures/Chain");
+
             Archer.LoadContent(content);
             Knight.LoadContent(content);
         }
 
         public static void Update(GameTime gameTime)
         {
-            // Update keyboard state
-            Player.UpdateKeyboard();
             // Update players
             Archer.Update(gameTime);
             Knight.Update(gameTime);
 
             UpdateChainAndCamera();
+            ClampMouse();
         }
 
         private static void UpdateChainAndCamera()
@@ -70,7 +82,7 @@ namespace SoulWarriors
             Chain.StartPosition = Archer.CollidableObject.Position;
             Chain.EndPosition = Knight.CollidableObject.Position;
 
-            // Update camera location while clamping to bounds of _backgroundTexture.Height and LERPing between old and new position
+            // Update camera location while clamping to bounds of _backgroundTexture.Height and interpolating between old and new position
             Camera.Location =
                 // Clamp to background bounds
                 Vector2.Clamp(
@@ -95,6 +107,16 @@ namespace SoulWarriors
 
         }
 
+        private static void ClampMouse()
+        {
+            if (Camera.CameraWorldRect.Contains(new Point((int)MousePos.X, (int)MousePos.Y)) == false)
+            {
+                Mouse.SetPosition(
+                    (int)MathHelper.Clamp(MousePos.X, (float)Camera.CameraWorldRect.Left, (float)Camera.CameraWorldRect.Right),
+                    (int)MathHelper.Clamp(MousePos.Y, (float)Camera.CameraWorldRect.Top, (float)Camera.CameraWorldRect.Bottom)); 
+            }
+        }
+
         public static void Draw(SpriteBatch spriteBatch)
         {
             // Begin spriteBatch with the camera transform
@@ -112,6 +134,9 @@ namespace SoulWarriors
             // Draw Player
             Archer.Draw(spriteBatch);
             Knight.Draw(spriteBatch);
+
+            spriteBatch.Draw(mousepostest, MousePos, null, Color.Wheat, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.2f);
+
             spriteBatch.End();
 
             // Begin new spriteBatch without a transform
@@ -120,7 +145,7 @@ namespace SoulWarriors
             // Draw UI
 #if DEBUG
             spriteBatch.DrawString(Game1.DebugFont,
-                $" {Camera.Location}\n {Archer.CollidableObject.Position}\n {Camera.TransformMatrix.Translation}",
+                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n WMouse:{WorldMousePos}\n Arrows:{Archer.arrows.Count}",
                 Vector2.Zero,
                 Color.White);
 #endif
