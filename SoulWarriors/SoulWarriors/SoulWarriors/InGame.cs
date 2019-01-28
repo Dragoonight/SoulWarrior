@@ -102,7 +102,7 @@ namespace SoulWarriors
         {
             Enemies = new List<Enemy>();
             Goblin.LoadContent(content);
-            Enemies.Add(new Goblin());
+            Enemies.Add(new Goblin(new Vector2(400f)));
         }
 
         public static void Update(GameTime gameTime)
