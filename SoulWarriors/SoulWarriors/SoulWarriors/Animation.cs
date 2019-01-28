@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace SoulWarriors
 {
     public struct Frame
     {
-        public readonly Rectangle sourceRectangle;
-        public readonly Vector2 origin;
-        public readonly int frameTime;
+        public readonly Rectangle SourceRectangle;
+        public readonly Vector2 Origin;
+        public readonly int FrameTime;
 
         /// <summary>
         /// Creates a new frame with a source rectangle, frame time and default center origin
@@ -16,9 +17,9 @@ namespace SoulWarriors
         /// <param name="frameTime">Time between this and next frame in milliseconds</param>
         public Frame(Rectangle sourceRectangle, int frameTime)
         {
-            this.sourceRectangle = sourceRectangle;
-            this.origin = new Vector2(sourceRectangle.Width / 2, sourceRectangle.Height / 2); 
-            this.frameTime = frameTime;
+            this.SourceRectangle = sourceRectangle;
+            this.Origin = new Vector2(sourceRectangle.Width / 2f, sourceRectangle.Height / 2f); 
+            this.FrameTime = frameTime;
         }
 
         /// <summary>
@@ -29,10 +30,15 @@ namespace SoulWarriors
         /// <param name="frameTime">Time between this and next frame in milliseconds</param>
         public Frame(Rectangle sourceRectangle, Vector2 origin, int frameTime)
         {
-            this.sourceRectangle = sourceRectangle;
-            this.origin = origin;
-            this.frameTime = frameTime;
+            this.SourceRectangle = sourceRectangle;
+            this.Origin = origin;
+            this.FrameTime = frameTime;
         }
+    }
+    
+    public enum AnimationStates
+    {
+        Idle, Walk, Action1, Action2, Action3, Action4
     }
 
     public enum AnimationDirections
@@ -40,47 +46,15 @@ namespace SoulWarriors
         Up, Down, Left, Right
     }
 
-    public enum AnimationsStates
-    {
-        Idle, Walk, Action1, Action2, Action3, Action4
-    }
-
-    // AnimationTypes consist of animationState + AnimationDirection
-    public enum AnimationTypes
-    {
-        None,
-        IdleUp,
-        IdleDown,
-        IdleLeft,
-        IdleRight,
-        WalkUp,
-        WalkDown,
-        WalkLeft,
-        WalkRight,
-        Action1Up,
-        Action1Down,
-        Action1Left,
-        Action1Right,
-        Action2Up,
-        Action2Down,
-        Action2Left,
-        Action2Right,
-        Action3Up,
-        Action3Down,
-        Action3Left,
-        Action3Right,
-        Action4Up,
-        Action4Down,
-        Action4Left,
-        Action4Right,
-    }
-
+    /// <summary>
+    /// Used for animation through a list of frames
+    /// </summary>
     public class Animation
     {
-        public readonly List<Frame> frames;
+        private readonly List<Frame> _frames;
         private int _timeForCurrentFrame;
 
-        public AnimationTypes AnimationType { get; }
+        public string AnimationName { get; }
 
         public int CurrentFrame { get; private set; }
 
@@ -93,9 +67,9 @@ namespace SoulWarriors
             {
                 int totalFrameTime = 0;
 
-                for (int frame = 0; frame < frames.Count; frame++)
+                for (int frame = 0; frame < _frames.Count; frame++)
                 {
-                    totalFrameTime += frames[frame].frameTime;
+                    totalFrameTime += _frames[frame].FrameTime;
                 }
 
                 return totalFrameTime;
@@ -104,41 +78,41 @@ namespace SoulWarriors
 
 
         /// <summary>
-        /// Initializes a new animation with an animation type and list of frames
+        /// Initializes a new animation with a name and a list of frames
         /// </summary>
-        /// <param name="animationType">Animation type, used to identify the animation</param>
-        /// <param name="frames"></param>
-        public Animation(AnimationTypes animationType, List<Frame> frames)
+        /// <param name="animationName">Identifier</param>
+        /// <param name="frames">List of frames to create an animation with</param>
+        public Animation(string animationName, List<Frame> frames)
         {
-            AnimationType = animationType;
-            this.frames = frames;
+            AnimationName = animationName;
+            this._frames = frames;
         }
         /// <summary>
-        /// Initializes a new animation with the None animation type and list of frames
+        /// Initializes a new animation with an empty name and a list of frames
         /// </summary>
-        /// <param name="frames"></param>
+        /// <param name="frames">List of frames to create an animation with</param>
         public Animation(List<Frame> frames)
         {
-            this.frames = frames;
-            AnimationType = AnimationTypes.None;
+            this._frames = frames;
+            AnimationName = "";
         }
 
         /// <summary>
         /// Animates through the list of frames
         /// </summary>
         /// <param name="sourceRectangle">source rectangle to apply animation to</param>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Time since last update</param>
         public void Animate(ref Rectangle sourceRectangle, GameTime gameTime)
         {
             // Update time elapsed for this frame
             _timeForCurrentFrame += gameTime.ElapsedGameTime.Milliseconds;
             // If time has passed longer for this frame than this frame´s frameTime
-            if (_timeForCurrentFrame >= frames[CurrentFrame].frameTime)
+            if (_timeForCurrentFrame >= _frames[CurrentFrame].FrameTime)
             {
                 // Go to next frame in frames
-                CurrentFrame = (CurrentFrame + 1) % frames.Count;
+                CurrentFrame = (CurrentFrame + 1) % _frames.Count;
                 // Set sourceRectangle to this frame
-                sourceRectangle = frames[CurrentFrame].sourceRectangle;
+                sourceRectangle = _frames[CurrentFrame].SourceRectangle;
                 // Reset time elapsed
                 _timeForCurrentFrame = 0;
             }
@@ -149,20 +123,20 @@ namespace SoulWarriors
         /// </summary>
         /// <param name="sourceRectangle">source rectangle to apply animation to</param>
         /// <param name="origin">origin to apply animation to</param>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Time since last update</param>
         public void Animate(ref Rectangle sourceRectangle, ref Vector2 origin, GameTime gameTime)
         {
             // Update time elapsed for this frame
             _timeForCurrentFrame += gameTime.ElapsedGameTime.Milliseconds;
             // If time has passed longer for this frame than this frame´s frameTime
-            if (_timeForCurrentFrame >= frames[CurrentFrame].frameTime)
+            if (_timeForCurrentFrame >= _frames[CurrentFrame].FrameTime)
             {
                 // Go to next frame in frames
-                CurrentFrame = (CurrentFrame + 1) % frames.Count;
+                CurrentFrame = (CurrentFrame + 1) % _frames.Count;
                 // Set object´s source rectangle to this frame´s source rectangle
-                sourceRectangle = frames[CurrentFrame].sourceRectangle;
+                sourceRectangle = _frames[CurrentFrame].SourceRectangle;
                 // Set object´s origin this frame´s origin
-                origin = frames[CurrentFrame].origin;
+                origin = _frames[CurrentFrame].Origin;
                 // Reset time elapsed
                 _timeForCurrentFrame = 0;
             }
@@ -176,15 +150,15 @@ namespace SoulWarriors
         public void SetToFrame(ref Rectangle sourceRectangle, int frameToSet)
         {
             // Set animation to first frame
-            CurrentFrame = frameToSet % frames.Count;
+            CurrentFrame = frameToSet % _frames.Count;
             // Set sourceRectangle to the first frame
-            sourceRectangle = frames[CurrentFrame].sourceRectangle;
+            sourceRectangle = _frames[CurrentFrame].SourceRectangle;
             // Reset time elapsed
             _timeForCurrentFrame = 0;
         }
 
         /// <summary>
-        /// Resets animation
+        /// Resets animation to the 0:th frame
         /// </summary>
         public void Reset()
         {
@@ -195,4 +169,67 @@ namespace SoulWarriors
 
         }
     }
-}    
+
+    /// <summary>
+    /// Handles a set of animations and character animation with them
+    /// </summary>
+    public class AnimationSet
+    {
+        private readonly List<Animation> Animations;
+
+        public AnimationDirections AnimationDirection;
+        public AnimationStates AnimationState;
+
+        /// <summary>
+        /// Returns the animation dependent on state and direction
+        /// </summary>
+        public Animation CurrentAnimation
+        {
+            get
+            {
+                string identifier = (AnimationState.ToString() + AnimationDirection.ToString());
+                foreach (Animation animation in Animations)
+                {
+                    if (animation.AnimationName.Equals(identifier))
+                    {
+                        return animation;
+                    }
+                }
+
+                throw new ArgumentException();
+            }
+        }
+
+        /// <summary>
+        /// Instantiates a new AnimationSet with a list of animations and initial state and direction
+        /// </summary>
+        /// <param name="animations"></param>
+        /// <param name="animationState"></param>
+        /// <param name="initialDirection"></param>
+        public AnimationSet(List<Animation> animations, AnimationStates animationState, AnimationDirections initialDirection)
+        {
+            Animations = animations;
+            AnimationState = animationState;
+            AnimationDirection = initialDirection;
+        }
+
+        /// <summary>
+        /// Animate the current animation
+        /// </summary>
+        /// <param name="sourceRectangle"></param>
+        /// <param name="origin"></param>
+        /// <param name="gameTime">Time since last update</param>
+        public void UpdateAnimation(ref Rectangle sourceRectangle, ref Vector2 origin, GameTime gameTime)
+        {
+            // Animate CurrentAnimation
+            CurrentAnimation.Animate(ref sourceRectangle, ref origin, gameTime);
+
+            // Reset all other animations except from the CurrentAnimation
+            foreach (Animation animation in Animations)
+            {
+                if (ReferenceEquals(animation, CurrentAnimation)) { return; }
+                animation.Reset();
+            }
+        }
+    }
+}

@@ -54,7 +54,6 @@ namespace SoulWarriors
 
             this.IsMouseVisible = true;
             
-            InGame.Initialize(GraphicsDevice);
             HighScore.Initilize();
 
             base.Initialize();
@@ -69,7 +68,7 @@ namespace SoulWarriors
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            InGame.LoadContent(Content);
+            InGame.LoadContent(Content, GraphicsDevice.Viewport);
             Main.LoadContent(Content, GraphicsDevice.Viewport);
             HighScore.LoadContent(Content, GraphicsDevice.Viewport);
 #if DEBUG

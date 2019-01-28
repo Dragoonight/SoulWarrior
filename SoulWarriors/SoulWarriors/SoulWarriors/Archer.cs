@@ -14,18 +14,13 @@ namespace SoulWarriors
 {
     public class Archer : Player
     {
-        public List<Arrow> arrows = new List<Arrow>(8);
-        private Texture2D arrowTexture;
+        public List<Arrow> arrows = new List<Arrow>();
+        private Texture2D _arrowTexture;
 
-        public Archer() 
-            : base(new Vector2(500f), new PlayerControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space, Keys.LeftAlt, Keys.X, Keys.C), new List<Animation>())
+        public Archer(Texture2D texture, Texture2D arrowTexture, List<Animation> animations) 
+            : base(texture, new Vector2(500f), new PlayerControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space, Keys.LeftAlt, Keys.X, Keys.C), animations)
         {
-        }
-
-        public void LoadContent(ContentManager content)
-        {
-            CollidableObject = new CollidableObject(content.Load<Texture2D>(@"Textures/ArcherSpriteSheet"), SpawnPosition, new Rectangle(0,0,100,100), 0f);
-            arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+            _arrowTexture = arrowTexture;
         }
 
         public override void Update(GameTime gameTime)
@@ -60,10 +55,10 @@ namespace SoulWarriors
                     arrows.RemoveAt(arrowsToBeRemoved[index]);
                 }
             }
-            catch (Exception)
-            {
-                // ignore exception
-            }
+            //catch (Exception)
+            //{
+            //    // ignore exception
+            //}
             finally
             {
                 // Always clear arrowsToBeRemoved
@@ -77,7 +72,7 @@ namespace SoulWarriors
         /// </summary>
         protected override void Action1()
         {
-            arrows.Add(new Arrow(arrowTexture, CollidableObject.Position, InGame.MousePos, 0.3f, InGame.PlayArea));
+            arrows.Add(new Arrow(_arrowTexture, CollidableObject.Position, InGame.MousePos, 0.3f, InGame.PlayArea));
         }
         protected override void Action2()
         {

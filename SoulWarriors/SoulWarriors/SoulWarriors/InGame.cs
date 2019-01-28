@@ -15,11 +15,10 @@ namespace SoulWarriors
     public static class InGame
     {
         // Players
-        public static Archer Archer = new Archer();
-        public static Knight Knight = new Knight();
+        public static Archer Archer;
+        public static Knight Knight;
 
-        // Enemies
-        public static Goblin Goblin = new Goblin();
+        public static List<Enemy> Enemies;
 
         public static Camera2D Camera;
 
@@ -57,21 +56,53 @@ namespace SoulWarriors
             }
         }
 
-        public static void Initialize(GraphicsDevice graphicsDevice)
-        {
-            Camera = new Camera2D(graphicsDevice.Viewport);
-        }
 
-        public static void LoadContent(ContentManager content)
+        public static void LoadContent(ContentManager content, Viewport viewport)
         {
+            Camera = new Camera2D(viewport);
+
             _backgroundTexture = content.Load<Texture2D>(@"Textures/WorldBackground");
+
+            LoadPlayers(content);
+            LoadEnemies(content);
+
             Chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
 
             mousepostest = content.Load<Texture2D>(@"Textures/Chain");
+        }
 
-            Archer.LoadContent(content);
-            Knight.LoadContent(content);
+        private static void LoadPlayers(ContentManager content)
+        {
+            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+            List<Animation> archerAnimations = new List<Animation>()
+            {
+                new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(0,0,100,100), Int32.MaxValue)
+                })
+            };
+
+            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+
+            Archer = new Archer(archerTexture, arrowTexture, archerAnimations);
+
+            Texture2D knightTexture = content.Load<Texture2D>(@"Textures/KnightSpriteSheet");
+            List<Animation> knightAnimations = new List<Animation>()
+            {
+                new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(0,0,100,100), Int32.MaxValue)
+                })
+            };
+
+            Knight = new Knight(knightTexture, knightAnimations);
+        }
+
+        private static void LoadEnemies(ContentManager content)
+        {
+            Enemies = new List<Enemy>();
             Goblin.LoadContent(content);
+            Enemies.Add(new Goblin());
         }
 
         public static void Update(GameTime gameTime)
@@ -79,10 +110,13 @@ namespace SoulWarriors
             // Update players
             Archer.Update(gameTime);
             Knight.Update(gameTime);
-
-            Goblin.Update(gameTime);
             UpdateChainAndCamera();
             ClampMouse();
+
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.Update(gameTime);
+            }
         }
 
         private static void UpdateChainAndCamera()
@@ -134,7 +168,10 @@ namespace SoulWarriors
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
             // Draw Enemies
-            Goblin.Draw(spriteBatch);
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
             spriteBatch.End();
             // Draw chain between players
             Chain.Draw(spriteBatch);
@@ -154,7 +191,7 @@ namespace SoulWarriors
             // Draw UI
 #if DEBUG
             spriteBatch.DrawString(Game1.DebugFont,
-                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n AniIdentifier:{AnimationsStates.Idle.ToString() + AnimationDirections.Down.ToString()} Arrows:{Archer.arrows.Count}",
+                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n AniIdentifier:{AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString()} Arrows:{Archer.arrows.Count}",
                 Vector2.Zero,
                 Color.White);
 #endif

@@ -37,49 +37,34 @@ namespace SoulWarriors
 
     public class Player
     {
-        private static KeyboardState currentKeyboardState;
-        private static readonly float MaxChainLength = 640f; // TODO: Change MaxChainLength name to a more descriptive one
+        private static KeyboardState _currentKeyboardState;
+        private const float MaxChainLength = 640f; // TODO: Give MaxChainLength a more descriptive name
 
-        protected readonly Vector2 SpawnPosition;
         private readonly PlayerControlScheme _controlScheme;
+        private AnimationSet _animationSet;
+
         public CollidableObject CollidableObject;
-        protected List<Animation> Animations;
 
         /// <summary>
         /// movement speed in pixels per millisecond
         /// </summary>
         private float speed = .2f;
 
-        private AnimationDirections _animationDirection = AnimationDirections.Down;
-        private AnimationsStates _animationState = AnimationsStates.Idle;
-
-        private Animation CurrentAnimation
+        protected Player(Texture2D texture, Vector2 spawnPosition, PlayerControlScheme controlScheme, List<Animation> animations)
         {
-            get
-            {
-                string identifier = (_animationState.ToString() + _animationDirection.ToString());
-                foreach (Animation animation in Animations)
-                {
-                    if (animation.AnimationType.ToString().Equals(identifier))
-                    {
-                        return animation;
-                    }
-                }
-                throw new ArgumentException();
-            }
-        }
-
-        protected Player(Vector2 spawnPosition, PlayerControlScheme controlScheme, List<Animation> animations)
-        {
-            SpawnPosition = spawnPosition;
             _controlScheme = controlScheme;
-            Animations = animations;
+            _animationSet = new AnimationSet(animations, AnimationStates.Idle, AnimationDirections.Down);
+
+            Rectangle initialSourceRectangle = Rectangle.Empty;
+            // Set initialSourceRectangle to the first frame in the first animation
+            animations[0].SetToFrame(ref initialSourceRectangle, 0);
+            CollidableObject = new CollidableObject(texture, spawnPosition, initialSourceRectangle, 0f);
         }
 
         public virtual void Update(GameTime gameTime)
         {
             GetInput(gameTime);
-            //UpdateAnimation(gameTime);
+            _animationSet.UpdateAnimation(ref CollidableObject.SourceRectangle, ref CollidableObject.origin, gameTime);
         }
         
         private void GetInput(GameTime gameTime)
@@ -91,43 +76,43 @@ namespace SoulWarriors
         private void GetMovement(GameTime gameTime)
         {
             // Update keyboard state
-            currentKeyboardState = Keyboard.GetState();
+            _currentKeyboardState = Keyboard.GetState();
             // Reset displacement
             Vector2 displacement = Vector2.Zero;
 
             // Get input
-            if (currentKeyboardState.IsKeyDown(_controlScheme.MoveUp))
+            if (_currentKeyboardState.IsKeyDown(_controlScheme.MoveUp))
             {
                 displacement.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
-                _animationDirection = AnimationDirections.Up;
+                //_animationSet.AnimationDirection = AnimationDirections.Up;
             }
 
-            if (currentKeyboardState.IsKeyDown(_controlScheme.MoveLeft))
+            if (_currentKeyboardState.IsKeyDown(_controlScheme.MoveLeft))
             {
                 displacement.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
-                _animationDirection = AnimationDirections.Left;
+                //_animationSet.AnimationDirection = AnimationDirections.Left;
             }
 
-            if (currentKeyboardState.IsKeyDown(_controlScheme.MoveRight))
+            if (_currentKeyboardState.IsKeyDown(_controlScheme.MoveRight))
             {
                 displacement.X += speed * gameTime.ElapsedGameTime.Milliseconds;
-                _animationDirection = AnimationDirections.Right;
+                //_animationSet.AnimationDirection = AnimationDirections.Right;
             }
 
-            if (currentKeyboardState.IsKeyDown(_controlScheme.MoveDown))
+            if (_currentKeyboardState.IsKeyDown(_controlScheme.MoveDown))
             {
                 displacement.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
-                _animationDirection = AnimationDirections.Down;
+                //_animationSet.AnimationDirection = AnimationDirections.Down;
             }
 
             // if nothing happened set _animationState to Idle and return.
             if (displacement == Vector2.Zero)
             {
-                _animationState = AnimationsStates.Idle;
+                _animationSet.AnimationState = AnimationStates.Idle;
                 return;
             }
             // if something happened set _animationState to Walk
-            _animationState = AnimationsStates.Walk;
+            //_animationSet.AnimationState = AnimationStates.Walk;
 
             // Limit distance from other player
             // If the new distance is greater than MaxChainLength
@@ -154,33 +139,33 @@ namespace SoulWarriors
 
         private void GetActions()
         {
-            if (currentKeyboardState.IsKeyDown(_controlScheme.Action1))
+            if (_currentKeyboardState.IsKeyDown(_controlScheme.Action1))
             {
                 Action1();
                 // Overwrite the previous animation state (Walk) with Action1
-                _animationState = AnimationsStates.Action1;
+                //_animationSet.AnimationState = AnimationStates.Action1;
+                // Return so the player does not make any other move
                 return;
             }
-            if (currentKeyboardState.IsKeyDown(_controlScheme.Action2))
+            if (_currentKeyboardState.IsKeyDown(_controlScheme.Action2))
             {
                 Action2();
-                _animationState = AnimationsStates.Action2;
+                //_animationSet.AnimationState = AnimationStates.Action2;
                 return;
             }
-            if (currentKeyboardState.IsKeyDown(_controlScheme.Action3))
+            if (_currentKeyboardState.IsKeyDown(_controlScheme.Action3))
             {
                 Action3();
-                _animationState = AnimationsStates.Action3;
+                //_animationSet.AnimationState = AnimationStates.Action3;
                 return;
             }
-            if (currentKeyboardState.IsKeyDown(_controlScheme.Action4))
+            if (_currentKeyboardState.IsKeyDown(_controlScheme.Action4))
             {
                 Action4();
-                _animationState = AnimationsStates.Action4;
+                //_animationSet.AnimationState = AnimationStates.Action4;
                 return;
             }
-            
-            _animationState = AnimationsStates.Idle;
+            // If no action and no movement was made AnimationState will remain Idle
         }
 
         protected virtual void Action1()
@@ -197,18 +182,6 @@ namespace SoulWarriors
 
         protected virtual void Action4()
         {
-        }
-
-        private void UpdateAnimation(GameTime gameTime)
-        {
-            CurrentAnimation.Animate(ref CollidableObject.SourceRectangle, ref CollidableObject.origin, gameTime);
-
-            // Reset all other animations except from the CurrentAnimation
-            foreach (Animation animation in Animations)
-            {
-                if (ReferenceEquals(animation, CurrentAnimation)) { return; }
-                animation.Reset();
-            }
         }
 
         /// <summary>
