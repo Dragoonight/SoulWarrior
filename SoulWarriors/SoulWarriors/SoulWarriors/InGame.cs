@@ -14,13 +14,20 @@ namespace SoulWarriors
 {
     public static class InGame
     {
+        // Players
         public static Archer Archer = new Archer();
         public static Knight Knight = new Knight();
+
+        // Enemies
+        public static Goblin Goblin = new Goblin();
 
         public static Camera2D Camera;
 
         public static Chain Chain;
         private static Texture2D _backgroundTexture;
+        
+        private static Random random = new Random();
+        
 
         public static Vector2 MousePos => new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 
@@ -64,6 +71,7 @@ namespace SoulWarriors
 
             Archer.LoadContent(content);
             Knight.LoadContent(content);
+            Goblin.LoadContent(content);
         }
 
         public static void Update(GameTime gameTime)
@@ -72,6 +80,7 @@ namespace SoulWarriors
             Archer.Update(gameTime);
             Knight.Update(gameTime);
 
+            Goblin.Update(gameTime);
             UpdateChainAndCamera();
             ClampMouse();
         }
@@ -125,6 +134,7 @@ namespace SoulWarriors
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
             // Draw Enemies
+            Goblin.Draw(spriteBatch);
             spriteBatch.End();
             // Draw chain between players
             Chain.Draw(spriteBatch);
@@ -148,6 +158,7 @@ namespace SoulWarriors
                 Vector2.Zero,
                 Color.White);
 #endif
+
             spriteBatch.End();
         }
     }
