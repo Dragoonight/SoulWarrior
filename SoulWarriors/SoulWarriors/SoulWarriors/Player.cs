@@ -41,7 +41,7 @@ namespace SoulWarriors
         private const float MaxChainLength = 640f; // TODO: Give MaxChainLength a more descriptive name
 
         private readonly PlayerControlScheme _controlScheme;
-        private AnimationSet _animationSet;
+        public readonly AnimationSet _animationSet;
 
         public CollidableObject CollidableObject;
 

@@ -30,7 +30,6 @@ namespace SoulWarriors
 
         public static Vector2 MousePos => new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 
-        public static Vector2 WorldMousePos => Vector2.Transform(MousePos, Camera.TransformMatrix); 
 #if DEBUG
         public static Texture2D mousepostest;
 #endif
@@ -191,7 +190,7 @@ namespace SoulWarriors
             // Draw UI
 #if DEBUG
             spriteBatch.DrawString(Game1.DebugFont,
-                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n AniIdentifier:{AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString()} Arrows:{Archer.arrows.Count}",
+                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}  Arrows:{Archer.arrows.Count}",
                 Vector2.Zero,
                 Color.White);
 #endif

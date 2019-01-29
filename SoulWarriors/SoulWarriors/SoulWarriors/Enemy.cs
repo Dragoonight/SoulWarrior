@@ -55,12 +55,13 @@ namespace SoulWarriors
         /// <summary>
         /// movement speed in pixels per millisecond
         /// </summary>
-        protected float speed = .2f;
+        protected float speed;
 
-        protected Enemy(Texture2D texture, Vector2 spawnPosition, AiTypes aiType)
+        protected Enemy(Texture2D texture, Vector2 spawnPosition, AiTypes aiType, float speed)
         {
             CollidableObject = new CollidableObject(texture, spawnPosition, new Rectangle(0, 0, 100, 100), 0f);
             _aiType = aiType;
+            this.speed = speed;
             // Set initial targets
             switch (aiType)
             {
@@ -289,18 +290,5 @@ namespace SoulWarriors
                 0);
 
         }
-
-        // Key Rectangles/Areas (Spawn and target)
-
-
-
-        // Go directly for the door
-
-
-
-        // Mainly attack player (check who is closed to the enemy)
-
-
-        // Go for door, attack player if near by (Check which circle is colliding first)
     }
 }

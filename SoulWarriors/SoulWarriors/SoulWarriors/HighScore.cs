@@ -53,10 +53,19 @@ namespace SoulWarriors
     
     public static class HighScore
     {
+        private enum ShowScoreStates
+        {
+            Campaing,
+            Endless
+        }
+
+        private static ShowScoreStates showScoreState = ShowScoreStates.Campaing;
+
         private static Menu menu;
+        private static Viewport _viewport;
         private static SpriteFont scoreFont;
 
-        private static readonly string FileName = "save.dat";
+        private const string FileName = "save.dat";
 
         private static SaveData currentData;
 
@@ -86,22 +95,22 @@ namespace SoulWarriors
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
                         () => Game1.CurrentGameState = Game1.GameState.MainMenu),
-
+                    // Show camping scores
                     new Button(new Point(0,1),
                         new Rectangle(100, 400, 100, 50),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        Console.Beep),
-
+                        () => showScoreState = ShowScoreStates.Campaing),
+                    // Show Endless scores
                     new Button(new Point(0,2),
                         new Rectangle(100, 500, 100, 50),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        Console.Beep),
+                        () => showScoreState = ShowScoreStates.Endless),
                 },
                 new MenuControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Enter),
                 viewport);
-
+            _viewport = viewport;
             scoreFont = content.Load<SpriteFont>(@"Fonts/DebugFont"); // TODO: Add high score font
         }
 
@@ -188,13 +197,15 @@ namespace SoulWarriors
 
             spriteBatch.Begin();
 
+            spriteBatch.DrawString(scoreFont, showScoreState == ShowScoreStates.Campaing ? "Campaing High Scores" : "Endless High Scores", new Vector2(_viewport.Width / 2f, _viewport.Height / 10f), Color.Black);
+
             // Draw score
             for (int i = 0; i < currentData.CampaingScores.Count; i++ )
             {
                 // Draw Name
-                spriteBatch.DrawString(scoreFont, currentData.CampaingScores[i].name, new Vector2(200, i * 60 + 120), Color.White);
+                spriteBatch.DrawString(scoreFont, showScoreState == ShowScoreStates.Campaing ? currentData.CampaingScores[i].name : currentData.EndlessScores[i].name, new Vector2(_viewport.Width / 2f - 100, i * 60 + 180), Color.Black);
                 // Draw score
-                spriteBatch.DrawString(scoreFont, currentData.CampaingScores[i].score.ToString(), new Vector2(800, i * 60 + 120), Color.White);
+                spriteBatch.DrawString(scoreFont, showScoreState == ShowScoreStates.Campaing ? currentData.CampaingScores[i].score.ToString() : currentData.EndlessScores[i].score.ToString(), new Vector2(_viewport.Width / 2f + 100, i * 60 + 180), Color.Black);
             }
             spriteBatch.End();
         }

@@ -15,10 +15,10 @@ namespace SoulWarriors
         private static Texture2D texture;
         private static List<Animation> animations;
 
-        public Goblin(Vector2 spawnPosition) : base(texture, spawnPosition, AiTypes.Smart)
+        public Goblin(Vector2 spawnPosition) : base(texture, spawnPosition, AiTypes.Smart, 0.2f)
         {
         }
-
+         
         public static void LoadContent(ContentManager content)
         {
             // Load goblin texture
