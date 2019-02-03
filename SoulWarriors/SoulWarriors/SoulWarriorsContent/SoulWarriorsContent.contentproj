@@ -44,11 +44,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\ArcherSpriteSheet.png">
-      <Name>ArcherSpriteSheet</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Textures\KnightSpriteSheet.png">
       <Name>KnightSpriteSheet</Name>
       <Importer>TextureImporter</Importer>
@@ -99,6 +94,18 @@
   <ItemGroup>
     <Compile Include="Textures\Menu\Menu1_button0.png">
       <Name>Menu1_button0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\ArcherSpriteBatch.png">
+      <Name>ArcherSpriteBatch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\KnightSpriteBatch.png">
+      <Name>KnightSpriteBatch</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

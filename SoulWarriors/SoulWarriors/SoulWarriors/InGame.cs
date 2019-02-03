@@ -72,20 +72,47 @@ namespace SoulWarriors
 
         private static void LoadPlayers(ContentManager content)
         {
-            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteBatch");
             List<Animation> archerAnimations = new List<Animation>()
             {
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,0,100,100), Int32.MaxValue)
+                    new Frame(new Rectangle(1,1,13,24), new Vector2(8,25), 100),
+                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(8, 25), 100),
+                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(8, 25), 100)               
+                }),
+
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,104,13,34), new Vector2(8,25), 10),
+                    new Frame(new Rectangle(16, 104, 13, 24 ), new Vector2(8,25), 10),
+                    new Frame(new Rectangle(31, 104, 13, 24 ), new Vector2(8,25), 10),
+                    new Frame(new Rectangle(46, 104, 13, 24 ), new Vector2(8,25), 10)
+                }),
+
+                new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(0,0,100,100), new Vector2(0,0), Int32.MaxValue),
+                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue),
+                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue),
+                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue)
+                }),
+
+                new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(0,0,100,100), new Vector2(0,0), Int32.MaxValue),
+                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue),
+                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue),
+                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue)
                 })
+
             };
 
-            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteBatch");
 
             Archer = new Archer(archerTexture, arrowTexture, archerAnimations);
 
-            Texture2D knightTexture = content.Load<Texture2D>(@"Textures/KnightSpriteSheet");
+            Texture2D knightTexture = content.Load<Texture2D>(@"Textures/KnightSpriteBatch");
             List<Animation> knightAnimations = new List<Animation>()
             {
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
