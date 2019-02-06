@@ -36,7 +36,7 @@ namespace SoulWarriors
         Rush
     }
 
-    public class Enemy
+    public abstract class Enemy
     {
 
         public CollidableObject CollidableObject;

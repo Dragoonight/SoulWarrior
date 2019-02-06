@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 // Created by Alexander 11-21
 namespace SoulWarriors
 {
-    public class Arrow
+    public class Projectile
     {
         private readonly CollidableObject _collidableObject;
         private readonly float _velocity;
@@ -18,14 +18,14 @@ namespace SoulWarriors
         public bool Active;
 
         /// <summary>
-        /// Creates a new Arrow
+        /// Creates a new Projectile
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="position">The spawn position of the object</param>
         /// <param name="velocity"></param>
         /// <param name="rotation"></param>
         /// <param name="bounds">Play area bounds for where the arrow can be</param>
-        public Arrow(Texture2D texture, Vector2 position, float velocity, float rotation, Rectangle bounds)
+        public Projectile(Texture2D texture, Vector2 position, float velocity, float rotation, Rectangle bounds)
         {
             // Create a new collidableobject
             _collidableObject = new CollidableObject(texture, position) {Rotation = rotation};
@@ -37,7 +37,7 @@ namespace SoulWarriors
             Active = true;
         }
 
-        public Arrow(Texture2D texture, Vector2 from, Vector2 to, float velocity, Rectangle bounds)
+        public Projectile(Texture2D texture, Vector2 from, Vector2 to, float velocity, Rectangle bounds)
         {
             _direction = Vector2.Normalize(new Vector2(to.X - from.X, to.Y - from.Y));
             _collidableObject = new CollidableObject(texture, from) {Rotation = (float)Math.Atan(_direction.Y / _direction.X)};
@@ -53,17 +53,21 @@ namespace SoulWarriors
         {
             // If this arrow is not active, return.
             if (!Active) return;
-            // If Arrow is outside of bounds
+            // If Projectile is outside of bounds
             if (!_bounds.Contains(_collidableObject.BoundingRectangle))
             {
-                // Remove Arrow from list
+                // Remove Projectile from list
                 Active = false;
                 return;
             }
+
             // Update position
             _collidableObject.Position += _direction * _velocity * gameTime.ElapsedGameTime.Milliseconds;
             // Check collision TODO: Add collision
-
+            foreach (Enemy enemy in InGame.Enemies)
+            {
+                enemy.CollidableObject.IsColliding(_collidableObject);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

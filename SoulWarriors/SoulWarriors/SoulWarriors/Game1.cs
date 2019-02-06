@@ -37,6 +37,7 @@ namespace SoulWarriors
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsFixedTimeStep = false;
         }
 
         /// <summary>

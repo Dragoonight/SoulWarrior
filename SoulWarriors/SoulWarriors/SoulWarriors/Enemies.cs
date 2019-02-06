@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SoulWarriors
 {
-    public class Goblin : Enemy
+    public sealed class Goblin : Enemy
     {
         private static Texture2D texture;
         private static List<Animation> animations;

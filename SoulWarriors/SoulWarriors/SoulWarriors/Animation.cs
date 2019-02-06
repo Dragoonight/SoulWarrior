@@ -35,7 +35,7 @@ namespace SoulWarriors
             this.FrameTime = frameTime;
         }
     }
-    
+    // When craeting animations it goes in order of AnimationStates + AnimationDirections
     public enum AnimationStates
     {
         Idle, Walk, Action1, Action2, Action3, Action4

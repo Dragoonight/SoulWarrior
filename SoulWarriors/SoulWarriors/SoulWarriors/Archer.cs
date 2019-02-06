@@ -14,7 +14,7 @@ namespace SoulWarriors
 {
     public class Archer : Player
     {
-        public List<Arrow> arrows = new List<Arrow>();
+        public List<Projectile> arrows = new List<Projectile>();
         private Texture2D _arrowTexture;
 
         public Archer(Texture2D texture, Texture2D arrowTexture, List<Animation> animations) 
@@ -55,10 +55,6 @@ namespace SoulWarriors
                     arrows.RemoveAt(arrowsToBeRemoved[index]);
                 }
             }
-            //catch (Exception)
-            //{
-            //    // ignore exception
-            //}
             finally
             {
                 // Always clear arrowsToBeRemoved
@@ -72,7 +68,7 @@ namespace SoulWarriors
         /// </summary>
         protected override void Action1()
         {
-            arrows.Add(new Arrow(_arrowTexture, CollidableObject.Position, InGame.MousePos, 0.3f, InGame.PlayArea));
+                arrows.Add(new Projectile(_arrowTexture, CollidableObject.Position, InGame.MousePos, 0.3f, InGame.PlayArea));
         }
         protected override void Action2()
         {
@@ -88,7 +84,7 @@ namespace SoulWarriors
         {
             base.Draw(spriteBatch);
 
-            foreach (Arrow arrow in arrows)
+            foreach (Projectile arrow in arrows)
             {
                 arrow.Draw(spriteBatch);
             }

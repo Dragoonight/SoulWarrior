@@ -35,7 +35,7 @@ namespace SoulWarriors
         }
     }
 
-    public class Player
+    public abstract class Player
     {
         private static KeyboardState _currentKeyboardState;
         private const float MaxChainLength = 640f; // TODO: Give MaxChainLength a more descriptive name

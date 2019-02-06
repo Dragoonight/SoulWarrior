@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
@@ -72,17 +71,19 @@ namespace SoulWarriors
 
         private static void LoadPlayers(ContentManager content)
         {
+            // Load archer spritesheet
             Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+            // Load archer animations
             List<Animation> archerAnimations = new List<Animation>()
             {
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,0,100,100), Int32.MaxValue)
+                    new Frame(new Rectangle(0,0,100,100), new Vector2(0,0), Int32.MaxValue)
                 })
             };
-
+            // Load arrow Texture
             Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
-
+            // Create archer with archer sprite sheet, arrow texture and archer 
             Archer = new Archer(archerTexture, arrowTexture, archerAnimations);
 
             Texture2D knightTexture = content.Load<Texture2D>(@"Textures/KnightSpriteSheet");
@@ -106,9 +107,13 @@ namespace SoulWarriors
 
         public static void Update(GameTime gameTime)
         {
+            Task[] tasks = new Task[2];
+            tasks[0] = new Task((() => Archer.Update(gameTime)));
+            tasks[1] = new Task((() => Knight.Update(gameTime)));
             // Update players
-            Archer.Update(gameTime);
-            Knight.Update(gameTime);
+            tasks[0].Start();
+            tasks[1].Start();
+            Task.WaitAll(tasks, 1000);
             UpdateChainAndCamera();
             ClampMouse();
 
