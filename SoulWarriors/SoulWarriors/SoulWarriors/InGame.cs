@@ -72,7 +72,7 @@ namespace SoulWarriors
 
         private static void LoadPlayers(ContentManager content)
         {
-            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSheet");
+            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
             List<Animation> archerAnimations = new List<Animation>()
             {
                 
@@ -91,7 +91,7 @@ namespace SoulWarriors
 
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,53,15,24), new Vector2(11,20), 100),
+                    new Frame(new Rectangle(1,53,15,24), new Vector2(11,21), 100),
                     new Frame(new Rectangle(18, 53, 15,24 ), new Vector2(11, 21), 100),
                     new Frame(new Rectangle(35, 53, 15,24 ), new Vector2(11,21), 100),
                 }),
@@ -127,24 +127,24 @@ namespace SoulWarriors
 
                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,155,15,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16,155,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(31,155,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(46,155,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(61,155,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(76,155,14,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(91,155,15,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(1,155,15,24), new Vector2(11,21), 100),
+                    new Frame(new Rectangle(18,155,15,24), new Vector2(11,21), 100),
+                    new Frame(new Rectangle(35,155,15,24), new Vector2(11,21), 100),
+                    new Frame(new Rectangle(52,155,15,24), new Vector2(11,21), 100),
+                    new Frame(new Rectangle(69,155,15,24), new Vector2(11,21), 100),
+                    new Frame(new Rectangle(86,155,16,24), new Vector2(11,21), 100),
+                    new Frame(new Rectangle(104,155,17,24), new Vector2(11,21), 100),
                 }),
 
                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,180,15,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16,180,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(31,180,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(46,180,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(61,180,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(76,180,14,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(91,180,15,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(1,180,15,24), new Vector2(5,20), 100),
+                    new Frame(new Rectangle(18,180,15,24), new Vector2(5,20), 100),
+                    new Frame(new Rectangle(35,180,15,24), new Vector2(5,20), 100),
+                    new Frame(new Rectangle(52,180,15,24), new Vector2(5,20), 100),
+                    new Frame(new Rectangle(69,180,15,24), new Vector2(5,20), 100),
+                    new Frame(new Rectangle(86,180,16,24), new Vector2(5,20), 100),
+                    new Frame(new Rectangle(104,180,17,24), new Vector2(5,20), 100),
                 })
 
             };

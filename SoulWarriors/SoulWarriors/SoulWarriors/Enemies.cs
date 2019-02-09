@@ -22,7 +22,7 @@ namespace SoulWarriors
         public static void LoadContent(ContentManager content)
         {
             // Load goblin texture
-            texture = content.Load<Texture2D>(@"Textures/ArcherSpriteBatch");
+            texture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
             animations = new List<Animation>()
             {
                 new Animation("IdleDown", new List<Frame>() { new Frame(Rectangle.Empty, Int32.MaxValue)})

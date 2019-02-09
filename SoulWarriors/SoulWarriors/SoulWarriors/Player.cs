@@ -84,25 +84,25 @@ namespace SoulWarriors
             if (_currentKeyboardState.IsKeyDown(_controlScheme.MoveUp))
             {
                 displacement.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
-                //_animationSet.AnimationDirection = AnimationDirections.Up;
+                _animationSet.AnimationDirection = AnimationDirections.Up;
             }
 
             if (_currentKeyboardState.IsKeyDown(_controlScheme.MoveLeft))
             {
                 displacement.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
-                //_animationSet.AnimationDirection = AnimationDirections.Left;
+                _animationSet.AnimationDirection = AnimationDirections.Left;
             }
 
             if (_currentKeyboardState.IsKeyDown(_controlScheme.MoveRight))
             {
                 displacement.X += speed * gameTime.ElapsedGameTime.Milliseconds;
-                //_animationSet.AnimationDirection = AnimationDirections.Right;
+                _animationSet.AnimationDirection = AnimationDirections.Right;
             }
 
             if (_currentKeyboardState.IsKeyDown(_controlScheme.MoveDown))
             {
                 displacement.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
-                //_animationSet.AnimationDirection = AnimationDirections.Down;
+                _animationSet.AnimationDirection = AnimationDirections.Down;
             }
 
             // if nothing happened set _animationState to Idle and return.
@@ -112,7 +112,7 @@ namespace SoulWarriors
                 return;
             }
             // if something happened set _animationState to Walk
-            //_animationSet.AnimationState = AnimationStates.Walk;
+            _animationSet.AnimationState = AnimationStates.Walk;
 
             // Limit distance from other player
             // If the new distance is greater than MaxChainLength
