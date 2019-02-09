@@ -72,53 +72,99 @@ namespace SoulWarriors
 
         private static void LoadPlayers(ContentManager content)
         {
-            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteBatch");
+            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSheet");
             List<Animation> archerAnimations = new List<Animation>()
             {
+                
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(8,25), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(8, 25), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(8, 25), 100)               
+                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)               
                 }),
-
-                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
+                new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,104,13,34), new Vector2(8,25), 10),
-                    new Frame(new Rectangle(16, 104, 13, 24 ), new Vector2(8,25), 10),
-                    new Frame(new Rectangle(31, 104, 13, 24 ), new Vector2(8,25), 10),
-                    new Frame(new Rectangle(46, 104, 13, 24 ), new Vector2(8,25), 10)
+                    new Frame(new Rectangle(1,27,13,24), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(16, 27, 13,24 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(31, 27, 13,24 ), new Vector2(7, 21), 100),
                 }),
 
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,0,100,100), new Vector2(0,0), Int32.MaxValue),
-                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue),
-                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue),
-                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue)
+                    new Frame(new Rectangle(1,53,15,24), new Vector2(11,20), 100),
+                    new Frame(new Rectangle(18, 53, 15,24 ), new Vector2(11, 21), 100),
+                    new Frame(new Rectangle(35, 53, 15,24 ), new Vector2(11,21), 100),
                 }),
 
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,0,100,100), new Vector2(0,0), Int32.MaxValue),
-                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue),
-                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue),
-                    new Frame(new Rectangle(0, 0, 0, 0 ), new Vector2(0, 0), Int32.MaxValue)
+                    new Frame(new Rectangle(1,53,15,24), new Vector2(5,20), 100),
+                    new Frame(new Rectangle(18, 53, 15,24 ), new Vector2(5, 20), 100),
+                    new Frame(new Rectangle(35, 53, 15,24 ), new Vector2(5, 20), 100),
+                }),
+
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,104,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(16,104,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(31,104,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(46,104,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(61,104,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(76,104,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(91,104,13,24), new Vector2(7,21), 100),
+                }),
+
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,129,13,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(16,129,13,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(31,129,13,26), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(46,129,13,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(61,129,13,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(76,129,13,26), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(91,129,13,25), new Vector2(7,21), 100),
+                }),
+
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,155,15,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(16,155,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(31,155,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(46,155,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(61,155,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(76,155,14,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(91,155,15,24), new Vector2(7,21), 100),
+                }),
+
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,180,15,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(16,180,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(31,180,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(46,180,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(61,180,13,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(76,180,14,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(91,180,15,24), new Vector2(7,21), 100),
                 })
 
             };
 
-            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteBatch");
+            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
 
             Archer = new Archer(archerTexture, arrowTexture, archerAnimations);
 
-            Texture2D knightTexture = content.Load<Texture2D>(@"Textures/KnightSpriteBatch");
+            Texture2D knightTexture = content.Load<Texture2D>(@"Textures/KnightSpriteSheet");
             List<Animation> knightAnimations = new List<Animation>()
             {
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,0,100,100), Int32.MaxValue)
-                })
+                    new Frame(new Rectangle(0,0,100,100), Int32.MaxValue),
+                    
+
+                }),
+
+                
+                
             };
 
             Knight = new Knight(knightTexture, knightAnimations);
