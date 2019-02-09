@@ -66,13 +66,13 @@ namespace SoulWarriors
             switch (aiType)
             {
                 case AiTypes.Brute:
-                    throw new NotImplementedException();
+                    SetTarget(Targets.Knight);
                     break;
                 case AiTypes.Smart:
                     SetTarget(Targets.Door);
                     break;
                 case AiTypes.Rush:
-                    throw new NotImplementedException();
+                    SetTarget(Targets.Door);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(aiType), aiType, null);
@@ -85,19 +85,56 @@ namespace SoulWarriors
             switch (_aiType)
             {
                 case AiTypes.Brute:
+                    UpdateBruteAi();
                     break;
                 case AiTypes.Smart:
                     UpdateSmartAi();
                     break;
                 case AiTypes.Rush:
+                    UpdateRushAi();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            UpdateSmartAi();
             MovementAi(gameTime);
         }
 
+
+        private void UpdateBruteAi()
+        {
+            // Get distances to Targets
+            float distanceToKnight = Vector2.Distance(CollidableObject.Position, InGame.Knight.CollidableObject.Position);
+            float distanceToArcher = Vector2.Distance(CollidableObject.Position, InGame.Archer.CollidableObject.Position);
+
+            attacking = false;
+
+            // If the knight is closer than the archer
+            if (distanceToKnight < distanceToArcher)
+            {
+                // Set target to knight
+                SetTarget(Targets.Knight);
+                // If Knight is within attacking range
+                if (distanceToKnight < attackingRange)
+                {
+                    attacking = true;
+                }
+                return;
+            }
+            // Else change to Archer
+            else
+            {
+                // Set target to Archer
+                SetTarget(Targets.Archer);
+                // If Archer is within attacking range
+                if (distanceToArcher < attackingRange)
+                {
+                    attacking = true;
+                }
+                return;
+            }
+
+
+        }
 
         private void UpdateSmartAi()
         {
@@ -144,6 +181,19 @@ namespace SoulWarriors
             // Else no players are within 150 units
             // Set target to Door
             SetTarget(Targets.Door);
+        }
+
+        private void UpdateRushAi()
+        {
+            float distanceToDoor = Vector2.Distance(CollidableObject.Position, new Vector2(960, 250));
+            attacking = false;
+
+            // If Door is within attacking range
+            if (distanceToDoor < attackingRange)
+            {
+                SetTarget(Targets.Door);
+                attacking = true;
+            }
         }
 
 
