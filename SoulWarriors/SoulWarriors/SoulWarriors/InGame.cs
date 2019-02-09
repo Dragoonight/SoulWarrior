@@ -107,13 +107,8 @@ namespace SoulWarriors
 
         public static void Update(GameTime gameTime)
         {
-            Task[] tasks = new Task[2];
-            tasks[0] = new Task((() => Archer.Update(gameTime)));
-            tasks[1] = new Task((() => Knight.Update(gameTime)));
-            // Update players
-            tasks[0].Start();
-            tasks[1].Start();
-            Task.WaitAll(tasks, 1000);
+            Archer.Update(gameTime);
+            Knight.Update(gameTime);
             UpdateChainAndCamera();
             ClampMouse();
 
