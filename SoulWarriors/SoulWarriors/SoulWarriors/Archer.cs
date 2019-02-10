@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -16,20 +17,21 @@ namespace SoulWarriors
     {
         public List<Projectile> arrows = new List<Projectile>();
         private Texture2D _arrowTexture;
-
+        public int ArcherHealth = 3;
+       
         public Archer(Texture2D texture, Texture2D arrowTexture, List<Animation> animations) 
             : base(texture, new Vector2(500f), new PlayerControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space, Keys.LeftAlt, Keys.X, Keys.C), animations)
         {
             _arrowTexture = arrowTexture;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)  
         {
             base.Update(gameTime);
             UpdateArrows(gameTime);
         }
 
-        private void UpdateArrows(GameTime gameTime)
+        private void UpdateArrows(GameTime gameTime) 
         {
             List<int> arrowsToBeRemoved = new List<int>();
             for (int i = 0; i < arrows.Count; i++)
