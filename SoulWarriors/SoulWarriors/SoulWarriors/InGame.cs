@@ -158,10 +158,78 @@ namespace SoulWarriors
             {
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,0,100,100), Int32.MaxValue),
-                    
+                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(17, 1, 15, 24 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(33, 1, 15, 24 ), new Vector2(7, 21), 100)
+                }),
+
+                new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,27,15,25), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(16, 27, 15,24 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(31, 27, 15,24 ), new Vector2(7, 21), 100),
+                }),
+
+                new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,53,13,25), new Vector2(11,21), 100),
+                    new Frame(new Rectangle(16, 53, 14,24 ), new Vector2(11, 21), 100),
+                    new Frame(new Rectangle(30, 53, 14,24 ), new Vector2(11,21), 100),
+                }),
+
+                new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,79,14,25), new Vector2(5,20), 100),
+                    new Frame(new Rectangle(16, 79, 14,24 ), new Vector2(5, 20), 100),
+                    new Frame(new Rectangle(31, 79, 14,24 ), new Vector2(5, 20), 100),
+                }),
+
+                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,106,15,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(17,106,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(33,106,15,23), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(49,106,15,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(65,106,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(81,106,15,23), new Vector2(7,21), 100),
 
                 }),
+
+                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,132,15,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(17,132,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(33,132,15,23), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(49,132,15,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(65,132,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(81,132,15,23), new Vector2(7,21), 100),
+
+                }),
+
+                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,157,14,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(16,157,14,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(31,157,14,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(46,157,14,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(61,157,14,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(76,157,15,24), new Vector2(7,21), 100),
+
+                }),
+
+                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,183,14,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(16,183,14,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(32,183,14,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(46,183,14,24), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(61,183,14,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(77,183,14,24), new Vector2(7,21), 100),
+
+                })
+
+
+                
 
                 
                 
