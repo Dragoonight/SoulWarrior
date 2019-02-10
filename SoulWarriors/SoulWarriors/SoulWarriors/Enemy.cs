@@ -13,6 +13,14 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SoulWarriors
 {
+
+    public enum SpawnAreas
+    {
+        Left,
+        Middle,
+        Right
+    }
+
     public enum Targets
     {
         Door,
@@ -49,6 +57,13 @@ namespace SoulWarriors
         private const float targetingRange = 150f;
         private const float attackingRange = 40f;
 
+        private Rectangle spawnLeft = new Rectangle(100, 300, 500, 700);
+        private Rectangle spawnMiddle = new Rectangle(700, 800, 1200, 1050);
+        private Rectangle spawnRight = new Rectangle(1600, 600, 1800, 800);
+        private Random random = new Random();
+        private int spawnX;
+        private int spawnY;
+
 
         protected bool attacking = false; // TODO: create a way to decide which direction to attack in.
 
@@ -57,9 +72,25 @@ namespace SoulWarriors
         /// </summary>
         protected float speed;
 
-        protected Enemy(Texture2D texture, Vector2 spawnPosition, AiTypes aiType, float speed)
+        protected Enemy(Texture2D texture, SpawnAreas spawnArea, AiTypes aiType, float speed)
         {
-            CollidableObject = new CollidableObject(texture, spawnPosition, new Rectangle(0, 0, 100, 100), 0f);
+            switch (spawnArea)
+            {
+                case SpawnAreas.Left:
+                    spawnX = random.Next(spawnLeft.X + texture.Width / 2, spawnLeft.Width - texture.Width / 2);
+                    spawnY = random.Next(spawnLeft.Y + texture.Height / 2, spawnLeft.Height - texture.Height / 2);
+                    break;
+                case SpawnAreas.Middle:
+                    spawnX = random.Next(spawnMiddle.X + texture.Width / 2, spawnMiddle.Width - texture.Width / 2);
+                    spawnY = random.Next(spawnMiddle.Y + texture.Height / 2, spawnMiddle.Height - texture.Height / 2);
+                    break;
+                case SpawnAreas.Right:
+                    spawnX = random.Next(spawnRight.X + texture.Width / 2, spawnRight.Width - texture.Width / 2);
+                    spawnY = random.Next(spawnRight.Y + texture.Height / 2, spawnRight.Height - texture.Height / 2);
+                    break;
+            }
+            
+            CollidableObject = new CollidableObject(texture, new Vector2(spawnX, spawnY), new Rectangle(0, 0, 100, 100), 0f);
             _aiType = aiType;
             this.speed = speed;
             // Set initial targets

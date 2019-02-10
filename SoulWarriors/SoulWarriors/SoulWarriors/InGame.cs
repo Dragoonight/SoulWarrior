@@ -102,7 +102,9 @@ namespace SoulWarriors
         {
             Enemies = new List<Enemy>();
             Goblin.LoadContent(content);
-            Enemies.Add(new Goblin(new Vector2(400f)));
+            Enemies.Add(new Goblin(SpawnAreas.Left));
+            Enemies.Add(new Goblin(SpawnAreas.Middle));
+            Enemies.Add(new Goblin(SpawnAreas.Right));
         }
 
         public static void Update(GameTime gameTime)
@@ -111,11 +113,19 @@ namespace SoulWarriors
             Knight.Update(gameTime);
             UpdateChainAndCamera();
             ClampMouse();
-
-            foreach (Enemy enemy in Enemies)
+#if DEBUG
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
-                enemy.Update(gameTime);
+                Enemies.Add(new Goblin(SpawnAreas.Left));
+                Enemies.Add(new Goblin(SpawnAreas.Middle));
+                Enemies.Add(new Goblin(SpawnAreas.Right));
             }
+            else
+#endif
+                foreach (Enemy enemy in Enemies)
+                {
+                    enemy.Update(gameTime);
+                }
         }
 
         private static void UpdateChainAndCamera()
