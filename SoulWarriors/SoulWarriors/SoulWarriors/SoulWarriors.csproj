@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Archer.cs" />
+    <Compile Include="Health.cs" />
     <Compile Include="IEnemyObjects.cs" />
     <Compile Include="IPlayerObjects.cs" />
     <Compile Include="Projectile.cs" />

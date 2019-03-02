@@ -8,7 +8,7 @@ namespace SoulWarriors
     interface IEnemyObjects
     {
         int Health { get; set; }
-    }
+     }
 
     class EnemyCharacters : IEnemyObjects
     {

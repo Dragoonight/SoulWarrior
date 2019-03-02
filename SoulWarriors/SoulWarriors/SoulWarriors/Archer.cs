@@ -17,7 +17,7 @@ namespace SoulWarriors
     {
         public List<Projectile> arrows = new List<Projectile>();
         private Texture2D _arrowTexture;
-        public int ArcherHealth = 3;
+       
        
         public Archer(Texture2D texture, Texture2D arrowTexture, List<Animation> animations) 
             : base(texture, new Vector2(500f), new PlayerControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space, Keys.LeftAlt, Keys.X, Keys.C), animations)

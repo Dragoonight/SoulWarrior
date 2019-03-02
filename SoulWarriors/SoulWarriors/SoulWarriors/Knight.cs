@@ -20,7 +20,6 @@ namespace SoulWarriors
             
         }
 
-        public int KnightHealth = 3;
-
+       
     }
 }
