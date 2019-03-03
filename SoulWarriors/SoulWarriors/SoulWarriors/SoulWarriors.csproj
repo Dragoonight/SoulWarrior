@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Archer.cs" />
-    <Compile Include="Health.cs" />
     <Compile Include="IEnemyObjects.cs" />
     <Compile Include="IPlayerObjects.cs" />
     <Compile Include="Projectile.cs" />
@@ -79,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="SoulMeter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -16,6 +16,8 @@ namespace SoulWarriors
         // Players
         public static Archer Archer;
         public static Knight Knight;
+       
+
 
         public static List<Enemy> Enemies;
 
@@ -96,6 +98,11 @@ namespace SoulWarriors
             };
 
             Knight = new Knight(knightTexture, knightAnimations);
+
+            Knight.heart = content.Load<Texture2D>(@"Textures/Heart");
+
+            Archer.heart = content.Load<Texture2D>(@"Textures/Heart");
+
         }
 
         private static void LoadEnemies(ContentManager content)
@@ -156,7 +163,10 @@ namespace SoulWarriors
                     // Max
                     new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
 
-        }
+         
+       
+
+    }
 
         private static void ClampMouse()
         {
@@ -174,8 +184,24 @@ namespace SoulWarriors
             // Here the drawings effected by the camera shall be put (Enemies, player, etc.)
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
 
+       
+
+
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
+
+            for (int i = Archer.lifes; i > 0; i--)
+            {
+                spriteBatch.Draw(Archer.heart, new Vector2
+                    (-50 + i * 75, 15), Color.White);
+            }
+
+            for (int i = Knight.lifes; i > 0; i--)
+            {
+                spriteBatch.Draw(Knight.heart, new Vector2
+                    (1600 + i * 75, 15), Color.White);
+            }
+
             // Draw Enemies
             foreach (Enemy enemy in Enemies)
             {
@@ -199,10 +225,10 @@ namespace SoulWarriors
             spriteBatch.Begin();
             // Draw UI
 #if DEBUG
-            spriteBatch.DrawString(Game1.DebugFont,
-                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}  Arrows:{Archer.arrows.Count}",
-                Vector2.Zero,
-                Color.White);
+            //spriteBatch.DrawString(Game1.DebugFont,
+            //    $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}  Arrows:{Archer.arrows.Count}",
+            //    Vector2.Zero,
+            //    Color.White);
 
            
 #endif

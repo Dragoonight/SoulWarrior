@@ -20,6 +20,10 @@ namespace SoulWarriors
             
         }
 
-       
+        //
+        public int lifes = 3;
+
+        public Texture2D heart;
+
     }
 }
