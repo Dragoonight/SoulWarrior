@@ -16,9 +16,6 @@ namespace SoulWarriors
 {
     class SoulMeter
     {
-        
-
-
         public Texture2D container, soulBar;
         public Vector2 position;
         private int fullSoul;
@@ -32,7 +29,7 @@ namespace SoulWarriors
 
         public SoulMeter(ContentManager content)
         {
-            position = new Vector2(100, 100);
+            position = new Vector2(780, 100);
             LoadContent(content);
             fullSoul = soulBar.Width;
             currentSoul = fullSoul;
@@ -40,8 +37,8 @@ namespace SoulWarriors
 
         public void LoadContent(ContentManager content)
         {
-            container = content.Load<Texture2D>(@"Container");
-            soulBar = content.Load<Texture2D>(@"Gauge");
+            container = content.Load<Texture2D>(@"Textures/Container");
+            soulBar = content.Load<Texture2D>(@"Textures/Gauge");
         }
 
         public void Update(GameTime gameTime)
@@ -77,7 +74,7 @@ namespace SoulWarriors
 
         public void SoulColor()
         {
-
+          
             if (currentSoul >= soulBar.Width * 0.75)
             {
                 barColor = Color.White;
@@ -93,7 +90,7 @@ namespace SoulWarriors
         }
         public void Draw(SpriteBatch spriteBatch)
         {         
-            spriteBatch.Draw(soulBar, new Rectangle((int)position.X + 3, (int)position.Y, currentSoul, soulBar.Height), barColor);
+            spriteBatch.Draw(soulBar, new Rectangle((int)position.X + 3, (int)position.Y, currentSoul, soulBar.Height), barColor * 0.5f);
             spriteBatch.Draw(container, position, Color.White);       
         }
     }

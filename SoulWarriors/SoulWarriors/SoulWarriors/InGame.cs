@@ -16,7 +16,7 @@ namespace SoulWarriors
         // Players
         public static Archer Archer;
         public static Knight Knight;
-       
+        private static SoulMeter soulBar;
 
 
         public static List<Enemy> Enemies;
@@ -103,6 +103,8 @@ namespace SoulWarriors
 
             Archer.heart = content.Load<Texture2D>(@"Textures/Heart");
 
+            soulBar = new SoulMeter(content);
+
         }
 
         private static void LoadEnemies(ContentManager content)
@@ -120,6 +122,7 @@ namespace SoulWarriors
             Knight.Update(gameTime);
             UpdateChainAndCamera();
             ClampMouse();
+            soulBar.Update(gameTime);
 #if DEBUG
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
@@ -163,6 +166,8 @@ namespace SoulWarriors
                     // Max
                     new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
 
+            
+
          
        
 
@@ -185,10 +190,12 @@ namespace SoulWarriors
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
 
        
-
+           
 
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
+
+            soulBar.Draw(spriteBatch);
 
             for (int i = Archer.lifes; i > 0; i--)
             {
