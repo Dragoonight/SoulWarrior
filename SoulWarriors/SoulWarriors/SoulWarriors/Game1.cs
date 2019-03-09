@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Shadows2D;
+using Ziggyware;
 
 namespace SoulWarriors
 {
@@ -26,6 +28,9 @@ namespace SoulWarriors
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        QuadRenderComponent quadRender;
+        ShadowmapResolver shadowmapResolver;
+
 
 #if DEBUG
         public static SpriteFont DebugFont;
