@@ -15,7 +15,7 @@ namespace SoulWarriors
         private static Texture2D texture;
         private static List<Animation> animations;
 
-        public Goblin(Vector2 spawnPosition) : base(texture, spawnPosition, AiTypes.Smart, 0.2f)
+        public Goblin(Vector2 spawnPosition) : base(texture, spawnPosition, AiTypes.Smart, 0.2f, animations)
         {
         }
          
@@ -25,7 +25,13 @@ namespace SoulWarriors
             texture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
             animations = new List<Animation>()
             {
-                new Animation("IdleDown", new List<Frame>() { new Frame(Rectangle.Empty, Int32.MaxValue)})
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(17, 1, 15, 24 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(33, 1, 15, 24 ), new Vector2(7, 21), 100)
+                }),
+                //new Animation("IdleDown", new List<Frame>() { new Frame(Rectangle.Empty, Int32.MaxValue)})
             };
         }
     }

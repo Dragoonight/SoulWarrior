@@ -149,7 +149,7 @@ namespace SoulWarriors
 
             };
 
-            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/Chain");
 
             Archer = new Archer(archerTexture, arrowTexture, archerAnimations);
 
