@@ -1,0 +1,16 @@
+Grid (with scale of 4)
+
+Knight 	80x120
+
+Archer 	80x120
+
+
+Goblin	100x100
+
+
+
+
+
+
+
+
