@@ -64,7 +64,7 @@ namespace SoulWarriors
             _aiType = aiType;
             this.speed = speed;
 
-            _animationSet = new AnimationSet(animations, AnimationStates.Idle, AnimationDirections.Down);
+            _animationSet = new AnimationSet(animations, AnimationStates.Walk, AnimationDirections.Down);
 
 
             Rectangle initialSourceRectangle = Rectangle.Empty;
@@ -106,6 +106,7 @@ namespace SoulWarriors
             }
             UpdateSmartAi();
             MovementAi(gameTime);
+            _animationSet.UpdateAnimation(ref CollidableObject.SourceRectangle, ref CollidableObject.origin, gameTime);
         }
 
 

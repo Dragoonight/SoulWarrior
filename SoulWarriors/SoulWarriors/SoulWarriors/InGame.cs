@@ -72,7 +72,7 @@ namespace SoulWarriors
 
         private static void LoadPlayers(ContentManager content)
         {
-            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+            Texture2D archerTexture = content.Load<Texture2D>(@"Textures/Archer_SpriteSheet");
             List<Animation> archerAnimations = new List<Animation>()
             {
                 
@@ -153,7 +153,7 @@ namespace SoulWarriors
 
             Archer = new Archer(archerTexture, arrowTexture, archerAnimations);
 
-            Texture2D knightTexture = content.Load<Texture2D>(@"Textures/KnightSpriteSheet");
+            Texture2D knightTexture = content.Load<Texture2D>(@"Textures/Knight_SpriteSheet");
             List<Animation> knightAnimations = new List<Animation>()
             {
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()

@@ -22,16 +22,30 @@ namespace SoulWarriors
         public static void LoadContent(ContentManager content)
         {
             // Load goblin texture
-            texture = content.Load<Texture2D>(@"Textures/ArcherSpriteSheet");
+            texture = content.Load<Texture2D>(@"Textures/Goblin_SpriteSheet");
             animations = new List<Animation>()
             {
-                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                 {
                     new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
                     new Frame(new Rectangle(17, 1, 15, 24 ), new Vector2(7, 21), 100),
                     new Frame(new Rectangle(33, 1, 15, 24 ), new Vector2(7, 21), 100)
                 }),
-                //new Animation("IdleDown", new List<Frame>() { new Frame(Rectangle.Empty, Int32.MaxValue)})
+
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
+                }),
+
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
+                }),
+
+                new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
+                {
+                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
+                }),
             };
         }
     }
