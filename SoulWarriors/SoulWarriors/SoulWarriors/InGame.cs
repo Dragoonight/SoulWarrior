@@ -18,6 +18,7 @@ namespace SoulWarriors
         public static Knight Knight;
         private static SoulMeter soulBar;
 
+        private static Health health;
 
         public static List<Enemy> Enemies;
 
@@ -65,10 +66,13 @@ namespace SoulWarriors
 
             LoadPlayers(content);
             LoadEnemies(content);
-
+            
             Chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
 
             mousepostest = content.Load<Texture2D>(@"Textures/Chain");
+
+            health.LoadContent(content);
+           
         }
 
         private static void LoadPlayers(ContentManager content)
@@ -99,9 +103,7 @@ namespace SoulWarriors
 
             Knight = new Knight(knightTexture, knightAnimations);
 
-            Knight.heart = content.Load<Texture2D>(@"Textures/Heart");
-
-            Archer.heart = content.Load<Texture2D>(@"Textures/Heart");
+           
 
             soulBar = new SoulMeter(content);
 
@@ -189,25 +191,14 @@ namespace SoulWarriors
             // Here the drawings effected by the camera shall be put (Enemies, player, etc.)
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
 
-       
-           
+            health.Draw(spriteBatch);
+
+            soulBar.Draw(spriteBatch);
 
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
 
             soulBar.Draw(spriteBatch);
-
-            for (int i = Archer.lifes; i > 0; i--)
-            {
-                spriteBatch.Draw(Archer.heart, new Vector2
-                    (-50 + i * 75, 15), Color.White);
-            }
-
-            for (int i = Knight.lifes; i > 0; i--)
-            {
-                spriteBatch.Draw(Knight.heart, new Vector2
-                    (1600 + i * 75, 15), Color.White);
-            }
 
             // Draw Enemies
             foreach (Enemy enemy in Enemies)
