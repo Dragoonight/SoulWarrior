@@ -71,7 +71,7 @@ namespace SoulWarriors
 
             mousepostest = content.Load<Texture2D>(@"Textures/Chain");
 
-            health.LoadContent(content);
+            health = new Health(content);
            
         }
 
@@ -191,14 +191,12 @@ namespace SoulWarriors
             // Here the drawings effected by the camera shall be put (Enemies, player, etc.)
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
 
-            health.Draw(spriteBatch);
-
-            soulBar.Draw(spriteBatch);
-
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
 
             soulBar.Draw(spriteBatch);
+
+            health.Draw(spriteBatch);
 
             // Draw Enemies
             foreach (Enemy enemy in Enemies)

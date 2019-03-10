@@ -37,11 +37,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Heart.png">
-      <Name>Heart</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Textures\WorldBackground.jpg">
       <Name>WorldBackground</Name>
       <Importer>TextureImporter</Importer>
@@ -116,6 +111,18 @@
     </Compile>
     <Compile Include="Textures\Gauge.png">
       <Name>Gauge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Hearts.png">
+      <Name>Hearts</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\HeartsContainer.png">
+      <Name>HeartsContainer</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

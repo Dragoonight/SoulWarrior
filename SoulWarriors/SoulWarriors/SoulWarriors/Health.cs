@@ -2,42 +2,74 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace SoulWarriors
 {
     class Health
     {
-        //
-        public int lifes = 3;
+        public Texture2D container, knightsHearts, archerHearts;
+        public Vector2 position, position2;
+        private int fullLife = 3;
+        private int knightCurrentHearts = 3;
+        private int archerCurrentHearts = 3;
 
-        public Texture2D heart;
+        public Health(ContentManager content)
+        {
+            position = new Vector2(100, 100);
+            position = new Vector2(200, 200);
+            LoadContent(content);
+            knightCurrentHearts = fullLife;
+            archerCurrentHearts = fullLife;
+        }
 
         public void LoadContent(ContentManager content)
         {
-           heart = content.Load<Texture2D>(@"Textures/Heart");
+            container = content.Load<Texture2D>(@"Textures/HeartsContainer");
+            knightsHearts = content.Load<Texture2D>(@"Textures/Hearts");
+            archerHearts = content.Load<Texture2D>(@"Textures/Hearts");
+        }
 
-           heart = content.Load<Texture2D>(@"Textures/Heart");
+        public void Update(GameTime gameTime)
+        {
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = lifes; i > 0; i--)
+            for (int i = fullLife; i > 0; i--)
             {
-                spriteBatch.Draw(heart, new Vector2
-                    (-50 + i * 75, 15), Color.White);
+                spriteBatch.Draw(container, new Vector2
+                    (position2.X + i * 140, position2.Y + 15), Color.White);
             }
 
-            for (int i = lifes; i > 0; i--)
+            for (int i = knightCurrentHearts; i > 0; i--)
             {
-                spriteBatch.Draw(heart, new Vector2
-                    (1600 + i * 75, 15), Color.White);
+                spriteBatch.Draw(knightsHearts, new Vector2
+                    (position2.X + i * 140, position2.Y + 15), Color.White);               
             }
+
+            for (int i = fullLife; i > 0; i--)
+            {
+                spriteBatch.Draw(container, new Vector2
+                    (position.X + i * 140, position.Y + 15), Color.White);
+            }
+
+            for (int i = archerCurrentHearts; i > 0; i--)
+            {
+                spriteBatch.Draw(archerHearts, new Vector2
+                    (position.X + i * 140, position.Y + 17), Color.White);       
+            }
+
+
+           
         }
     }
+
 }
+
