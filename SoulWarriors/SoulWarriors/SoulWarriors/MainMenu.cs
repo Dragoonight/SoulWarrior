@@ -22,13 +22,13 @@ namespace SoulWarriors
                         new Rectangle(100, 200, 100, 100),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        () => Game1.CurrentGameState = Game1.GameState.InGame),
+                        () => Game1.CurrentGameState = Game1.GameStates.InGame),
 
                     new Button(new Point(1, 0),
                         new Rectangle(300, 200, 100, 100),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        () => Game1.CurrentGameState = Game1.GameState.HighScore),
+                        () => Game1.CurrentGameState = Game1.GameStates.HighScore),
 
                     new Button(new Point(2, 0),
                         new Rectangle(500, 200, 100, 100),
@@ -40,7 +40,7 @@ namespace SoulWarriors
                         new Rectangle(700, 200, 100, 100),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        () => Game1.CurrentGameState = Game1.GameState.Exit),
+                        () => Game1.CurrentGameState = Game1.GameStates.Exit),
                 },
                 new MenuControlScheme(Keys.W, Keys.S, Keys.A, Keys.D, Keys.Enter),
                 viewport);

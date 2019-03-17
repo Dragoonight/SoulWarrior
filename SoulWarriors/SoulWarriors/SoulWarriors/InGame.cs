@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Shadows2D;
 
 namespace SoulWarriors
 {
@@ -16,22 +17,25 @@ namespace SoulWarriors
         // Players
         public static Archer Archer;
         public static Knight Knight;
+        public static Chain Chain;
 
         public static List<Enemy> Enemies;
 
         public static Camera2D Camera;
 
-        public static Chain Chain;
         private static Texture2D _backgroundTexture;
-        
-        private static Random random = new Random();
-        
+
+        private static List<LightArea> lightAreas;
+
+        public static ShadowmapResolver shadowmapResolver;
+
+        private static RenderTarget2D screenShadows;
 
         public static Vector2 MousePos => new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 
-#if DEBUG
         public static Texture2D mousepostest;
-#endif
+
+        private static Random random = new Random();
 
         /// <summary>
         /// The area in _backgroundTexture that is ground
@@ -55,11 +59,21 @@ namespace SoulWarriors
         }
 
 
-        public static void LoadContent(ContentManager content, Viewport viewport)
+
+
+
+        public static void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
-            Camera = new Camera2D(viewport);
+            Camera = new Camera2D(graphicsDevice.Viewport);
 
             _backgroundTexture = content.Load<Texture2D>(@"Textures/WorldBackground");
+
+            LoadLightAreas(content, graphicsDevice);
+
+            shadowmapResolver = new ShadowmapResolver(graphicsDevice, Game1.quadRender, ShadowmapSize.Size1024, ShadowmapSize.Size1024);
+            shadowmapResolver.LoadContent(content);
+
+            screenShadows = new RenderTarget2D(graphicsDevice, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
 
             LoadPlayers(content);
             LoadEnemies(content);
@@ -106,6 +120,16 @@ namespace SoulWarriors
             Enemies.Add(new Goblin(SpawnAreas.Middle));
             Enemies.Add(new Goblin(SpawnAreas.Right));
         }
+
+        private static void LoadLightAreas(ContentManager content, GraphicsDevice graphicsDevice)
+        {
+            lightAreas = new List<LightArea>();
+            lightAreas.Add(new LightArea(graphicsDevice, ShadowmapSize.Size1024, new Vector2(500), Color.White));
+        }
+
+
+
+
 
         public static void Update(GameTime gameTime)
         {
@@ -168,44 +192,128 @@ namespace SoulWarriors
             }
         }
 
-        public static void Draw(SpriteBatch spriteBatch)
+
+
+
+
+
+        public static void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
-            // Begin spriteBatch with the camera transform
+            graphicsDevice.Clear(Color.CornflowerBlue);
+
+            // Update light Areas
+            foreach (LightArea lightArea in lightAreas)
+            {
+                lightArea.LightPosition = MousePos;
+                lightArea.BeginDrawingShadowCasters();
+                DrawCasters(lightArea, spriteBatch);
+                lightArea.EndDrawingShadowCasters();
+                shadowmapResolver.ResolveShadows(lightArea.RenderTarget, lightArea.RenderTarget, lightArea.LightPosition);
+            }
+
+            // Update Shadows
+            graphicsDevice.SetRenderTarget(screenShadows);
+            graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+
+            foreach (LightArea lightArea in lightAreas)
+            {
+                spriteBatch.Draw(lightArea.RenderTarget, lightArea.LightPosition - lightArea.LightAreaSize * 0.5f, lightArea.Color);
+            }
+            spriteBatch.End();
+            graphicsDevice.SetRenderTarget(null);
+
+
+            graphicsDevice.Clear(Color.Black);
+
+            // Draw things affected by shadows here
+            DrawBackgroundObjects(spriteBatch);
+
+            DrawForegroundObjects(spriteBatch);
+
+            BlendState blendState = new BlendState();
+            blendState.ColorSourceBlend = Blend.DestinationColor;
+            blendState.ColorDestinationBlend = Blend.SourceColor;
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, blendState);
+            spriteBatch.Draw(screenShadows, Vector2.Zero, Color.White);
+            spriteBatch.End();
+            // Draw things NOT affected by shadows here
+        }
+
+        /// <summary>
+        /// Draw the things which should cast shadows
+        /// </summary>
+        /// <param name="lightArea"></param>
+        /// <param name="spriteBatch"></param>
+        private static void DrawCasters(LightArea lightArea, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+
+            // Enemies
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.Draw(spriteBatch, lightArea.ToRelativePosition(enemy.CollidableObject.Position));
+            }
+
+            //Archer.DrawAsShadowCaster(spriteBatch, lightArea.ToRelativePosition(Archer.CollidableObject.Position));
+            //Knight.DrawAsShadowCaster(spriteBatch, lightArea.ToRelativePosition(Knight.CollidableObject.Position));
+
+            spriteBatch.End();
+        }
+
+
+        private static void DrawBackgroundObjects(SpriteBatch spriteBatch)
+        {
             // Here the drawings effected by the camera shall be put (Enemies, player, etc.)
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
 
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
-            // Draw Enemies
+
+            spriteBatch.End();
+        }
+
+        private static void DrawForegroundObjects(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, Camera.TransformMatrix);
+            // Chain
+            Chain.Draw(spriteBatch);
+            spriteBatch.End();
+
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
+
+            // Enemies
             foreach (Enemy enemy in Enemies)
             {
                 enemy.Draw(spriteBatch);
             }
-            spriteBatch.End();
-            // Draw chain between players
-            Chain.Draw(spriteBatch);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
-            // Draw Player
+            // Players
             Archer.Draw(spriteBatch);
             Knight.Draw(spriteBatch);
 
-            spriteBatch.Draw(mousepostest, MousePos, null, Color.Wheat, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.2f);
 
             spriteBatch.End();
 
-            // Begin new spriteBatch without a transform
-            // Here things not effected by the camera shall be put (UI etc.)
-            spriteBatch.Begin();
-            // Draw UI
+        }
+
+        private static void DrawOverlay(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
+            spriteBatch.Draw(mousepostest, MousePos, null, Color.Wheat, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.2f);
+            spriteBatch.End();
+
 #if DEBUG
+            spriteBatch.Begin();
             spriteBatch.DrawString(Game1.DebugFont,
                 $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}  Arrows:{Archer.arrows.Count}",
                 Vector2.Zero,
                 Color.White);
+            spriteBatch.End();
 #endif
 
-            spriteBatch.End();
         }
     }
 }

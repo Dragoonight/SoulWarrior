@@ -59,11 +59,7 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Archer.cs" />
-    <Compile Include="DynamicLight.cs" />
-    <Compile Include="Light.cs" />
     <Compile Include="LightArea.cs" />
-    <Compile Include="Plane.cs" />
-    <Compile Include="PointLight.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Chain.cs" />

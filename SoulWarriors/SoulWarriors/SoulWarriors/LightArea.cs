@@ -14,12 +14,15 @@ namespace Shadows2D
         public RenderTarget2D RenderTarget { get; private set; }
         public Vector2 LightPosition { get; set; }
         public Vector2 LightAreaSize { get; set; }
+        public Color Color { get; set; }
 
-        public LightArea(GraphicsDevice graphicsDevice, ShadowmapSize size)
+        public LightArea(GraphicsDevice graphicsDevice, ShadowmapSize size, Vector2 position, Color color)
         {
             int baseSize = 2 << (int)size;
             LightAreaSize = new Vector2(baseSize);
             RenderTarget = new RenderTarget2D(graphicsDevice, baseSize, baseSize);
+            LightPosition = position;
+            Color = color;
             this.graphicsDevice = graphicsDevice;
         }
 

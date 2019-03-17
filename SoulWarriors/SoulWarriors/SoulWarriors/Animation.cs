@@ -11,31 +11,31 @@ namespace SoulWarriors
         public readonly int FrameTime;
 
         /// <summary>
-        /// Creates a new frame with a source rectangle, frame time and default center origin
+        /// Creates a new frame with a source rectangle, frame time and zero origin
         /// </summary>
         /// <param name="sourceRectangle">Position of frame in texture</param>
         /// <param name="frameTime">Time between this and next frame in milliseconds</param>
         public Frame(Rectangle sourceRectangle, int frameTime)
         {
-            this.SourceRectangle = sourceRectangle;
-            this.Origin = new Vector2(sourceRectangle.Width / 2f, sourceRectangle.Height / 2f); 
-            this.FrameTime = frameTime;
+            SourceRectangle = sourceRectangle;
+            Origin = Vector2.Zero;
+            FrameTime = frameTime;
         }
 
         /// <summary>
-        /// Creates a new frame with a source rectangle, frame time and default center origin
+        /// Creates a new frame with a source rectangle, frame time and origin
         /// </summary>
         /// <param name="sourceRectangle">Position of frame in texture</param>
         /// <param name="origin">origin for this frame</param>
         /// <param name="frameTime">Time between this and next frame in milliseconds</param>
         public Frame(Rectangle sourceRectangle, Vector2 origin, int frameTime)
         {
-            this.SourceRectangle = sourceRectangle;
-            this.Origin = origin;
-            this.FrameTime = frameTime;
+            SourceRectangle = sourceRectangle;
+            Origin = origin;
+            FrameTime = frameTime;
         }
     }
-    // When craeting animations it goes in order of AnimationStates + AnimationDirections
+    // When creating animations it goes in order of AnimationStates + AnimationDirections
     public enum AnimationStates
     {
         Idle, Walk, Action1, Action2, Action3, Action4
@@ -78,23 +78,44 @@ namespace SoulWarriors
 
 
         /// <summary>
-        /// Initializes a new animation with a name and a list of frames
+        /// Instantiates a new Animation with a name and a list of frames
         /// </summary>
         /// <param name="animationName">Identifier</param>
         /// <param name="frames">List of frames to create an animation with</param>
         public Animation(string animationName, List<Frame> frames)
         {
             AnimationName = animationName;
-            this._frames = frames;
+            _frames = frames;
         }
         /// <summary>
-        /// Initializes a new animation with an empty name and a list of frames
+        /// Instantiates a new Animation with an empty name and a list of frames
         /// </summary>
         /// <param name="frames">List of frames to create an animation with</param>
         public Animation(List<Frame> frames)
         {
-            this._frames = frames;
+            _frames = frames;
             AnimationName = "";
+        }
+
+        /// <summary>
+        /// Instantiates a new Animation with a name and generates a list of horizontally aligned frames (y always = 0)
+        /// with the same width, height and frame time.
+        /// </summary>
+        /// <param name="animationName"></param>
+        /// <param name="spriteWidth"></param>
+        /// <param name="spriteHeight"></param>
+        /// <param name="frameAmount"></param>
+        /// <param name="frameTime"></param>
+        public Animation(string animationName, int spriteWidth, int spriteHeight, int frameAmount, int frameTime)
+        {
+            AnimationName = animationName;
+
+            _frames = new List<Frame>(frameAmount);
+            for (int i = 0; i < frameAmount; i++)
+            {
+                Rectangle sourceRect = new Rectangle(i * spriteWidth, 0, spriteWidth, spriteHeight);
+                _frames.Add(new Frame(sourceRect, frameTime));
+            }
         }
 
         /// <summary>

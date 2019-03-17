@@ -1,4 +1,3 @@
-// Using Statements
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -12,7 +11,6 @@ namespace Ziggyware
         VertexPositionTexture[] verts = null;
         short[] ib = null;
 
-        // Constructor
         public QuadRenderComponent(Game game)
             : base(game)
         {

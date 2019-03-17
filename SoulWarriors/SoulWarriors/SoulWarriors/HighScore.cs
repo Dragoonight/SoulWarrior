@@ -94,7 +94,7 @@ namespace SoulWarriors
                         new Rectangle(100,100,50,50),
                         content.Load<Texture2D>(@"Textures/Menu/Button1"),
                         content.Load<Texture2D>(@"Textures/Menu/Menu0_button1"),
-                        () => Game1.CurrentGameState = Game1.GameState.MainMenu),
+                        () => Game1.CurrentGameState = Game1.GameStates.MainMenu),
                     // Show camping scores
                     new Button(new Point(0,1),
                         new Rectangle(100, 400, 100, 50),

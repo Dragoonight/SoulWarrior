@@ -23,7 +23,6 @@ namespace SoulWarriors
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, InGame.Camera.TransformMatrix);
             spriteBatch.Draw(
                 _texture,
                 StartPosition,
@@ -34,7 +33,6 @@ namespace SoulWarriors
                 1,
                 SpriteEffects.None,
                 0f);
-            spriteBatch.End();
         }
     }
 }

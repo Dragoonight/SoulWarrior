@@ -371,5 +371,25 @@ namespace SoulWarriors
                 0);
 
         }
+
+        /// <summary>
+        /// Draw with overriden position,
+        /// Used for drawing as shadow caster
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="position"></param>
+        public void Draw(SpriteBatch spriteBatch, Vector2 position)
+        {
+            spriteBatch.Draw(CollidableObject.Texture,
+                position,
+                CollidableObject.SourceRectangle,
+                Color.White,
+                CollidableObject.Rotation,
+                CollidableObject.origin,
+                1,
+                SpriteEffects.None,
+                0);
+
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace SoulWarriors
     /// </summary>
     public class Game1 : Game
     {
-        public enum GameState
+        public enum GameStates
         {
             InGame,
             MainMenu,
@@ -28,21 +28,27 @@ namespace SoulWarriors
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        QuadRenderComponent quadRender;
-        ShadowmapResolver shadowmapResolver;
+        public static QuadRenderComponent quadRender;
 
 
 #if DEBUG
         public static SpriteFont DebugFont;
 #endif
 
-        public static GameState CurrentGameState = GameState.MainMenu;
+        public static GameStates CurrentGameState = GameStates.MainMenu;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            // Disable frame limiter
             IsFixedTimeStep = false;
+            // Set window size to 1920 * 1080
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            // Add QuadRenderComponent
+            quadRender = new QuadRenderComponent(this);
+            this.Components.Add(quadRender);
         }
 
         /// <summary>
@@ -53,11 +59,6 @@ namespace SoulWarriors
         /// </summary>
         protected override void Initialize()
         {
-            // Set window size to 1920 * 1080
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.ApplyChanges();
-
             this.IsMouseVisible = true;
             
             HighScore.Initilize();
@@ -74,7 +75,7 @@ namespace SoulWarriors
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            InGame.LoadContent(Content, GraphicsDevice.Viewport);
+            InGame.LoadContent(Content, GraphicsDevice);
             Main.LoadContent(Content, GraphicsDevice.Viewport);
             HighScore.LoadContent(Content, GraphicsDevice.Viewport);
 #if DEBUG
@@ -111,7 +112,7 @@ namespace SoulWarriors
 
             switch (CurrentGameState)
             {
-                case GameState.InGame:
+                case GameStates.InGame:
                     if (IsMouseVisible == true)
                     {
                         IsMouseVisible = false;
@@ -120,16 +121,16 @@ namespace SoulWarriors
 
                     break;
 
-                case GameState.MainMenu:
+                case GameStates.MainMenu:
                     Main.Update();
 
                     break;
 
-                case GameState.HighScore:
+                case GameStates.HighScore:
                     HighScore.Update();
                     break;
 
-                case GameState.Exit:
+                case GameStates.Exit:
                     this.Exit();
                     break;
                 default:
@@ -148,15 +149,15 @@ namespace SoulWarriors
 
             switch (CurrentGameState)
             {
-                case GameState.InGame:
-                    InGame.Draw(spriteBatch);
+                case GameStates.InGame:
+                    InGame.Draw(spriteBatch, GraphicsDevice);
                     break;
-                case GameState.MainMenu:
+                case GameStates.MainMenu:
                     Main.Draw(spriteBatch);
                     break;
-                case GameState.Exit:
+                case GameStates.Exit:
                     break;
-                case GameState.HighScore:
+                case GameStates.HighScore:
                     HighScore.Draw(spriteBatch);
                     break;
                 default:

@@ -9,14 +9,16 @@ using Ziggyware;
 
 namespace Shadows2D
 {
-    enum ShadowmapSize
+    public enum ShadowmapSize
     {
         Size128 = 6,
         Size256 = 7,
         Size512 = 8,
         Size1024 = 9,
+        Size2048 = 10,
     }
-    class ShadowmapResolver
+
+    public class ShadowmapResolver
     {
         private GraphicsDevice graphicsDevice;
 
@@ -55,8 +57,8 @@ namespace Shadows2D
 
         public void LoadContent(ContentManager content)
         {
-            reductionEffect = content.Load<Effect>("reductionEffect");
-            resolveShadowsEffect = content.Load<Effect>("resolveShadowsEffect");
+            reductionEffect = content.Load<Effect>("Effects/reductionEffect");
+            resolveShadowsEffect = content.Load<Effect>("Effects/resolveShadowsEffect");
 
             distortRT = new RenderTarget2D(graphicsDevice, baseSize, baseSize, false, SurfaceFormat.HalfVector2,DepthFormat.None);
             distancesRT = new RenderTarget2D(graphicsDevice, baseSize, baseSize, false, SurfaceFormat.HalfVector2,DepthFormat.None);
@@ -151,7 +153,7 @@ namespace Shadows2D
             foreach (EffectPass pass in reductionEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                quadRender.Render(Vector2.One * -1, new Vector2(1, 1));
+                quadRender.Render(Vector2.One * -1, Vector2.One);
             }
 
             reductionEffect.Parameters["SourceTexture"].SetValue(reductionRT[reductionChainCount - 1]);
