@@ -14,6 +14,7 @@ namespace SoulWarriors
     {
         private static Texture2D texture;
         private static List<Animation> animations;
+        private static int aniSpeed = 1000/6; //6fps
 
         public Goblin(Vector2 spawnPosition) : base(texture, spawnPosition, AiTypes.Smart, 0.2f, animations)
         {
@@ -27,24 +28,41 @@ namespace SoulWarriors
             {
                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(17, 1, 15, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(33, 1, 15, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,0,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(200, 0, 84, 72 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(300,0,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(400, 0, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(500, 0, 84, 72 ), new Vector2(7, 21), aniSpeed)
                 }),
 
                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(0,100,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(100, 100, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(200, 100, 84, 72 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(300,100,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(400, 100, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(500, 100, 84, 72 ), new Vector2(7, 21), aniSpeed)
                 }),
 
                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(0,200,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(100, 200, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(200, 200, 84, 72 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(300,200,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(400, 200, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(500, 200, 84, 72 ), new Vector2(7, 21), aniSpeed)
                 }),
 
                 new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,15,25), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(0,300,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(100, 300, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(200, 300, 84, 72 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(300,300,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(400, 300, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(500, 300, 84, 72 ), new Vector2(7, 21), aniSpeed)
                 }),
             };
         }
