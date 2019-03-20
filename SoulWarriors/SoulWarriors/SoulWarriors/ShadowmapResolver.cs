@@ -57,9 +57,10 @@ namespace Shadows2D
 
         public void LoadContent(ContentManager content)
         {
+            // Load effect files
             reductionEffect = content.Load<Effect>("Effects/reductionEffect");
             resolveShadowsEffect = content.Load<Effect>("Effects/resolveShadowsEffect");
-
+            // Initialize render targets
             distortRT = new RenderTarget2D(graphicsDevice, baseSize, baseSize, false, SurfaceFormat.HalfVector2,DepthFormat.None);
             distancesRT = new RenderTarget2D(graphicsDevice, baseSize, baseSize, false, SurfaceFormat.HalfVector2,DepthFormat.None);
             shadowMap = new RenderTarget2D(graphicsDevice, 2, baseSize, false, SurfaceFormat.HalfVector2,DepthFormat.None);

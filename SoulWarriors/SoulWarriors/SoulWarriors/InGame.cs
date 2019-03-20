@@ -26,14 +26,14 @@ namespace SoulWarriors
         private static Texture2D _backgroundTexture;
 
         private static List<LightArea> lightAreas;
-
+        private static Color _ambientLight = new Color(32,32,32,255);
         public static ShadowmapResolver shadowmapResolver;
 
         private static RenderTarget2D screenShadows;
 
         public static Vector2 MousePos => new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 
-        public static Texture2D mousepostest;
+        public static Texture2D Recticle;
 
         private static Random random = new Random();
 
@@ -59,7 +59,7 @@ namespace SoulWarriors
         }
 
 
-
+        
 
 
         public static void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
@@ -80,7 +80,7 @@ namespace SoulWarriors
 
             Chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
 
-            mousepostest = content.Load<Texture2D>(@"Textures/Chain");
+            Recticle = content.Load<Texture2D>(@"Textures/Chain");
         }
 
         private static void LoadPlayers(ContentManager content)
@@ -124,7 +124,7 @@ namespace SoulWarriors
         private static void LoadLightAreas(ContentManager content, GraphicsDevice graphicsDevice)
         {
             lightAreas = new List<LightArea>();
-            lightAreas.Add(new LightArea(graphicsDevice, ShadowmapSize.Size1024, new Vector2(500), Color.White));
+            lightAreas.Add(new LightArea(graphicsDevice, ShadowmapSize.Size1024, new Vector2(500), new Color(255, 255,255, 100)));
         }
 
 
@@ -135,8 +135,10 @@ namespace SoulWarriors
         {
             Archer.Update(gameTime);
             Knight.Update(gameTime);
-            UpdateChainAndCamera();
+            UpdateChain();
+            UpdateCamera();
             ClampMouse();
+
 #if DEBUG
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
@@ -144,19 +146,28 @@ namespace SoulWarriors
                 Enemies.Add(new Goblin(SpawnAreas.Middle));
                 Enemies.Add(new Goblin(SpawnAreas.Right));
             }
-            else
 #endif
-                foreach (Enemy enemy in Enemies)
-                {
-                    enemy.Update(gameTime);
-                }
+            // Update enemies
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.Update(gameTime);
+            }
         }
 
-        private static void UpdateChainAndCamera()
+        /// <summary>
+        /// Updates chain start and end positions
+        /// </summary>
+        private static void UpdateChain()
         {
             Chain.StartPosition = Archer.CollidableObject.Position;
             Chain.EndPosition = Knight.CollidableObject.Position;
+        }
 
+        /// <summary>
+        /// Updates camera location
+        /// </summary>
+        private static void UpdateCamera()
+        {
             // Update camera location while clamping to bounds of _backgroundTexture.Height and interpolating between old and new position
             Camera.Location =
                 // Clamp to background bounds
@@ -179,13 +190,14 @@ namespace SoulWarriors
                     Camera.ZoomedOrigin,
                     // Max
                     new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
-
         }
 
         private static void ClampMouse()
         {
+            // If the mouse is outside the camera view
             if (Camera.CameraWorldRect.Contains(new Point((int)MousePos.X, (int)MousePos.Y)) == false)
             {
+                // Move the mouse to inside the cameras view
                 Mouse.SetPosition(
                     (int)MathHelper.Clamp(MousePos.X, (float)Camera.CameraWorldRect.Left, (float)Camera.CameraWorldRect.Right),
                     (int)MathHelper.Clamp(MousePos.Y, (float)Camera.CameraWorldRect.Top, (float)Camera.CameraWorldRect.Bottom)); 
@@ -204,16 +216,17 @@ namespace SoulWarriors
             // Update light Areas
             foreach (LightArea lightArea in lightAreas)
             {
-                lightArea.LightPosition = MousePos;
+                lightArea.LightPosition = MousePos; // TODO: move position update to Update
                 lightArea.BeginDrawingShadowCasters();
                 DrawCasters(lightArea, spriteBatch);
                 lightArea.EndDrawingShadowCasters();
                 shadowmapResolver.ResolveShadows(lightArea.RenderTarget, lightArea.RenderTarget, lightArea.LightPosition);
             }
 
-            // Update Shadows
+            // generate Shadows
             graphicsDevice.SetRenderTarget(screenShadows);
-            graphicsDevice.Clear(Color.Black);
+            // Apply ambient light
+            graphicsDevice.Clear(_ambientLight);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
 
             foreach (LightArea lightArea in lightAreas)
@@ -234,15 +247,18 @@ namespace SoulWarriors
             BlendState blendState = new BlendState();
             blendState.ColorSourceBlend = Blend.DestinationColor;
             blendState.ColorDestinationBlend = Blend.SourceColor;
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, blendState);
+            // Draw shadows
+            spriteBatch.Begin(SpriteSortMode.Immediate, blendState, null, null, null, null, Camera.TransformMatrix);
             spriteBatch.Draw(screenShadows, Vector2.Zero, Color.White);
             spriteBatch.End();
+
             // Draw things NOT affected by shadows here
+            DrawOverlay(spriteBatch);
         }
 
         /// <summary>
-        /// Draw the things which should cast shadows
+        /// Draw the things which should cast shadows,
+        /// Object position must be relative to the LightArea
         /// </summary>
         /// <param name="lightArea"></param>
         /// <param name="spriteBatch"></param>
@@ -253,11 +269,8 @@ namespace SoulWarriors
             // Enemies
             foreach (Enemy enemy in Enemies)
             {
-                enemy.Draw(spriteBatch, lightArea.ToRelativePosition(enemy.CollidableObject.Position));
+                enemy.DrawAsShadowCaster(spriteBatch, lightArea.ToRelativePosition(enemy.CollidableObject.Position));
             }
-
-            //Archer.DrawAsShadowCaster(spriteBatch, lightArea.ToRelativePosition(Archer.CollidableObject.Position));
-            //Knight.DrawAsShadowCaster(spriteBatch, lightArea.ToRelativePosition(Knight.CollidableObject.Position));
 
             spriteBatch.End();
         }
@@ -302,13 +315,13 @@ namespace SoulWarriors
         private static void DrawOverlay(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
-            spriteBatch.Draw(mousepostest, MousePos, null, Color.Wheat, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.2f);
+            spriteBatch.Draw(Recticle, MousePos, null, Color.Wheat, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.2f);
             spriteBatch.End();
 
 #if DEBUG
             spriteBatch.Begin();
             spriteBatch.DrawString(Game1.DebugFont,
-                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}  Arrows:{Archer.arrows.Count}",
+                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}\n Arrows:{Archer.arrows.Count}",
                 Vector2.Zero,
                 Color.White);
             spriteBatch.End();

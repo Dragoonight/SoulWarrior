@@ -378,7 +378,7 @@ namespace SoulWarriors
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="position"></param>
-        public void Draw(SpriteBatch spriteBatch, Vector2 position)
+        public void DrawAsShadowCaster(SpriteBatch spriteBatch, Vector2 position)
         {
             spriteBatch.Draw(CollidableObject.Texture,
                 position,

@@ -137,57 +137,6 @@ float4 DrawShadowsPS(float2 TexCoord  : TEXCOORD0) : COLOR0
       return result;
 }
 
-//float4 DrawShadowsPS(float2 TexCoord  : TEXCOORD0) : COLOR0
-//{
-//	  float distance = length(TexCoord - 0.5f);
-//	  distance *= renderTargetSize.x;
-//	  distance -=2;
-//	  
-//	  float shadowMapDistance;
-//	  float shadowSum = 1;
-//
-//	  float nY = 2.0f*( TexCoord.y - 0.5f);
-//	  float nX = 2.0f*( TexCoord.x - 0.5f);
-//	  
-//	  float r = 1 - clamp(length(float2(nX,nY)),0,1);
-//	  float delta = 0;
-//	  
-//	  if(abs(nY)<abs(nX))
-//	  {
-//	    shadowSum = 0;
-//		shadowMapDistance = GetShadowDistanceH(TexCoord,0);
-//		shadowSum += distance < shadowMapDistance?1:0;
-//
-//		shadowMapDistance = GetShadowDistanceH(TexCoord, 1.0f/renderTargetSize.y);
-//		shadowSum += distance < shadowMapDistance?1:0;
-//		
-//		shadowMapDistance = GetShadowDistanceH(TexCoord, -1.0f/renderTargetSize.y);
-//		shadowSum += distance < shadowMapDistance?1:0;
-//		
-//		shadowSum /=3;
-//	  }
-//	  else
-//	  {
-//		shadowSum = 0;
-//		shadowMapDistance = GetShadowDistanceV(TexCoord,0);
-//		shadowSum += distance < shadowMapDistance?1:0;
-//
-//		shadowMapDistance = GetShadowDistanceV(TexCoord, 1.0f/renderTargetSize.y);
-//		shadowSum += distance < shadowMapDistance?1:0;
-//		
-//		shadowMapDistance = GetShadowDistanceV(TexCoord, -1.0f/renderTargetSize.y);
-//		shadowSum += distance < shadowMapDistance?1:0;
-//		
-//		shadowSum /=3;
-//
-//	  }
-//	  float4 result = shadowSum;
-//	  result.b = length(TexCoord - 0.5f);
-//	  result.a = 1;
-//     return result;
-//}
-
-
 
 static const float minBlur = 0.0f;
 static const float maxBlur = 5.0f;

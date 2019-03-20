@@ -41,6 +41,9 @@ namespace SoulWarriors
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics.PreferMultiSampling = true;
+            
             // Disable frame limiter
             IsFixedTimeStep = false;
             // Set window size to 1920 * 1080
@@ -107,6 +110,7 @@ namespace SoulWarriors
             if (Keyboard.GetState().IsKeyDown(Keys.F))
             {
                 graphics.IsFullScreen = !graphics.IsFullScreen;
+
                 graphics.ApplyChanges();
             }
 
