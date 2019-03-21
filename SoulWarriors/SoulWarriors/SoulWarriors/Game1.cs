@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using XNAGameConsole;
 
 namespace SoulWarriors
 {
@@ -26,6 +27,7 @@ namespace SoulWarriors
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private GameConsole console;
 
 #if DEBUG
         public static SpriteFont DebugFont;
@@ -48,13 +50,15 @@ namespace SoulWarriors
         /// </summary>
         protected override void Initialize()
         {
-            // Set window size to 1920 * 1080
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            // Set window size to the screen resolution
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.ApplyChanges();
 
             this.IsMouseVisible = true;
-            
+
+
+
             HighScore.Initilize();
 
             base.Initialize();
@@ -68,6 +72,14 @@ namespace SoulWarriors
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), spriteBatch);
+            GameConsoleOptions consoleOptions = new GameConsoleOptions()
+            {
+                ToggleKey = Keys.Insert,
+                Padding = 10,
+                OpenOnWrite = true,
+            };
+            console = new GameConsole(this, spriteBatch, consoleOptions);
 
             InGame.LoadContent(Content, GraphicsDevice.Viewport);
             Main.LoadContent(Content, GraphicsDevice.Viewport);
@@ -96,6 +108,12 @@ namespace SoulWarriors
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.End) || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+            // If console is opened, skip updating game
+            if (console.Opened)
+            {
+                base.Update(gameTime);
+                return;
+            }
 
             //Fullscreen
             if (Keyboard.GetState().IsKeyDown(Keys.F))
