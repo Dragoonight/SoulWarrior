@@ -13,32 +13,43 @@ namespace SoulWarriors
 {
     public static class InGame
     {
-        // Players
+        public static GraphicsDevice GraphicsDevice;
+
+        /// <summary>
+        /// The Archer player
+        /// </summary>
         public static Archer Archer;
+        /// <summary>
+        /// The Knight player
+        /// </summary>
         public static Knight Knight;
 
+        /// <summary>
+        /// List of all enemies
+        /// </summary>
         public static List<Enemy> Enemies;
 
         public static Camera2D Camera;
 
-        public static Chain Chain;
+        private static Chain _chain;
         private static Texture2D _backgroundTexture;
-        
-        private static Random random = new Random();
-        
-        static int frameTime = 1000/6;
+        private static Texture2D _reticuleTexture;
 
+        /// <summary>
+        /// Gets current mouse position
+        /// </summary>
         public static Vector2 MousePos => new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-
-#if DEBUG
-        public static Texture2D mousepostest;
-#endif
 
         /// <summary>
         /// The area in _backgroundTexture that is ground
         /// </summary>
         public static Rectangle PlayArea => new Rectangle(32, 272, _backgroundTexture.Width - 64, _backgroundTexture.Height - 272);
 
+        /// <summary>
+        /// Gets other player position
+        /// </summary>
+        /// <param name="yourPosition"></param>
+        /// <returns></returns>
         public static Vector2 GetOtherPlayerPosition(Vector2 yourPosition)
         {
             if (yourPosition == Archer.CollidableObject.Position)
@@ -56,22 +67,27 @@ namespace SoulWarriors
         }
 
 
-        public static void LoadContent(ContentManager content, Viewport viewport)
+        public static void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
-            Camera = new Camera2D(viewport);
+            GraphicsDevice = graphicsDevice;
+
+            Camera = new Camera2D(graphicsDevice.Viewport);
 
             _backgroundTexture = content.Load<Texture2D>(@"Textures/WorldBackground");
 
             LoadPlayers(content);
             LoadEnemies(content);
 
-            Chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
+            _chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
 
-            mousepostest = content.Load<Texture2D>(@"Textures/Chain");
+            _reticuleTexture = content.Load<Texture2D>(@"Textures/Chain");
         }
 
         private static void LoadPlayers(ContentManager content)
         {
+            // Time between frames for walking animation
+            const int walkingAnimationTime = 1000/6;
+
             // Load archer spritesheet
             Texture2D archerTexture = content.Load<Texture2D>(@"Textures/Archer_SpriteSheet");
             // Load archer animations
@@ -82,72 +98,72 @@ namespace SoulWarriors
                 
                     new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(0,0,79,120), new Vector2(28,58), frameTime),
-                        new Frame(new Rectangle(80, 0, 79,120 ), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(160, 0, 79,120 ), new Vector2(28, 58), frameTime)               
+                        new Frame(new Rectangle(0,0,79,120), new Vector2(28,58), walkingAnimationTime),
+                        new Frame(new Rectangle(80, 0, 79,120 ), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(160, 0, 79,120 ), new Vector2(28, 58), walkingAnimationTime)               
                     }),
                     new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(0,120,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(80, 120, 79,120 ), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(160, 120, 79,120 ), new Vector2(28, 58), frameTime),
+                        new Frame(new Rectangle(0,120,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(80, 120, 79,120 ), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(160, 120, 79,120 ), new Vector2(28, 58), walkingAnimationTime),
                     }),
 
                     new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(0,240, 79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(80, 240,  79,120 ), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(160, 240,  79,120 ), new Vector2(28, 58), frameTime),
+                        new Frame(new Rectangle(0,240, 79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(80, 240,  79,120 ), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(160, 240,  79,120 ), new Vector2(28, 58), walkingAnimationTime),
                     }),
 
                     new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(0,360, 79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(80, 360,  79,120 ), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(160, 360,  79,120 ), new Vector2(28, 58), frameTime),
+                        new Frame(new Rectangle(0,360, 79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(80, 360,  79,120 ), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(160, 360,  79,120 ), new Vector2(28, 58), walkingAnimationTime),
                     }),
 
                     new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(0,480,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(80,480,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(160,480,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(240,480,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(320,480,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(400,480,79,120), new Vector2(28, 58), frameTime),
+                        new Frame(new Rectangle(0,480,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(80,480,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(160,480,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(240,480,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(320,480,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(400,480,79,120), new Vector2(28, 58), walkingAnimationTime),
                        
                     }),
 
                     new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(0,600,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(80,600,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(160,600,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(240,600,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(320,600,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(400,600,79,120), new Vector2(28, 58), frameTime),
+                        new Frame(new Rectangle(0,600,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(80,600,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(160,600,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(240,600,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(320,600,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(400,600,79,120), new Vector2(28, 58), walkingAnimationTime),
                         
                     }),
 
                     new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(0,720,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(80,720,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(160,720,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(240,720,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(320,720,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(400,720,79,120), new Vector2(28, 58), frameTime),
+                        new Frame(new Rectangle(0,720,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(80,720,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(160,720,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(240,720,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(320,720,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(400,720,79,120), new Vector2(28, 58), walkingAnimationTime),
                      
                     }),
 
                     new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(0,840,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(80,840,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(160,840,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(240,840,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(320,840,79,120), new Vector2(28, 58), frameTime),
-                        new Frame(new Rectangle(400,840,79,120), new Vector2(28, 58), frameTime),
+                        new Frame(new Rectangle(0,840,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(80,840,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(160,840,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(240,840,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(320,840,79,120), new Vector2(28, 58), walkingAnimationTime),
+                        new Frame(new Rectangle(400,840,79,120), new Vector2(28, 58), walkingAnimationTime),
                         
                     }),
 
@@ -225,76 +241,76 @@ namespace SoulWarriors
             {
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,0,79,119), new Vector2(30,65), frameTime),
-                    new Frame(new Rectangle(80, 0, 79,119 ), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(160, 0, 79,119 ), new Vector2(30, 65), frameTime)
+                    new Frame(new Rectangle(0,0,79,119), new Vector2(30,65), walkingAnimationTime),
+                    new Frame(new Rectangle(80, 0, 79,119 ), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(160, 0, 79,119 ), new Vector2(30, 65), walkingAnimationTime)
                 }),
 
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,120,79,119), new Vector2(30,65), frameTime),
-                    new Frame(new Rectangle(80, 120, 79,119 ), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(160, 120, 79,119 ), new Vector2(30, 65), frameTime)
+                    new Frame(new Rectangle(0,120,79,119), new Vector2(30,65), walkingAnimationTime),
+                    new Frame(new Rectangle(80, 120, 79,119 ), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(160, 120, 79,119 ), new Vector2(30, 65), walkingAnimationTime)
                 }),
 
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,240,79,119), new Vector2(30,65), frameTime),
-                    new Frame(new Rectangle(80, 240, 79,119 ), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(160, 240, 79,119 ), new Vector2(30, 65), frameTime)
+                    new Frame(new Rectangle(0,240,79,119), new Vector2(30,65), walkingAnimationTime),
+                    new Frame(new Rectangle(80, 240, 79,119 ), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(160, 240, 79,119 ), new Vector2(30, 65), walkingAnimationTime)
                 }),
 
                 new Animation(AnimationStates.Idle.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,360,79,119), new Vector2(30,65), frameTime),
-                    new Frame(new Rectangle(80, 360, 79,119 ), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(160, 360, 79,119 ), new Vector2(30, 65), frameTime)
+                    new Frame(new Rectangle(0,360,79,119), new Vector2(30,65), walkingAnimationTime),
+                    new Frame(new Rectangle(80, 360, 79,119 ), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(160, 360, 79,119 ), new Vector2(30, 65), walkingAnimationTime)
                 }),
 
                  new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,480,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(80,480,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(160,480,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(240,480,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(320,480,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(400,480,79,119), new Vector2(30, 65), frameTime),
+                    new Frame(new Rectangle(0,480,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(80,480,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(160,480,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(240,480,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(320,480,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(400,480,79,119), new Vector2(30, 65), walkingAnimationTime),
                  
 
                 }),
 
                  new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,600,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(80,600,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(160,600,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(240,600,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(320,600,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(400,600,79,119), new Vector2(30, 65), frameTime),
+                    new Frame(new Rectangle(0,600,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(80,600,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(160,600,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(240,600,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(320,600,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(400,600,79,119), new Vector2(30, 65), walkingAnimationTime),
                     
 
                 }),
 
                  new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,720,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(80,720,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(160,720,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(240,720,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(320,720,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(400,720,79,119), new Vector2(30, 65), frameTime),
+                    new Frame(new Rectangle(0,720,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(80,720,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(160,720,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(240,720,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(320,720,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(400,720,79,119), new Vector2(30, 65), walkingAnimationTime),
                   
 
                 }),
 
                  new Animation(AnimationStates.Walk.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,840,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(80,840,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(160,840,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(240,840,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(320,840,79,119), new Vector2(30, 65), frameTime),
-                    new Frame(new Rectangle(400,840,79,119), new Vector2(30, 65), frameTime),
+                    new Frame(new Rectangle(0,840,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(80,840,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(160,840,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(240,840,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(320,840,79,119), new Vector2(30, 65), walkingAnimationTime),
+                    new Frame(new Rectangle(400,840,79,119), new Vector2(30, 65), walkingAnimationTime),
                    
 
                 }),
@@ -396,8 +412,8 @@ namespace SoulWarriors
 
         private static void UpdateChainAndCamera()
         {
-            Chain.StartPosition = Archer.CollidableObject.Position;
-            Chain.EndPosition = Knight.CollidableObject.Position;
+            _chain.StartPosition = Archer.CollidableObject.Position;
+            _chain.EndPosition = Knight.CollidableObject.Position;
 
             // Update camera location while clamping to bounds of _backgroundTexture.Height and interpolating between old and new position
             Camera.Location =
@@ -410,11 +426,11 @@ namespace SoulWarriors
                         // Location to interpolate camera to.
                         new Vector2(
                             // Unit vector from the chains rotation
-                            (float)Math.Cos(Chain.Rotation), (float)Math.Sin(Chain.Rotation))
+                            (float)Math.Cos(_chain.Rotation), (float)Math.Sin(_chain.Rotation))
                         // multiplied by half of chains length
-                        * (Chain.Length / 2f)
+                        * (_chain.Length / 2f)
                         // plus the chain´s stating position
-                        + Chain.StartPosition,
+                        + _chain.StartPosition,
                         // Interpolation speed
                         0.2f),
                     // Min
@@ -449,14 +465,14 @@ namespace SoulWarriors
             }
             spriteBatch.End();
             // Draw chain between players
-            Chain.Draw(spriteBatch);
+            _chain.Draw(spriteBatch);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.TransformMatrix);
             // Draw Player
             Archer.Draw(spriteBatch);
             Knight.Draw(spriteBatch);
 
-            spriteBatch.Draw(mousepostest, MousePos, null, Color.Wheat, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.2f);
+            spriteBatch.Draw(_reticuleTexture, MousePos, null, Color.Wheat, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.2f);
 
             spriteBatch.End();
 
@@ -466,7 +482,7 @@ namespace SoulWarriors
             // Draw UI
 #if DEBUG
             spriteBatch.DrawString(Game1.DebugFont,
-                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}  Arrows:{Archer.arrows.Count}",
+                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}\n  Arrows:{Archer.arrows.Count}\n Screen:{GraphicsDevice.Viewport.Bounds}",
                 Vector2.Zero,
                 Color.White);
 #endif

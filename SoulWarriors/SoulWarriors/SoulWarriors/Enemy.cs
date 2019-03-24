@@ -78,21 +78,21 @@ namespace SoulWarriors
             switch (spawnArea)
             {
                 case SpawnAreas.Left:
-                    spawnX = random.Next(spawnLeft.X + texture.Width / 2, spawnLeft.Width - texture.Width / 2);
-                    spawnY = random.Next(spawnLeft.Y + texture.Height / 2, spawnLeft.Height - texture.Height / 2);
+                    spawnX = random.Next(spawnLeft.X, spawnLeft.X + spawnLeft.Width);
+                    spawnY = random.Next(spawnLeft.Y, spawnLeft.Y + spawnLeft.Height);
                     break;
                 case SpawnAreas.Middle:
-                    spawnX = random.Next(spawnMiddle.X + texture.Width / 2, spawnMiddle.Width - texture.Width / 2);
-                    spawnY = random.Next(spawnMiddle.Y + texture.Height / 2, spawnMiddle.Height - texture.Height / 2);
+                    spawnX = random.Next(spawnMiddle.X, spawnMiddle.X + spawnMiddle.Width);
+                    spawnY = random.Next(spawnMiddle.Y, spawnMiddle.Y + spawnMiddle.Height);
                     break;
                 case SpawnAreas.Right:
-                    spawnX = random.Next(spawnRight.X + texture.Width / 2, spawnRight.Width - texture.Width / 2);
-                    spawnY = random.Next(spawnRight.Y + texture.Height / 2, spawnRight.Height - texture.Height / 2);
+                    spawnX = random.Next(spawnRight.X, spawnRight.X + spawnRight.Width);
+                    spawnY = random.Next(spawnRight.Y , spawnRight.Y + spawnRight.Height);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(spawnArea), spawnArea, null);
             }
-            
+
             CollidableObject = new CollidableObject(texture, new Vector2(spawnX, spawnY), new Rectangle(0, 0, 100, 100), 0f);
             _aiType = aiType;
             this.speed = speed;
