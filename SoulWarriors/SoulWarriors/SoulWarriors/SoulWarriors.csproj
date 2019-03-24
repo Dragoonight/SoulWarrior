@@ -55,10 +55,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Net" />
+    <Reference Include="XNAGameConsole, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\XNAGameConsole.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Archer.cs" />
+    <Compile Include="Commands.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Chain.cs" />
@@ -82,6 +87,7 @@
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
+    <Content Include="XNAGameConsole.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SoulWarriorsContent\SoulWarriorsContent.contentproj">
