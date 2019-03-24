@@ -12,7 +12,7 @@ namespace SoulWarriors
     {
         private readonly Viewport _viewport;
 
-        public float Zoom { get; set; } = 1f;
+        public float Zoom { get; set; } = 3.0f;
         public Vector2 Location { get; set; } = Vector2.Zero;
         public float Rotation { get; set; } = 0f;
         public Vector2 Origin { get; private set; }

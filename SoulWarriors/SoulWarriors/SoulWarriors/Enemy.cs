@@ -48,6 +48,7 @@ namespace SoulWarriors
     {
 
         public CollidableObject CollidableObject;
+        public readonly AnimationSet _animationSet;
 
         private AiTypes _aiType;
 
@@ -93,6 +94,15 @@ namespace SoulWarriors
             CollidableObject = new CollidableObject(texture, new Vector2(spawnX, spawnY), new Rectangle(0, 0, 100, 100), 0f);
             _aiType = aiType;
             this.speed = speed;
+
+            _animationSet = new AnimationSet(animations, AnimationStates.Walk, AnimationDirections.Down);
+
+
+            Rectangle initialSourceRectangle = Rectangle.Empty;
+            // Set initialSourceRectangle to the first frame in the first animation
+            animations[0].SetToFrame(ref initialSourceRectangle, 0);
+
+
             // Set initial targets
             switch (aiType)
             {
@@ -128,6 +138,7 @@ namespace SoulWarriors
                     throw new ArgumentOutOfRangeException();
             }
             MovementAi(gameTime);
+            _animationSet.UpdateAnimation(ref CollidableObject.SourceRectangle, ref CollidableObject.origin, gameTime);
         }
 
 
@@ -301,45 +312,53 @@ namespace SoulWarriors
             if (up)
             {
                 displacement.Y -= speed * gameTime.ElapsedGameTime.Milliseconds;
+                _animationSet.AnimationDirection = AnimationDirections.Up;
             }
 
             if (rightUp)
             {
                 displacement.Y -= (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
                 displacement.X += (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
+                _animationSet.AnimationDirection = AnimationDirections.Up;
             }
 
             if (right)
             {
                 displacement.X += speed * gameTime.ElapsedGameTime.Milliseconds;
+                _animationSet.AnimationDirection = AnimationDirections.Right;
             }
 
             if (rightDown)
             {
                 displacement.X += (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
                 displacement.Y += (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
+                _animationSet.AnimationDirection = AnimationDirections.Right;
             }
 
             if (down)
             {
                 displacement.Y += speed * gameTime.ElapsedGameTime.Milliseconds;
+                _animationSet.AnimationDirection = AnimationDirections.Down;
             }
 
             if (leftDown)
             {
                 displacement.Y += (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
                 displacement.X -= (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
+                _animationSet.AnimationDirection = AnimationDirections.Left;
             }
 
             if (left)
             {
                 displacement.X -= speed * gameTime.ElapsedGameTime.Milliseconds;
+                _animationSet.AnimationDirection = AnimationDirections.Left;
             }
 
             if (leftUp)
             {
                 displacement.X -= (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
                 displacement.Y -= (speed / sqrt2) * gameTime.ElapsedGameTime.Milliseconds;
+                _animationSet.AnimationDirection = AnimationDirections.Up;
             }
 
             AddToPosition(displacement);
