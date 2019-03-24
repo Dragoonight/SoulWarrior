@@ -16,8 +16,7 @@ namespace SoulWarriors
         private static List<Animation> animations;
         private static int aniSpeed = 1000/6; //6fps
 
-        public Goblin(SpawnAreas spawnAreas) : base(texture, spawnAreas, AiTypes.Smart, 0.15f)
-        public Goblin(Vector2 spawnPosition) : base(texture, spawnPosition, AiTypes.Smart, 0.2f, animations)
+        public Goblin(SpawnAreas spawnAreas) : base(texture, spawnAreas, AiTypes.Smart, 0.15f, animations)
         {
         }
          

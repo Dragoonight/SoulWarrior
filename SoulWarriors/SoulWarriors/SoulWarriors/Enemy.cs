@@ -58,7 +58,7 @@ namespace SoulWarriors
         private const float targetingRange = 150f;
         private const float attackingRange = 40f;
 
-        private Rectangle spawnLeft = new Rectangle(100, 300, 500, 700);
+        private Rectangle spawnLeft = new Rectangle(100, 300, 500, 700); // TODO: convert these to factors (%)
         private Rectangle spawnMiddle = new Rectangle(700, 800, 1200, 1050);
         private Rectangle spawnRight = new Rectangle(1600, 600, 1800, 800);
         private Random random = new Random();
@@ -73,7 +73,7 @@ namespace SoulWarriors
         /// </summary>
         protected float speed;
 
-        protected Enemy(Texture2D texture, SpawnAreas spawnArea, AiTypes aiType, float speed)
+        protected Enemy(Texture2D texture, SpawnAreas spawnArea, AiTypes aiType, float speed, List<Animation> animations)
         {
             switch (spawnArea)
             {
@@ -89,6 +89,8 @@ namespace SoulWarriors
                     spawnX = random.Next(spawnRight.X + texture.Width / 2, spawnRight.Width - texture.Width / 2);
                     spawnY = random.Next(spawnRight.Y + texture.Height / 2, spawnRight.Height - texture.Height / 2);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(spawnArea), spawnArea, null);
             }
             
             CollidableObject = new CollidableObject(texture, new Vector2(spawnX, spawnY), new Rectangle(0, 0, 100, 100), 0f);
