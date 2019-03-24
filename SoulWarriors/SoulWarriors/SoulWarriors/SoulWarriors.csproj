@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Archer.cs" />
+    <Compile Include="Commands.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Chain.cs" />

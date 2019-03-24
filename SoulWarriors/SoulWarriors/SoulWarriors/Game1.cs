@@ -79,7 +79,10 @@ namespace SoulWarriors
                 Padding = 10,
                 OpenOnWrite = true,
             };
-            console = new GameConsole(this, spriteBatch, consoleOptions);
+            IConsoleCommand[] commands = new IConsoleCommand[] {new BeepCommand() };
+            
+
+            console = new GameConsole(this, spriteBatch, commands, consoleOptions);
 
             InGame.LoadContent(Content, GraphicsDevice.Viewport);
             Main.LoadContent(Content, GraphicsDevice.Viewport);
