@@ -170,58 +170,66 @@ namespace SoulWarriors
 
                     new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                        new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                        new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                        new Frame(new Rectangle(0,980,139,139), new Vector2(7,21), 100),
+                        new Frame(new Rectangle(140, 980, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(280, 980, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(420, 980, 139, 139 ), new Vector2(7, 21), 100)
                     }),
 
                     new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                        new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                        new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                        new Frame(new Rectangle(0,1120,139,139), new Vector2(7,21), 100),
+                        new Frame(new Rectangle(140, 1120, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(280, 1120, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(420, 1120, 139, 139 ), new Vector2(7, 21), 100)
                     }),
 
                     new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                        new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                        new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                        new Frame(new Rectangle(0,1260,139,139), new Vector2(7,21), 100),
+                        new Frame(new Rectangle(140, 1260, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(280, 1260, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(420, 1260, 139, 139 ), new Vector2(7, 21), 100)
                     }),
 
                     new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                        new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                        new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                        new Frame(new Rectangle(0,1400,139,139), new Vector2(7,21), 100),
+                        new Frame(new Rectangle(140, 1400, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(280, 1400, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(420, 1400, 139, 139 ), new Vector2(7, 21), 100)
                     }),
 
                     new Animation(AnimationStates.Action2.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                        new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                        new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                        new Frame(new Rectangle(0,1540,139,139), new Vector2(7,21), 100),
+                        new Frame(new Rectangle(140, 1540, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(280, 1540, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(420, 1540, 139, 139 ), new Vector2(7, 21), 100)
                     }),
 
                     new Animation(AnimationStates.Action2.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                        new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                        new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                        new Frame(new Rectangle(0,1680,139,139), new Vector2(7,21), 100),
+                        new Frame(new Rectangle(140, 1680, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(280, 1680, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(420, 1680, 139, 139 ), new Vector2(7, 21), 100)
                     }),
 
                     new Animation(AnimationStates.Action2.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                        new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                        new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                        new Frame(new Rectangle(0,1820,139,139), new Vector2(7,21), 100),
+                        new Frame(new Rectangle(140, 1820, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(280, 1820, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(420, 1820, 139, 139 ), new Vector2(7, 21), 100)
                     }),
 
                     new Animation(AnimationStates.Action2.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                     {
-                        new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                        new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                        new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                        new Frame(new Rectangle(0,1960,139,139), new Vector2(7,21), 100),
+                        new Frame(new Rectangle(140, 1960, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(280, 1960, 139, 139 ), new Vector2(7, 21), 100),
+                        new Frame(new Rectangle(420, 1960, 139, 139 ), new Vector2(7, 21), 100)
                     })
 
                 };
@@ -318,58 +326,66 @@ namespace SoulWarriors
 
                 new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,980,139,139), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(140, 980, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(280, 980, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(420, 980, 139, 139 ), new Vector2(7, 21), 100)
                 }),
 
                 new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,1120,139,139), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(140, 1120, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(280, 1120, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(420, 1120, 139, 139 ), new Vector2(7, 21), 100)
                 }),
 
                 new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,1260,139,139), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(140, 1260, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(280, 1260, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(420, 1260, 139, 139 ), new Vector2(7, 21), 100)
                 }),
 
                 new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,1400,139,139), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(140, 1400, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(280, 1400, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(420, 1400, 139, 139 ), new Vector2(7, 21), 100)
                 }),
 
                 new Animation(AnimationStates.Action2.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,1540,139,139), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(140, 1540, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(280, 1540, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(420, 1540, 139, 139 ), new Vector2(7, 21), 100)
                 }),
 
                 new Animation(AnimationStates.Action2.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,1680,139,139), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(140, 1680, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(280, 1680, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(420, 1680, 139, 139 ), new Vector2(7, 21), 100)
                 }),
 
                 new Animation(AnimationStates.Action2.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,1820,139,139), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(140, 1820, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(280, 1820, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(420, 1820, 139, 139 ), new Vector2(7, 21), 100)
                 }),
 
                 new Animation(AnimationStates.Action2.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(1,1,13,24), new Vector2(7,21), 100),
-                    new Frame(new Rectangle(16, 1, 13, 24 ), new Vector2(7, 21), 100),
-                    new Frame(new Rectangle(31, 1, 13, 24 ), new Vector2(7, 21), 100)
+                    new Frame(new Rectangle(0,1960,139,139), new Vector2(7,21), 100),
+                    new Frame(new Rectangle(140, 1960, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(280, 1960, 139, 139 ), new Vector2(7, 21), 100),
+                    new Frame(new Rectangle(420, 1960, 139, 139 ), new Vector2(7, 21), 100)
                 })
 
                 
