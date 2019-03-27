@@ -46,15 +46,13 @@ namespace SoulWarriors
             // Set window size 
             _graphics.PreferredBackBufferWidth = windowSize.Item1;
             _graphics.PreferredBackBufferHeight = windowSize.Item2;
-
+            _graphics.PreferMultiSampling = true;
             IsFixedTimeStep = false;
             IsMouseVisible = true;
         }
 
-        private static Tuple<int, int> CalculateWindowResolution()
+        private static Tuple<int, int> CalculateWindowResolution(float acceptableAspectRatio = 16f / 9f)
         {
-            const float acceptableAspectRatio = 16f / 9f;
-
             int displayWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             int displayheight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
@@ -63,7 +61,7 @@ namespace SoulWarriors
             {
                 throw new Exception("Display resolution is too small, minimum size is 1024x576");
             }
-            // if screen is 16:9 use that resolution
+            // if screen has correct aspect ratio use that resolution
             if (Math.Abs(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.AspectRatio - acceptableAspectRatio) < 0.000001)
             {
                 return new Tuple<int, int>(displayWidth, displayheight);
@@ -77,7 +75,7 @@ namespace SoulWarriors
             // Else calculate by how much it was too large
             float scalar = (float)newWidth / displayWidth;
             // Scale window
-            newWidth = (int)(newWidth * scalar);
+            //newWidth = (int)(newWidth * scalar);
             int newHeight = (int) (displayheight * scalar);
 
             return new Tuple<int, int>(newWidth, newHeight);
