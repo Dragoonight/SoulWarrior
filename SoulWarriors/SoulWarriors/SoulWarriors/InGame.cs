@@ -80,7 +80,7 @@ namespace SoulWarriors
 
             _chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
 
-            _reticuleTexture = content.Load<Texture2D>(@"Textures/Chain");
+            _reticuleTexture = content.Load<Texture2D>(@"Textures/ArcherCurser");
         }
 
         private static void LoadPlayers(ContentManager content)
