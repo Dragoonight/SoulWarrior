@@ -67,7 +67,7 @@ namespace SoulWarriors
 
             Chain = new Chain(content.Load<Texture2D>(@"Textures/Chain"));
 
-            mousepostest = content.Load<Texture2D>(@"Textures/Chain");
+            mousepostest = content.Load<Texture2D>(@"Textures/ArcherCurser");
         }
 
         private static void LoadPlayers(ContentManager content)
@@ -212,7 +212,7 @@ namespace SoulWarriors
 
             #endregion
             // Load arrow Texture
-            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/Chain");
+            Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherArrow");
 
             // Create archer with archer sprite sheet, arrow texture and archer 
             Archer = new Archer(archerTexture, arrowTexture, archerAnimations);
