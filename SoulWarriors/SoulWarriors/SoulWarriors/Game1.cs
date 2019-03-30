@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -25,9 +26,9 @@ namespace SoulWarriors
             Exit
         }
 
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private GameConsole console;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private GameConsole _console;
 
 #if DEBUG
         public static SpriteFont DebugFont;
@@ -37,9 +38,47 @@ namespace SoulWarriors
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            // Calculate new window size
+            Tuple<int, int> windowSize = CalculateWindowResolution();
+
+            // Set window size 
+            _graphics.PreferredBackBufferWidth = windowSize.Item1;
+            _graphics.PreferredBackBufferHeight = windowSize.Item2;
+            _graphics.PreferMultiSampling = true;
             IsFixedTimeStep = false;
+            IsMouseVisible = true;
+        }
+
+        private static Tuple<int, int> CalculateWindowResolution(float acceptableAspectRatio = 16f / 9f)
+        {
+            int displayWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            int displayheight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+            // Return error if screen is too small
+            if (displayWidth < 1024 || displayheight < 576)
+            {
+                throw new Exception("Display resolution is too small, minimum size is 1024x576");
+            }
+            // if screen has correct aspect ratio use that resolution
+            if (Math.Abs(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.AspectRatio - acceptableAspectRatio) < 0.000001)
+            {
+                return new Tuple<int, int>(displayWidth, displayheight);
+            }
+
+            // Calculate largest possible resolution
+            int newWidth = (int) (displayheight / acceptableAspectRatio);
+
+            // Return that if it fits within the screen
+            if (newWidth <= displayWidth) return new Tuple<int, int>(newWidth, displayheight);
+            // Else calculate by how much it was too large
+            float scalar = (float)newWidth / displayWidth;
+            // Scale window
+            //newWidth = (int)(newWidth * scalar);
+            int newHeight = (int) (displayheight * scalar);
+
+            return new Tuple<int, int>(newWidth, newHeight);
         }
 
         /// <summary>
@@ -50,14 +89,6 @@ namespace SoulWarriors
         /// </summary>
         protected override void Initialize()
         {
-            // Set window size to the screen resolution
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            graphics.ApplyChanges();
-
-            this.IsMouseVisible = true;
-
-
 
             HighScore.Initilize();
 
@@ -71,8 +102,8 @@ namespace SoulWarriors
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            Services.AddService(typeof(SpriteBatch), spriteBatch);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), _spriteBatch);
             GameConsoleOptions consoleOptions = new GameConsoleOptions()
             {
                 ToggleKey = Keys.Insert,
@@ -82,9 +113,9 @@ namespace SoulWarriors
             IConsoleCommand[] commands = new IConsoleCommand[] {new BeepCommand() };
             
 
-            console = new GameConsole(this, spriteBatch, commands, consoleOptions);
+            _console = new GameConsole(this, _spriteBatch, commands, consoleOptions);
 
-            InGame.LoadContent(Content, GraphicsDevice.Viewport);
+            InGame.LoadContent(Content, GraphicsDevice);
             Main.LoadContent(Content, GraphicsDevice.Viewport);
             HighScore.LoadContent(Content, GraphicsDevice.Viewport);
 #if DEBUG
@@ -112,7 +143,7 @@ namespace SoulWarriors
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.End) || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
             // If console is opened, skip updating game
-            if (console.Opened)
+            if (_console.Opened)
             {
                 base.Update(gameTime);
                 return;
@@ -121,8 +152,8 @@ namespace SoulWarriors
             //Fullscreen
             if (Keyboard.GetState().IsKeyDown(Keys.F))
             {
-                graphics.IsFullScreen = !graphics.IsFullScreen;
-                graphics.ApplyChanges();
+                _graphics.IsFullScreen = !_graphics.IsFullScreen;
+                _graphics.ApplyChanges();
             }
 
             switch (CurrentGameState)
@@ -165,15 +196,15 @@ namespace SoulWarriors
             switch (CurrentGameState)
             {
                 case GameState.InGame:
-                    InGame.Draw(spriteBatch);
+                    InGame.Draw(_spriteBatch);
                     break;
                 case GameState.MainMenu:
-                    Main.Draw(spriteBatch);
+                    Main.Draw(_spriteBatch);
                     break;
                 case GameState.Exit:
                     break;
                 case GameState.HighScore:
-                    HighScore.Draw(spriteBatch);
+                    HighScore.Draw(_spriteBatch);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
