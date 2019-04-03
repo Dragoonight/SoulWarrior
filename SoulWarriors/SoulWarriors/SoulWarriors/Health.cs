@@ -15,7 +15,8 @@ namespace SoulWarriors
     class Health
     {
         public Texture2D container, knightsHearts, archerHearts;
-        public Vector2 position, position2;
+        public Vector2 position;
+        public Vector2 position2;
         private int fullLife = 3;
         private int knightCurrentHearts = 3;
         private int archerCurrentHearts = 3;
@@ -51,7 +52,7 @@ namespace SoulWarriors
             for (int i = knightCurrentHearts; i > 0; i--)
             {
                 spriteBatch.Draw(knightsHearts, new Vector2
-                    (position2.X + i * 140, position2.Y + 15), Color.White);               
+                    (position2.X + i * 140, position2.Y + 15), Color.White);
             }
 
             for (int i = fullLife; i > 0; i--)
@@ -63,11 +64,11 @@ namespace SoulWarriors
             for (int i = archerCurrentHearts; i > 0; i--)
             {
                 spriteBatch.Draw(archerHearts, new Vector2
-                    (position.X + i * 140, position.Y + 17), Color.White);       
+                    (position.X + i * 140, position.Y + 17), Color.White);
             }
 
 
-           
+
         }
     }
 
