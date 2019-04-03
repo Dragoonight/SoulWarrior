@@ -13,6 +13,8 @@ namespace SoulWarriors
 {
     public struct PlayerControlScheme
     {
+        
+
         public Keys MoveUp { get; set; }
         public Keys MoveDown { get; set; }
         public Keys MoveLeft { get; set; }
@@ -36,7 +38,8 @@ namespace SoulWarriors
     }
 
     public abstract class Player
-    {
+    { 
+
         private static KeyboardState _currentKeyboardState;
         private const float MaxChainLength = 640f; // TODO: Give MaxChainLength a more descriptive name
 

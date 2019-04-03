@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -23,6 +23,9 @@ namespace SoulWarriors
         /// The Knight player
         /// </summary>
         public static Knight Knight;
+        private static SoulMeter soulBar;
+
+        private static Health health;
 
         /// <summary>
         /// List of all enemies
@@ -394,6 +397,11 @@ namespace SoulWarriors
             #endregion
 
             Knight = new Knight(knightTexture, knightAnimations);
+
+           
+
+            soulBar = new SoulMeter(content);
+
         }
 
         private static void LoadEnemies(ContentManager content)
@@ -411,6 +419,7 @@ namespace SoulWarriors
             Knight.Update(gameTime);
             UpdateChainAndCamera();
             ClampMouse();
+            soulBar.Update(gameTime);
 #if DEBUG
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
@@ -454,7 +463,12 @@ namespace SoulWarriors
                     // Max
                     new Vector2(_backgroundTexture.Width - Camera.ZoomedOrigin.X, _backgroundTexture.Height - Camera.ZoomedOrigin.Y));
 
-        }
+            
+
+         
+       
+
+    }
 
         private static void ClampMouse()
         {
@@ -474,6 +488,11 @@ namespace SoulWarriors
 
             // Draw World
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
+
+            soulBar.Draw(spriteBatch);
+
+            health.Draw(spriteBatch);
+
             // Draw Enemies
             foreach (Enemy enemy in Enemies)
             {
