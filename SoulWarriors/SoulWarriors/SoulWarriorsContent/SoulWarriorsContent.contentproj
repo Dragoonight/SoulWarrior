@@ -175,6 +175,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="Textures\KnightCrusader_SpriteSheet.png">
       <Name>KnightCrusader_SpriteSheet</Name>
       <Importer>TextureImporter</Importer>
@@ -186,6 +187,15 @@
       <Name>Orc_SpriteSheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+=======
+    <Folder Include="Sound\Music\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\Soubd effect\Game over ljudeffekt MP3.mp3">
+      <Name>Game over ljudeffekt MP3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+>>>>>>> master
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
