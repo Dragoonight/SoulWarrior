@@ -241,6 +241,7 @@ namespace SoulWarriors
                 };
 
             #endregion
+
             // Load arrow Texture
             Texture2D arrowTexture = content.Load<Texture2D>(@"Textures/ArcherArrow");
 
@@ -399,7 +400,11 @@ namespace SoulWarriors
 
             #endregion
 
-            Knight = new Knight(knightTexture, knightAnimations);
+            //Load SwooshTexture
+            Texture2D swooshTexture = content.Load<Texture2D>(@"Textures/ArcherArrow");
+
+            
+            Knight = new Knight(knightTexture, swooshTexture,  knightAnimations);
 
            
 
@@ -520,7 +525,7 @@ namespace SoulWarriors
             // Draw UI
 #if DEBUG
             spriteBatch.DrawString(Game1.DebugFont,
-                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}\n  Arrows:{Archer.arrows.Count}\n Screen:{GraphicsDevice.Viewport.Bounds}",
+                $" Camera:{Camera.Location}\n Archer:{Archer.CollidableObject.Position}\n Knight:{Knight.CollidableObject.Position}\n Mouse:{MousePos}\n ArchAniIdentifier:{Archer._animationSet.AnimationState.ToString() + Archer._animationSet.AnimationDirection}\n KnigAniIdentifier:{Knight._animationSet.AnimationState.ToString() + Knight._animationSet.AnimationDirection}\n  Arrows:{Archer.arrows.Count}\n Swoosh: {Knight.swoosh.Count}\n Screen:{GraphicsDevice.Viewport.Bounds}",
                 Vector2.Zero,
                 Color.White);
 #endif

@@ -41,6 +41,7 @@ namespace SoulWarriors
     { 
 
         private static KeyboardState _currentKeyboardState;
+        private static Boolean keyboard = true;
         private const float MaxChainLength = 640f; // TODO: Give MaxChainLength a more descriptive name
 
         private readonly PlayerControlScheme _controlScheme;
@@ -142,14 +143,17 @@ namespace SoulWarriors
 
         private void GetActions()
         {
+
             if (_currentKeyboardState.IsKeyDown(_controlScheme.Action1))
             {
-                Action1();
                 // Overwrite the previous animation state (Walk) with Action1
                 //_animationSet.AnimationState = AnimationStates.Action1;
-                // Return so the player does not make any other move
+                // Return so the player does not make any other move    
+                Action1();
+                keyboard = true;
                 return;
             }
+
             if (_currentKeyboardState.IsKeyDown(_controlScheme.Action2))
             {
                 Action2();

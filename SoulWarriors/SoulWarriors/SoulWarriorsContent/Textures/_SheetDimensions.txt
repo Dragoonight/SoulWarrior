@@ -12,7 +12,15 @@ Archer attack 140x140
 
 Goblin	100x100
 
-Battering Ram 280x400
+Goblin Attack 100x100
+
+KnightCrusader 80x120
+
+KnightCrusader attack 120x120
+
+Battering Ram & attack 280x400
+
+Orc & Attack 240x200
 
 
 
