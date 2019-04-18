@@ -67,41 +67,42 @@ namespace SoulWarriors
 
                  new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Up.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,0,84,76), new Vector2(7,21), aniSpeed),
-                    new Frame(new Rectangle(200, 0, 84, 72 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(300,0,84,76), new Vector2(7,21), aniSpeed),
-                    new Frame(new Rectangle(400, 0, 84, 80 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(500, 0, 84, 72 ), new Vector2(7, 21), aniSpeed)
+                    new Frame(new Rectangle(0,400,84,75), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(100, 400, 84, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(200,400,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(300, 400, 84, 96 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(400, 400, 84, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(500, 400, 84, 76 ), new Vector2(7, 21), aniSpeed)
                 }),
 
                 new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Down.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,100,84,76), new Vector2(7,21), aniSpeed),
-                    new Frame(new Rectangle(100, 100, 84, 80 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(200, 100, 84, 72 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(300,100,84,76), new Vector2(7,21), aniSpeed),
-                    new Frame(new Rectangle(400, 100, 84, 80 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(500, 100, 84, 72 ), new Vector2(7, 21), aniSpeed)
+                    new Frame(new Rectangle(0,500,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(100, 500, 84, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(200, 500, 84, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(300,500,84,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(400, 500, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(500, 500, 84, 80 ), new Vector2(7, 21), aniSpeed)
                 }),
 
                 new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Right.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,200,84,76), new Vector2(7,21), aniSpeed),
-                    new Frame(new Rectangle(100, 200, 84, 80 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(200, 200, 84, 72 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(300,200,84,76), new Vector2(7,21), aniSpeed),
-                    new Frame(new Rectangle(400, 200, 84, 80 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(500, 200, 84, 72 ), new Vector2(7, 21), aniSpeed)
+                    new Frame(new Rectangle(0,600,64,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(100, 600, 64, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(200, 600, 64, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(300,600,72,72), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(400, 600, 84, 80 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(500, 600, 84, 72 ), new Vector2(7, 21), aniSpeed)
                 }),
 
                 new Animation(AnimationStates.Action1.ToString() + AnimationDirections.Left.ToString(), new List<Frame>()
                 {
-                    new Frame(new Rectangle(0,300,84,76), new Vector2(7,21), aniSpeed),
-                    new Frame(new Rectangle(100, 300, 84, 80 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(200, 300, 84, 72 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(300,300,84,76), new Vector2(7,21), aniSpeed),
-                    new Frame(new Rectangle(400, 300, 84, 80 ), new Vector2(7, 21), aniSpeed),
-                    new Frame(new Rectangle(500, 300, 84, 72 ), new Vector2(7, 21), aniSpeed)
+                    new Frame(new Rectangle(0,700,64,76), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(100, 700, 76, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(200, 700, 84, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(300,700,100,72), new Vector2(7,21), aniSpeed),
+                    new Frame(new Rectangle(400, 700, 84, 76 ), new Vector2(7, 21), aniSpeed),
+                    new Frame(new Rectangle(500, 700, 88, 76 ), new Vector2(7, 21), aniSpeed)
                 }),
             };
         }
