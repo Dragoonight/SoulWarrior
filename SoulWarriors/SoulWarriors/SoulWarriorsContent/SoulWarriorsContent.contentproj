@@ -175,7 +175,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Textures\KnightCrusader_SpriteSheet.png">
       <Name>KnightCrusader_SpriteSheet</Name>
       <Importer>TextureImporter</Importer>
@@ -187,15 +186,67 @@
       <Name>Orc_SpriteSheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-=======
-    <Folder Include="Sound\Music\" />
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sound\Soubd effect\Game over ljudeffekt MP3.mp3">
       <Name>Game over ljudeffekt MP3</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
->>>>>>> master
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\Music\Ingame music - Soul Warrior MP3.mp3">
+      <Name>Ingame music - Soul Warrior MP3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Music\Menu Theme - Soul Warrior.mp3">
+      <Name>Menu Theme - Soul Warrior</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Music\Soul Warriors Endless mode theme - MP3_1.mp3">
+      <Name>Soul Warriors Endless mode theme - MP3_1</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\Soubd effect\Meny _click_ back - MP3.mp3">
+      <Name>Meny _click_ back - MP3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Soubd effect\Meny _click_ Grupp 2 DEMO 10.00.55.mp3">
+      <Name>Meny _click_ Grupp 2 DEMO 10.00.55</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Soubd effect\Picking up shield 1 - MP3.mp3">
+      <Name>Picking up shield 1 - MP3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Soubd effect\Picking up shield 2 - MP3.mp3">
+      <Name>Picking up shield 2 - MP3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Soubd effect\Shield bash - MP3.mp3">
+      <Name>Shield bash - MP3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Soubd effect\Shooting arrow - MP3.mp3">
+      <Name>Shooting arrow - MP3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Soubd effect\Shooting arrow 2  - MP3.mp3">
+      <Name>Shooting arrow 2  - MP3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
